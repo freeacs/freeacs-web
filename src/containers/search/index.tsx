@@ -1,13 +1,12 @@
 import * as React from 'react'
 import { connect } from "react-redux";
 import { RootState } from "../../modules";
-import { OnChangeEvent } from "../../types";
 import { Unit } from '../../models';
 import { doSearch, inputChanged } from "../../modules/search";
 
 type DispatchProps = {
-    onInputChanged: (e: OnChangeEvent) => void,
-    doSearch: (term: string) => void
+    inputChanged: (s: string) => void,
+    doSearch: () => void
 }
 
 type ComponentProps = {
@@ -27,9 +26,9 @@ const Home = (props: Props) => {
                 <input
                     placeholder="search for units here"
                     value={props.inputValue}
-                    onChange={props.onInputChanged}
+                    onChange={(e) => props.inputChanged(e.currentTarget.value)}
                 />
-                <button onClick={onSubmit(props)}>
+                <button onClick={props.doSearch}>
                     Submit
                 </button>
             </p>
@@ -47,12 +46,6 @@ const Home = (props: Props) => {
     )
 };
 
-const onSubmit = (props: Props) => () => {
-    if (props.inputValue.length >= 1) {
-        props.doSearch(props.inputValue);
-    }
-};
-
 const mapStateToProps = (state: RootState): ComponentProps => ({
     error: state.search.error,
     hits: state.search.hits,
@@ -61,7 +54,7 @@ const mapStateToProps = (state: RootState): ComponentProps => ({
 
 const mapDispatchToProps: DispatchProps = ({
     doSearch,
-    onInputChanged: (e: OnChangeEvent) => inputChanged(e.currentTarget.value)
+    inputChanged
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

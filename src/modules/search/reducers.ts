@@ -1,6 +1,13 @@
 import { getType } from "typesafe-actions";
-import { SearchAction, SearchState } from "./types";
-import { clearInput, inputChanged, search } from "./actions";
+import { inputChanged, clearInput, search } from "./actions";
+import { Unit } from "../../models";
+import { SearchAction } from "./types";
+
+export type SearchState = {
+    readonly error?: string
+    readonly hits: ReadonlyArray<Unit>;
+    readonly inputValue: string
+};
 
 export const initialState: SearchState = {
     hits: [],

@@ -1,13 +1,17 @@
-import { ThunkAction } from "redux-thunk";
-import { search, clearInput } from "./actions";
-import { SearchAction } from "./types";
+import { clearInput, search } from "./actions";
 import { RootState } from "../index";
 import { post } from "../../services/apiCall";
 import * as t from "io-ts";
 import { UnitArray } from '../../models';
+import { Dispatch } from "redux";
+import { SearchAction } from "./types";
 
-export const doSearch = (term: string): ThunkAction<Promise<void>, RootState, void, SearchAction> => {
-    return async (dispatch) => {
+export const doSearch = () => {
+    return async (dispatch: Dispatch<SearchAction>, getState: () => RootState) => {
+        const term = getState().search.inputValue;
+        if (term.length < 1) {
+            return;
+        }
         dispatch(clearInput());
         dispatch(search.request());
         try {
