@@ -1,18 +1,22 @@
 import * as React from 'react'
 import { connect } from "react-redux";
-import { bindActionCreators, Dispatch } from "redux";
 import { RootState } from "../../modules";
 import { OnChangeEvent } from "../../types";
 import { Unit } from '../../models';
 import { doSearch, inputChanged } from "../../modules/search";
 
-interface Props {
-    inputValue: string,
+type DispatchProps = {
     onInputChanged: (e: OnChangeEvent) => void,
-    doSearch: (term: string) => void,
+    doSearch: (term: string) => void
+}
+
+type ComponentProps = {
+    inputValue: string,
     hits: ReadonlyArray<Unit>,
     error?: string
 }
+
+type Props = ComponentProps & DispatchProps;
 
 const Home = (props: Props) => {
     return (
@@ -49,16 +53,15 @@ const onSubmit = (props: Props) => () => {
     }
 };
 
-const mapStateToProps = (state: RootState) => ({
+const mapStateToProps = (state: RootState): ComponentProps => ({
     error: state.search.error,
     hits: state.search.hits,
     inputValue: state.search.inputValue
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
-    bindActionCreators({
-        doSearch,
-        onInputChanged: (e: OnChangeEvent) => inputChanged(e.currentTarget.value)
-    }, dispatch);
+const mapDispatchToProps: DispatchProps = ({
+    doSearch,
+    onInputChanged: (e: OnChangeEvent) => inputChanged(e.currentTarget.value)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
