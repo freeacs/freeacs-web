@@ -23,7 +23,7 @@
     "typescript": "3.3.3333"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env BROWSER=none react-scripts start",
     "start:dev": "npm-run-all --parallel start mockserver",
     "mockserver": "mockserver -p 8080 -m mocks",
     "build": "react-scripts build",
@@ -42,6 +42,7 @@
   "devDependencies": {
     "@types/enzyme": "^3.9.0",
     "@types/enzyme-adapter-react-16": "^1.0.5",
+    "cross-env": "^5.2.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.10.0",
     "mockserver": "^3.0.0",
