@@ -1,32 +1,24 @@
 import * as React from 'react'
-import { connect } from "react-redux";
-import { RootState } from "../../modules";
-import { Unit } from '../../models';
-import { doSearch } from "../../modules/search";
-import { useState } from "react";
+import {UnitArray} from '../../models';
+import {useEffect, useState} from "react";
+import {doSearch} from "../../services/search";
 
-type DispatchProps = {
-    doSearch: (term: string) => void
-}
+const Home = () => {
+    const [hits, setHits] = useState<UnitArray>([]);
+    const [value, setValue] = useState<string>('');
+    const [search, setSearch] = useState<string>('');
+    const [error, setError] = useState<string>();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
-type ComponentProps = {
-    hits: ReadonlyArray<Unit>,
-    error?: string
-}
-
-type Props = ComponentProps & DispatchProps;
-
-const Home = (props: Props) => {
-    const [value, setValue] = useState('');
-
-    function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setValue(e.target.value);
-    }
-
-    function onClickSubmit() {
-        props.doSearch(value);
-        setValue('');
-    }
+    useEffect(() => {
+        if (search.trim().length > 0) {
+            setError('');
+            setHits([]);
+            setIsLoading(true);
+            doSearch(search, setHits, setError)
+                .then(() => setIsLoading(false));
+        }
+    }, [search]);
 
     return (
         <div>
@@ -36,33 +28,29 @@ const Home = (props: Props) => {
                 <input
                     placeholder="search for units here"
                     value={value}
-                    onChange={onInputChange}
+                    onChange={(e) => setValue(e.target.value)}
                 />
-                <button onClick={onClickSubmit}>
+                <button onClick={() => setSearch(value)}>
                     Submit
                 </button>
             </div>
-            {props.hits.length > 0 &&
-            <ul>
-                {props.hits.map((hit, i) => <li key={i}>{hit.unitId}</li>)}
-            </ul>
-            }
-            {props.error &&
-            <span style={{ color: "red", fontWeight: "bold" }}>
-                An error occurred:<br />{props.error}
-            </span>
-            }
+            {isLoading ? <span>Loading ....</span> : (
+                <div className="results" hidden={isLoading}>
+                    {hits.length > 0 &&
+                    <ul>
+                        {hits.map((hit) => <li key={hit.unitId}>{hit.unitId}</li>)}
+                    </ul>
+                    }
+                    {error &&
+                    <span style={{ color: "red", fontWeight: "bold" }}>
+                    {error}
+                </span>
+                    }
+                </div>
+            )}
+
         </div>
     )
 };
 
-const mapStateToProps = (state: RootState): ComponentProps => ({
-    error: state.search.error,
-    hits: state.search.hits,
-});
-
-const mapDispatchToProps: DispatchProps = ({
-    doSearch
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;
