@@ -3,7 +3,11 @@ import {UnitArray} from '../../models';
 import {useEffect, useState} from "react";
 import {doSearch} from "../../services/search";
 
-const Home = () => {
+type Props = {
+    doSearch: (term: string, onSuccess: (arr: UnitArray) => void, onError: (err: string) => void) => Promise<void>
+}
+
+const HomeComponent = ({ doSearch }: Props) => {
     const [hits, setHits] = useState<UnitArray>([]);
     const [value, setValue] = useState<string>('');
     const [search, setSearch] = useState<string>('');
@@ -53,4 +57,6 @@ const Home = () => {
     )
 };
 
-export default Home;
+export default function HomeContainer() {
+    return <HomeComponent doSearch={doSearch} />;
+}
