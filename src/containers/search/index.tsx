@@ -39,7 +39,7 @@ const HomeComponent = ({ doSearch }: Props) => {
                 </button>
             </div>
             {isLoading ? <span>Loading ....</span> : (
-                <div className="results" hidden={isLoading}>
+                <div className="results">
                     {hits.length > 0 &&
                     <ul>
                         {hits.map((hit) => <li key={hit.unitId}>{hit.unitId}</li>)}
