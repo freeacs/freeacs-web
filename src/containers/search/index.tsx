@@ -32,7 +32,7 @@ const Home = (props: Props) => {
         <div>
             <h1>Search Page</h1>
             <p>Here you can search for units</p>
-            <p>
+            <div>
                 <input
                     placeholder="search for units here"
                     value={value}
@@ -41,7 +41,7 @@ const Home = (props: Props) => {
                 <button onClick={onClickSubmit}>
                     Submit
                 </button>
-            </p>
+            </div>
             {props.hits.length > 0 &&
             <ul>
                 {props.hits.map((hit, i) => <li key={i}>{hit.unitId}</li>)}

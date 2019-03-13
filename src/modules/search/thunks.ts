@@ -7,7 +7,7 @@ import { SearchAction } from "./types";
 
 export const doSearch = (term: string) => {
     return async (dispatch: Dispatch<SearchAction>) => {
-        if (term.length > 0) {
+        if (term && term.trim().length === 0) {
             return;
         }
         dispatch(search.request());
