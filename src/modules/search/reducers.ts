@@ -1,5 +1,5 @@
 import { getType } from "typesafe-actions";
-import { inputChanged, clearInput, search } from "./actions";
+import { search } from "./actions";
 import { Unit } from "../../models";
 import { SearchAction } from "./types";
 
@@ -16,10 +16,6 @@ export const initialState: SearchState = {
 
 const reducer = (state: SearchState = initialState, action: SearchAction) => {
     switch(action.type) {
-        case getType(clearInput):
-            return { ...state, inputValue: ''};
-        case getType(inputChanged):
-            return { ...state, inputValue: action.payload };
         case getType(search.request):
             return { ...state, hits: [], error: undefined };
         case getType(search.success):

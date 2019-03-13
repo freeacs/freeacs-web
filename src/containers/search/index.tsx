@@ -2,15 +2,14 @@ import * as React from 'react'
 import { connect } from "react-redux";
 import { RootState } from "../../modules";
 import { Unit } from '../../models';
-import { doSearch, inputChanged } from "../../modules/search";
+import { doSearch } from "../../modules/search";
+import { useState } from "react";
 
 type DispatchProps = {
-    inputChanged: (s: string) => void,
-    doSearch: () => void
+    doSearch: (term: string) => void
 }
 
 type ComponentProps = {
-    inputValue: string,
     hits: ReadonlyArray<Unit>,
     error?: string
 }
@@ -18,6 +17,17 @@ type ComponentProps = {
 type Props = ComponentProps & DispatchProps;
 
 const Home = (props: Props) => {
+    const [value, setValue] = useState('');
+
+    function onInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+        setValue(e.target.value);
+    }
+
+    function onClickSubmit() {
+        props.doSearch(value);
+        setValue('');
+    }
+
     return (
         <div>
             <h1>Search Page</h1>
@@ -25,10 +35,10 @@ const Home = (props: Props) => {
             <p>
                 <input
                     placeholder="search for units here"
-                    value={props.inputValue}
-                    onChange={(e) => props.inputChanged(e.currentTarget.value)}
+                    value={value}
+                    onChange={onInputChange}
                 />
-                <button onClick={props.doSearch}>
+                <button onClick={onClickSubmit}>
                     Submit
                 </button>
             </p>
@@ -49,12 +59,10 @@ const Home = (props: Props) => {
 const mapStateToProps = (state: RootState): ComponentProps => ({
     error: state.search.error,
     hits: state.search.hits,
-    inputValue: state.search.inputValue
 });
 
 const mapDispatchToProps: DispatchProps = ({
-    doSearch,
-    inputChanged
+    doSearch
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
