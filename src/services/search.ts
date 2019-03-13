@@ -1,9 +1,11 @@
 import {UnitArray} from "../models";
 import {post} from "./apiCall";
 
-export const doSearch = async (term: string,
-                        onSuccess: (r: UnitArray) => void,
-                        onError: (f: string) => void) => {
+export type DoSearchType = (term: string,
+                            onSuccess: (arr: UnitArray) => void,
+                            onError: (err: string) => void) => Promise<void>;
+
+export const doSearch: DoSearchType = async (term, onSuccess, onError) => {
     try {
         const text = await post('/search', {term});
         UnitArray.decode(JSON.parse(text))

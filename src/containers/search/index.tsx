@@ -1,10 +1,10 @@
 import * as React from 'react'
 import {UnitArray} from '../../models';
 import {useEffect, useState} from "react";
-import {doSearch} from "../../services/search";
+import {doSearch, DoSearchType} from "../../services/search";
 
 type Props = {
-    doSearch: (term: string, onSuccess: (arr: UnitArray) => void, onError: (err: string) => void) => Promise<void>
+    doSearch: DoSearchType
 }
 
 const HomeComponent = ({ doSearch }: Props) => {
