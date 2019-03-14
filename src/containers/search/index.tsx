@@ -1,13 +1,10 @@
 import * as React from 'react'
 import {UnitArray} from '../../models';
 import {useEffect, useState} from "react";
-import {doSearch, DoSearchType} from "../../services/search";
+import {post} from "../../services/apiCall";
+import {Errors} from "io-ts";
 
-type Props = {
-    doSearch: DoSearchType
-}
-
-const HomeComponent = ({ doSearch }: Props) => {
+export default function Home() {
     const [hits, setHits] = useState<UnitArray>([]);
     const [value, setValue] = useState<string>('');
     const [search, setSearch] = useState<string>('');
@@ -16,11 +13,24 @@ const HomeComponent = ({ doSearch }: Props) => {
 
     useEffect(() => {
         if (search.trim().length > 0) {
+            const onError = (msg: string) => (ignored: Error | Errors) => setError(msg);
             setError('');
             setHits([]);
             setIsLoading(true);
-            doSearch(search, setHits, setError)
-                .then(() => setIsLoading(false));
+            post('/search', { term: search })
+                .then(
+                    (responseText) => {
+                        let json;
+                        try { json = JSON.parse(responseText); } catch(_) {}
+                        UnitArray.decode(json)
+                            .bimap(
+                                onError("Bad data received from server"),
+                                setHits
+                            )
+                    },
+                    onError("Error occurred while searching")
+                );
+            setIsLoading(false);
         }
     }, [search]);
 
@@ -46,17 +56,13 @@ const HomeComponent = ({ doSearch }: Props) => {
                     </ul>
                     }
                     {error &&
-                    <span style={{ color: "red", fontWeight: "bold" }}>
+                    <span style={{color: "red", fontWeight: "bold"}}>
                     {error}
-                </span>
+                    </span>
                     }
                 </div>
             )}
 
         </div>
     )
-};
-
-export default function HomeContainer() {
-    return <HomeComponent doSearch={doSearch} />;
 }
