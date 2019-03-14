@@ -1,7 +1,6 @@
 import * as React from 'react'
 import {render, fireEvent, cleanup, waitForElement, act} from 'react-testing-library'
 import {useSearch} from "../useSearch";
-import apiCall from "../../../services/apiCall";
 jest.mock('../../../services/apiCall', () => async () => {
     return JSON.stringify([{
         unitId: '123',
@@ -20,7 +19,7 @@ jest.mock('../../../services/apiCall', () => async () => {
 afterEach(cleanup);
 
 function EffecfulComponent() {
-    const {hits, error, setTerm} = useSearch(apiCall);
+    const {hits, error, setTerm} = useSearch();
     return (
         <div>
             <button onClick={() => setTerm("Heisann")}>Submit</button>

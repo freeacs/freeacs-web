@@ -1,7 +1,7 @@
 import {UnitArray} from "../../models";
 import {Errors} from "io-ts";
 import {useEffect, useState} from "react";
-import {ApiHttpMethod} from "../../services/apiCall";
+import apiCall from "../../services/apiCall";
 
 type UseSearchProps = {
     hits: UnitArray,
@@ -10,7 +10,7 @@ type UseSearchProps = {
     isLoading: boolean
 };
 
-export function useSearch(apiCall: (method: ApiHttpMethod, url: string, body: object) => Promise<string>): UseSearchProps {
+export function useSearch(): UseSearchProps {
     const [hits, setHits] = useState<UnitArray>([]);
     const [error, setError] = useState<Error | Errors>();
     const [term, setTerm] = useState<string>('');
@@ -24,8 +24,7 @@ export function useSearch(apiCall: (method: ApiHttpMethod, url: string, body: ob
         setHits([]);
         setError(undefined);
         setIsLoading(true);
-        let stringPromise = apiCall('POST', '/search', { term });
-        stringPromise
+        apiCall('POST', '/search', { term })
             .then(
                 (responseText) => {
                     let json;
