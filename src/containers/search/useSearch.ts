@@ -25,11 +25,7 @@ export function useSearch(): UseSearchProps {
         setIsLoading(true);
         apiCall('POST', '/search', { term })
             .then(
-                (responseText) => {
-                    let json;
-                    try { json = JSON.parse(responseText); } catch(_) {}
-                    UnitArray.decode(json).bimap(setError, setHits)
-                },
+                (json) => UnitArray.decode(json).bimap(setError, setHits),
                 setError
             );
         setIsLoading(false);

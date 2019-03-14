@@ -1,9 +1,15 @@
 import * as React from 'react'
 import {render, fireEvent, cleanup, waitForElement, act} from 'react-testing-library'
 import {useSearch} from "../useSearch";
-jest.mock('../../../services/apiCall', () => async () => {
-    return JSON.stringify([{
-        unitId: '123',
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
+
+afterEach(cleanup);
+
+test('useSearch hook works', async () => {
+    const mock = new MockAdapter(axios);
+    mock.onPost('/search').reply(200, JSON.stringify([{
+        unitId: '124',
         profile: {
             id: 1,
             name: '1pr'
@@ -12,14 +18,26 @@ jest.mock('../../../services/apiCall', () => async () => {
             id: 1,
             name: '1ut'
         }
-    }]);
+    }]));
+
+    // Arrange
+    const {getByText} = render(
+        <TestWrapper/>,
+    );
+
+    // Act
+    act(() => {
+        fireEvent.click(getByText("Submit"));
+    });
+
+    // assert
+    await waitForElement(() =>
+        getByText('124/1pr/1ut')
+    );
 });
 
-// automatically unmount and cleanup DOM after the test is finished.
-afterEach(cleanup);
-
-function EffecfulComponent() {
-    const {hits, error, setTerm} = useSearch();
+function TestWrapper() {
+    const {hits, setTerm} = useSearch();
     return (
         <div>
             <button onClick={() => setTerm("Heisann")}>Submit</button>
@@ -31,20 +49,3 @@ function EffecfulComponent() {
         </div>
     );
 }
-
-test('useSearch hook works', async () => {
-    // Arrange
-    const {getByText} = render(
-        <EffecfulComponent/>,
-    );
-
-    // Act
-    act(() => {
-        fireEvent.click(getByText("Submit"));
-    });
-
-    // assert
-    await waitForElement(() =>
-        getByText('123/1pr/1ut')
-    );
-});

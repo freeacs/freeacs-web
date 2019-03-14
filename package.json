@@ -23,7 +23,8 @@
     "redux-thunk": "^2.3.0",
     "sanitize.css": "^8.0.0",
     "typesafe-actions": "^3.2.1",
-    "typescript": "3.3.3333"
+    "typescript": "3.3.3333",
+    "axios": "latest"
   },
   "scripts": {
     "start": "cross-env BROWSER=none react-scripts start",
@@ -50,6 +51,7 @@
     "enzyme-adapter-react-16": "^1.10.0",
     "mockserver": "^3.0.0",
     "npm-run-all": "^4.1.5",
-    "react-testing-library": "latest"
+    "react-testing-library": "latest",
+    "axios-mock-adapter": "latest"
   }
 }
