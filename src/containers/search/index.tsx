@@ -1,41 +1,11 @@
 import * as React from 'react'
-import {UnitArray} from '../../models';
-import {useEffect, useState} from "react";
-import {post} from "../../services/apiCall";
-import {Errors} from "io-ts";
+import {useState} from "react";
+import {useSearch} from "./useSearch";
+import apiCall from "../../services/apiCall";
 
-function useSearch(): [UnitArray, Error | Errors | undefined, (term: string) => void, boolean] {
-    const [hits, setHits] = useState<UnitArray>([]);
-    const [error, setError] = useState<Error | Errors>();
-    const [term, setTerm] = useState<string>('');
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-
-    useEffect(() => {
-        if (term.trim().length > 0) {
-            const onError = (msg: Error | Errors) => setError(msg);
-            setHits([]);
-            setError(undefined);
-            setIsLoading(true);
-            post('/search', { term })
-                .then(
-                    (responseText) => {
-                        let json;
-                        try { json = JSON.parse(responseText); } catch(_) {}
-                        UnitArray.decode(json).bimap(onError, setHits)
-                    },
-                    onError
-                );
-            setIsLoading(false);
-        }
-    }, [term]);
-
-    return [ hits, error, setTerm, isLoading ];
-}
-
-export default function Home() {
+export default function Search() {
     const [ value, setValue ] = useState<string>();
-    const [ hits, error, setTerm, isLoading ] = useSearch();
-
+    const { hits, error, setTerm, isLoading }= useSearch(apiCall);
     return (
         <div>
             <h1>Search Page</h1>
@@ -68,3 +38,4 @@ export default function Home() {
         </div>
     )
 }
+

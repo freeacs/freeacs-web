@@ -1,11 +1,6 @@
-type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+export type ApiHttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 
-export const get = (url: string) => apiCall('GET', url);
-export const post = (url: string, data: object) => apiCall('POST', url, data);
-export const del = (url: string) => apiCall('DELETE', url);
-export const put = (url: string, data: object) => apiCall('PUT', url, data);
-
-function apiCall(method: HttpMethod = 'GET', url: string = '', data?: object) {
+export default function apiCall(method: ApiHttpMethod = 'GET', url: string = '', data?: object): Promise<string> {
     return fetch(url, {
         body: data ? JSON.stringify(data) : null,
         cache: "no-cache",
