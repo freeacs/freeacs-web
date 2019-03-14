@@ -10,9 +10,11 @@ import {
     UncontrolledDropdown,
     DropdownToggle, DropdownMenu, DropdownItem
 } from 'reactstrap';
-import {Link, Redirect, Route, Switch} from "react-router-dom";
+import { NavLink as RRNavLink } from 'react-router-dom';
+import {Redirect, Route, Switch} from "react-router-dom";
 import About from "../about";
 import Search from "../search";
+import './app.css';
 
 type State = {
     menuCollapsed: boolean
@@ -42,10 +44,10 @@ class App extends React.Component<any, State> {
                     <Collapse isOpen={!this.state.menuCollapsed} navbar>
                         <Nav className="mr-auto" navbar>
                             <NavItem>
-                                <NavLink tag={Link} to="/search">Search</NavLink>
+                                <NavLink activeClassName='is-active' tag={RRNavLink} to="/search">Search</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink tag={Link} to="/about-us">About</NavLink>
+                                <NavLink activeClassName='is-active' tag={RRNavLink} to="/about-us">About</NavLink>
                             </NavItem>
                             <UncontrolledDropdown nav inNavbar>
                                 <DropdownToggle nav caret>

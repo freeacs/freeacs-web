@@ -4,35 +4,37 @@ import {useEffect, useState} from "react";
 import {post} from "../../services/apiCall";
 import {Errors} from "io-ts";
 
-export default function Home() {
+function useSearch(): [UnitArray, Error | Errors | undefined, (term: string) => void, boolean] {
     const [hits, setHits] = useState<UnitArray>([]);
-    const [value, setValue] = useState<string>('');
-    const [search, setSearch] = useState<string>('');
-    const [error, setError] = useState<string>();
+    const [error, setError] = useState<Error | Errors>();
+    const [term, setTerm] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
-        if (search.trim().length > 0) {
-            const onError = (msg: string) => (ignored: Error | Errors) => setError(msg);
-            setError('');
+        if (term.trim().length > 0) {
+            const onError = (msg: Error | Errors) => setError(msg);
             setHits([]);
+            setError(undefined);
             setIsLoading(true);
-            post('/search', { term: search })
+            post('/search', { term })
                 .then(
                     (responseText) => {
                         let json;
                         try { json = JSON.parse(responseText); } catch(_) {}
-                        UnitArray.decode(json)
-                            .bimap(
-                                onError("Bad data received from server"),
-                                setHits
-                            )
+                        UnitArray.decode(json).bimap(onError, setHits)
                     },
-                    onError("Error occurred while searching")
+                    onError
                 );
             setIsLoading(false);
         }
-    }, [search]);
+    }, [term]);
+
+    return [ hits, error, setTerm, isLoading ];
+}
+
+export default function Home() {
+    const [ value, setValue ] = useState<string>();
+    const [ hits, error, setTerm, isLoading ] = useSearch();
 
     return (
         <div>
@@ -44,7 +46,7 @@ export default function Home() {
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                 />
-                <button onClick={() => setSearch(value)}>
+                <button onClick={() => value && setTerm(value)}>
                     Submit
                 </button>
             </div>
@@ -57,7 +59,7 @@ export default function Home() {
                     }
                     {error &&
                     <span style={{color: "red", fontWeight: "bold"}}>
-                    {error}
+                    {error.toString()}
                     </span>
                     }
                 </div>
