@@ -20,7 +20,6 @@ export function useSearch(): UseSearchProps {
         if (!term) {
             return;
         }
-        const onError = (msg: Error | Errors) => setError(msg);
         setHits([]);
         setError(undefined);
         setIsLoading(true);
@@ -29,9 +28,9 @@ export function useSearch(): UseSearchProps {
                 (responseText) => {
                     let json;
                     try { json = JSON.parse(responseText); } catch(_) {}
-                    UnitArray.decode(json).bimap(onError, setHits)
+                    UnitArray.decode(json).bimap(setError, setHits)
                 },
-                onError
+                setError
             );
         setIsLoading(false);
     }, [term]);
