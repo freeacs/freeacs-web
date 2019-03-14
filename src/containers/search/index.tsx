@@ -1,11 +1,10 @@
 import * as React from 'react'
 import {useState} from "react";
 import {useSearch} from "./useSearch";
-import apiCall from "../../services/apiCall";
 
 export default function Search() {
     const [ value, setValue ] = useState<string>();
-    const { hits, error, setTerm, isLoading }= useSearch(apiCall);
+    const { hits, error, setTerm, isLoading } = useSearch();
     return (
         <div>
             <h1>Search Page</h1>
