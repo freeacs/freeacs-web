@@ -5,6 +5,7 @@ import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
 // @ts-ignore complains about no default export, but it works
 import flushPromises from "flush-promises";
+import {GlobalStateProvider} from "../../../state/store";
 
 afterEach(cleanup);
 
@@ -24,7 +25,9 @@ test('Search page works', async () => {
 
     // Arrange
     const {getByText, container} = render(
-        <Search/>,
+        <GlobalStateProvider>
+            <Search/>
+        </GlobalStateProvider>,
     );
 
     // Act

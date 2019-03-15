@@ -6,7 +6,7 @@ import './index.css'
 
 export default function Search() {
     const [ value, setValue ] = useState<string>();
-    const { hits, error, setTerm, isLoading } = useSearch();
+    const { hits, error, setTerm, loading } = useSearch();
     return (
         <div>
             <h1>Search Page</h1>
@@ -14,14 +14,14 @@ export default function Search() {
             <div>
                 <input
                     placeholder="search for units here"
-                    value={value}
+                    value={value || ''}
                     onChange={(e) => setValue(e.target.value)}
                 />
                 <button onClick={() => value && setTerm(value)}>
                     Submit
                 </button>
             </div>
-            {isLoading
+            {loading
                 ? <span>Loading ....</span>
                 : (
                     <div className="results">

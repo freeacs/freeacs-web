@@ -8,9 +8,11 @@ export function SearchTable({ hits }: Props) {
         <div className="table-responsive">
             <table className="table table-striped table-sm table-hover table-bordered">
                 <thead>
-                    <th scope="col">ID</th>
-                    <th scope="col">Profile</th>
-                    <th scope="col" style={{ whiteSpace: 'nowrap'}}>Unit Type</th>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Profile</th>
+                        <th scope="col" style={{ whiteSpace: 'nowrap'}}>Unit Type</th>
+                    </tr>
                 </thead>
                 <tbody>
                 {hits.map((hit, index) => (
