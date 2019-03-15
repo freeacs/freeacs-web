@@ -15,71 +15,53 @@ import {Redirect, Route, Switch} from "react-router-dom";
 import About from "../about";
 import Search from "../search";
 import './app.css';
+import {useState} from "react";
 
-type State = {
-    menuCollapsed: boolean
-}
+function App() {
+    const [menuCollapsed, setMenuCollapsed] = useState(true);
+    return (
+        <div className="container-fluid">
+            <Navbar color="light" light expand="md">
+                <NavbarToggler onClick={() => setMenuCollapsed(!menuCollapsed)} />
+                <NavbarBrand href="/">FREEACS</NavbarBrand>
+                <Collapse isOpen={!menuCollapsed} navbar>
+                    <Nav className="mr-auto" navbar>
+                        <NavItem>
+                            <NavLink activeClassName='is-active' tag={RRNavLink} to="/search">Search</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink activeClassName='is-active' tag={RRNavLink} to="/about-us">About</NavLink>
+                        </NavItem>
+                        <UncontrolledDropdown nav inNavbar>
+                            <DropdownToggle nav caret>
+                                Options
+                            </DropdownToggle>
+                            <DropdownMenu right>
+                                <DropdownItem>
+                                    Option 1
+                                </DropdownItem>
+                                <DropdownItem>
+                                    Option 2
+                                </DropdownItem>
+                                <DropdownItem divider />
+                                <DropdownItem>
+                                    Reset
+                                </DropdownItem>
+                            </DropdownMenu>
+                        </UncontrolledDropdown>
+                    </Nav>
+                </Collapse>
+            </Navbar>
 
-class App extends React.Component<any, State> {
-    constructor(props: any) {
-        super(props);
-
-        this.state = {
-            menuCollapsed: true
-        };
-    }
-
-    toggleNavbar = () => {
-        this.setState({
-            menuCollapsed: !this.state.menuCollapsed
-        });
-    };
-
-    render() {
-        return (
-            <>
-                <Navbar color="light" light expand="md">
-                    <NavbarToggler onClick={this.toggleNavbar} />
-                    <NavbarBrand href="/">FREEACS</NavbarBrand>
-                    <Collapse isOpen={!this.state.menuCollapsed} navbar>
-                        <Nav className="mr-auto" navbar>
-                            <NavItem>
-                                <NavLink activeClassName='is-active' tag={RRNavLink} to="/search">Search</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink activeClassName='is-active' tag={RRNavLink} to="/about-us">About</NavLink>
-                            </NavItem>
-                            <UncontrolledDropdown nav inNavbar>
-                                <DropdownToggle nav caret>
-                                    Options
-                                </DropdownToggle>
-                                <DropdownMenu right>
-                                    <DropdownItem>
-                                        Option 1
-                                    </DropdownItem>
-                                    <DropdownItem>
-                                        Option 2
-                                    </DropdownItem>
-                                    <DropdownItem divider />
-                                    <DropdownItem>
-                                        Reset
-                                    </DropdownItem>
-                                </DropdownMenu>
-                            </UncontrolledDropdown>
-                        </Nav>
-                    </Collapse>
-                </Navbar>
-
-                <div className="container-fluid">
-                    <Switch>
-                        <Route path="/search" component={Search} />
-                        <Route path="/about-us" component={About} />
-                        <Redirect from="/" to="/search"/>
-                    </Switch>
-                </div>
-            </>
-        )
-    }
+            <div className="container-fluid">
+                <Switch>
+                    <Route path="/search" component={Search} />
+                    <Route path="/about-us" component={About} />
+                    <Redirect from="/" to="/search"/>
+                </Switch>
+            </div>
+        </div>
+    )
 }
 
 export default App

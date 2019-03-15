@@ -1,6 +1,8 @@
 import * as React from 'react'
 import {useState} from "react";
 import {useSearch} from "./useSearch";
+import {SearchResultsTable} from "./components/SearchTable";
+import './index.css'
 
 export default function Search() {
     const [ value, setValue ] = useState<string>();
@@ -19,21 +21,23 @@ export default function Search() {
                     Submit
                 </button>
             </div>
-            {isLoading ? <span>Loading ....</span> : (
-                <div className="results">
-                    {hits.length > 0 &&
-                    <ul>
-                        {hits.map((hit) => <li key={hit.unitId}>{hit.unitId}</li>)}
-                    </ul>
-                    }
-                    {error &&
-                    <span style={{color: "red", fontWeight: "bold"}}>
-                    {error.toString()}
-                    </span>
-                    }
-                </div>
-            )}
-
+            {isLoading
+                ? <span>Loading ....</span>
+                : (
+                    <div className="results">
+                        {hits.length > 0 &&
+                            <SearchResultsTable
+                                hits={hits}
+                            />
+                        }
+                        {error &&
+                            <span style={{color: "red", fontWeight: "bold"}}>
+                                {JSON.stringify(error, null, 2)}
+                            </span>
+                        }
+                    </div>
+                )
+            }
         </div>
     )
 }

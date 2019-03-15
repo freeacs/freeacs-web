@@ -8,7 +8,7 @@ afterEach(cleanup);
 
 test('Search page works', async () => {
     const mock = new MockAdapter(axios);
-    mock.onPost('/search', { term: "Hei" }).reply(200, JSON.stringify([{
+    mock.onPost('/rest/search', { term: "Hei" }).reply(200, JSON.stringify([{
         unitId: '123',
         profile: {
             id: 1,
