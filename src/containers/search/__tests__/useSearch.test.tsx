@@ -8,7 +8,7 @@ afterEach(cleanup);
 
 test('useSearch hook works', async () => {
     const mock = new MockAdapter(axios);
-    mock.onPost('/search').reply(200, JSON.stringify([{
+    mock.onPost('/search', { term: "Heisann" }).reply(200, JSON.stringify([{
         unitId: '124',
         profile: {
             id: 1,
