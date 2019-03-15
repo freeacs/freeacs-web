@@ -1,8 +1,10 @@
 import * as React from 'react'
-import {render, fireEvent, cleanup, waitForElement, act} from 'react-testing-library'
+import {render, fireEvent, cleanup, act} from 'react-testing-library'
 import Search from '../index';
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
+// @ts-ignore complains about no default export, but it works
+import flushPromises from "flush-promises";
 
 afterEach(cleanup);
 
@@ -34,8 +36,9 @@ test('Search page works', async () => {
         fireEvent.click(getByText("Submit"));
     });
 
-    // assert
-    await waitForElement(() =>
-        getByText('123')
-    );
+    await flushPromises();
+
+    expect(getByText('123')).toBeDefined();
+    expect(getByText('1pr')).toBeDefined();
+    expect(getByText('1ut')).toBeDefined();
 });

@@ -14,7 +14,7 @@ import { NavLink as RRNavLink } from 'react-router-dom';
 import {Redirect, Route, Switch} from "react-router-dom";
 import About from "../about";
 import Search from "../search";
-import './app.css';
+import './index.css';
 import {useState} from "react";
 
 function App() {

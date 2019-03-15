@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {useState} from "react";
 import {useSearch} from "./useSearch";
-import {SearchResultsTable} from "./components/SearchTable";
+import {SearchTable} from "./components/SearchTable";
 import './index.css'
 
 export default function Search() {
@@ -26,7 +26,7 @@ export default function Search() {
                 : (
                     <div className="results">
                         {hits.length > 0 &&
-                            <SearchResultsTable
+                            <SearchTable
                                 hits={hits}
                             />
                         }
