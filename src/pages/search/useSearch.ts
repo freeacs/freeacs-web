@@ -20,8 +20,7 @@ export function useSearch(): UseSearchProps {
     if (typeof term === 'undefined') {
       return;
     }
-    // a tiny hack to allow passing in a thunk to dispatch
-    (dispatch as any)(SearchThunks.search(term));
+    dispatch(SearchThunks.search(term) as any); // because dispatch requires an Action and not a thunk
   }, [term]);
 
   return { hits, error, setTerm, loading };
