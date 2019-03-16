@@ -47,7 +47,7 @@ export function searchReducer(
   }
 }
 
-export const SearchActions = {
+const SearchActions = {
   search: createAsyncAction(
     'SEARCH_REQUEST',
     'SEARCH_SUCCESS',
@@ -55,8 +55,8 @@ export const SearchActions = {
   )<void, UnitArray, Error | Errors>()
 };
 
-export const SearchThunks = {
-  search: (term: string) => (dispatch: Dispatch<SearchAction>) => {
+export function search(term: string) {
+  return (dispatch: Dispatch<SearchAction>) => {
     dispatch(SearchActions.search.request());
     apiCall('POST', '/search', { term })
       .then(
@@ -68,5 +68,5 @@ export const SearchThunks = {
         e => dispatch(SearchActions.search.failure(e))
       )
       .catch(e => dispatch(SearchActions.search.failure(e)));
-  }
-};
+  };
+}

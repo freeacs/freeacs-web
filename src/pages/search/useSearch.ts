@@ -2,7 +2,7 @@ import { UnitArray } from '../../models';
 import { Errors } from 'io-ts';
 import { useEffect, useState } from 'react';
 import { useGlobalState, dispatch } from '../../state/store';
-import { SearchThunks } from '../../modules/search';
+import { search } from '../../modules/search';
 
 type UseSearchProps = {
   hits: UnitArray;
@@ -20,7 +20,7 @@ export function useSearch(): UseSearchProps {
     if (typeof term === 'undefined') {
       return;
     }
-    dispatch(SearchThunks.search(term) as any);
+    dispatch(search(term) as any);
   }, [term]);
 
   return { hits, error, setTerm, loading };
