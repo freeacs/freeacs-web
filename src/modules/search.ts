@@ -10,7 +10,7 @@ type SearchState = {
     error?: Error | Errors
 }
 
-type SearchAction = ActionType<typeof SearchActions>;
+export type SearchAction = ActionType<typeof SearchActions>;
 
 const initialState: SearchState = {
     hits: [],
@@ -18,11 +18,12 @@ const initialState: SearchState = {
     error: undefined
 };
 
-export function searchReducer(state: SearchState = initialState, action: SearchAction = { type: undefined } as any) {
+export function searchReducer(state: SearchState = initialState, action: SearchAction) {
     switch (action.type) {
         case getType(SearchActions.search.request): return {
             ...state,
             loading: true,
+            error: undefined,
             hits: []
         };
         case getType(SearchActions.search.success): return {
