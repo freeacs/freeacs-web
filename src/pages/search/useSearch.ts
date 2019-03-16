@@ -12,7 +12,7 @@ type UseSearchProps = {
 };
 
 export function useSearch(): UseSearchProps {
-    const [ { hits, error, loading } ] = useGlobalState('searchReducer');
+    const [ { hits, error, loading } ] = useGlobalState('search');
 
     const [term, setTerm] = useState<string>();
 

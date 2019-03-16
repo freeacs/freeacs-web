@@ -2,7 +2,6 @@ import {UnitArray} from "../models";
 import {ActionType, createAsyncAction, getType} from "typesafe-actions";
 import {Errors} from "io-ts";
 import {Dispatch} from "react-hooks-global-state";
-import {AnyAction} from "redux";
 import apiCall from "../services/apiCall";
 
 type SearchState = {
@@ -19,7 +18,7 @@ const initialState: SearchState = {
     error: undefined
 };
 
-export function searchReducer(state: SearchState = initialState, action: SearchAction = { type: '' } as any) {
+export function searchReducer(state: SearchState = initialState, action: SearchAction) {
     switch (action.type) {
         case getType(SearchActions.search.request): return {
             ...state,
@@ -36,7 +35,7 @@ export function searchReducer(state: SearchState = initialState, action: SearchA
             loading: false,
             error: action.payload
         };
-        default: return initialState;
+        default: return state;
     }
 }
 
@@ -45,7 +44,7 @@ export const SearchActions = {
 };
 
 export const SearchThunks = {
-    search: (term: string) => (dispatch: Dispatch<AnyAction>) => {
+    search: (term: string) => (dispatch: Dispatch<SearchAction>) => {
         dispatch(SearchActions.search.request());
         apiCall('POST', '/search', { term })
             .then(

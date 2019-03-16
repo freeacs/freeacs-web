@@ -17,7 +17,7 @@ if (process.env.NODE_ENV !== 'test') {
     );
 }
 
-const initialState = reducers(undefined, { type: '' });
+const initialState = reducers(undefined, { type: undefined });
 
 export const { GlobalStateProvider, dispatch, useGlobalState } = createStore(
     reducers,
