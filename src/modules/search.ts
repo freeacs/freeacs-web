@@ -18,7 +18,7 @@ const initialState: SearchState = {
     error: undefined
 };
 
-export function searchReducer(state: SearchState = initialState, action: SearchAction) {
+export function searchReducer(state: SearchState = initialState, action: SearchAction = { type: undefined } as any) {
     switch (action.type) {
         case getType(SearchActions.search.request): return {
             ...state,
