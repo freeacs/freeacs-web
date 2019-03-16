@@ -1,4 +1,4 @@
-import { CreateReduxLikeStore, createStore } from 'react-hooks-global-state';
+import { createStore } from 'react-hooks-global-state';
 import { applyMiddleware, compose } from 'redux';
 import reduxLogger from 'redux-logger';
 import reduxThunk from 'redux-thunk';
@@ -10,12 +10,7 @@ let enhancers = compose(
   reduxDevToolsExt()
 );
 
-export const {
-  GlobalStateProvider,
-  dispatch,
-  useGlobalState
-} = (createStore as CreateReduxLikeStore)<RootState, RootActions>(
-  reducers,
-  undefined,
-  enhancers
-);
+export const { GlobalStateProvider, dispatch, useGlobalState } = createStore<
+  RootState,
+  RootActions
+>(reducers, undefined as any, enhancers);

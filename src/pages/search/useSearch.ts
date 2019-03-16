@@ -20,7 +20,7 @@ export function useSearch(): UseSearchProps {
     if (typeof term === 'undefined') {
       return;
     }
-    dispatch(SearchThunks.search(term) as any); // because dispatch requires an Action and not a thunk
+    dispatch(SearchThunks.search(term) as any);
   }, [term]);
 
   return { hits, error, setTerm, loading };
