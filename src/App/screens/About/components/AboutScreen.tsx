@@ -3,7 +3,7 @@ import { useGlobalState, dispatch } from '../../../redux';
 import { useCallback } from 'react';
 import { AboutActions } from '../redux';
 
-function About() {
+function AboutScreen() {
   const [{ name }] = useGlobalState('about');
   const onClick = useCallback(() => {
     dispatch(AboutActions.setName('Random'));
@@ -19,4 +19,4 @@ function About() {
   );
 }
 
-export default About;
+export default AboutScreen;
