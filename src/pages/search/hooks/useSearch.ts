@@ -1,8 +1,8 @@
-import { UnitArray } from '../../models';
+import { UnitArray } from '../../../models';
 import { Errors } from 'io-ts';
 import { useEffect, useState } from 'react';
-import { useGlobalState, dispatch } from '../../state/store';
-import { search } from '../../modules/search';
+import { useGlobalState, dispatch } from '../../../state/store';
+import { search } from '../../../modules/search';
 
 type UseSearchProps = {
   hits: UnitArray;

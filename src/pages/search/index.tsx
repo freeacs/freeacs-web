@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { useSearch } from './useSearch';
+import { useSearch } from './hooks/useSearch';
 import { SearchTable } from './components/SearchTable';
 import './index.css';
 

@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import App from './pages/app';
+import PageContainer from './pages';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { GlobalStateProvider } from './state/store';
 
 render(
   <GlobalStateProvider>
     <BrowserRouter>
-      <App />
+      <PageContainer />
     </BrowserRouter>
   </GlobalStateProvider>,
   document.querySelector('#root')
