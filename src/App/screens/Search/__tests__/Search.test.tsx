@@ -5,7 +5,7 @@ import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
 // @ts-ignore complains about no default export, but it works
 import flushPromises from 'flush-promises';
-import { GlobalStateProvider } from '../../../shared/redux/store';
+import { GlobalStateProvider } from '../../../redux';
 
 afterEach(cleanup);
 

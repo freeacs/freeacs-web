@@ -1,7 +1,7 @@
 import { UnitArray } from '../../../shared/models';
 import { Errors } from 'io-ts';
 import { useCallback, useEffect } from 'react';
-import { useGlobalState, dispatch } from '../../../shared/redux/store';
+import { useGlobalState, dispatch } from '../../../redux';
 import apiCall from '../../../shared/http/apiCall';
 import { SearchActions } from '../redux';
 import * as React from 'react';

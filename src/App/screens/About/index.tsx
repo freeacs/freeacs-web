@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useGlobalState, dispatch } from '../../shared/redux/store';
+import { useGlobalState, dispatch } from '../../redux';
 import { useCallback } from 'react';
 import { AboutActions } from './redux';
 
