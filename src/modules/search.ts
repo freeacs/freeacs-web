@@ -1,13 +1,17 @@
 import { UnitArray } from '../models';
-import { ActionType, createAsyncAction, getType } from 'typesafe-actions';
+import {
+  ActionType,
+  createAsyncAction,
+  createStandardAction,
+  getType
+} from 'typesafe-actions';
 import { Errors } from 'io-ts';
-import { Dispatch } from 'react-hooks-global-state';
-import apiCall from '../services/apiCall';
 
 type SearchState = {
   hits: UnitArray;
   loading: boolean;
   error?: Error | Errors;
+  term?: string;
 };
 
 export type SearchAction = ActionType<typeof SearchActions>;
@@ -15,7 +19,8 @@ export type SearchAction = ActionType<typeof SearchActions>;
 const initialState: SearchState = {
   hits: [],
   loading: false,
-  error: undefined
+  error: undefined,
+  term: undefined
 };
 
 export function searchReducer(
@@ -42,31 +47,21 @@ export function searchReducer(
         loading: false,
         error: action.payload
       };
+    case getType(SearchActions.setTerm):
+      return {
+        ...state,
+        term: action.payload
+      };
     default:
       return state;
   }
 }
 
-const SearchActions = {
+export const SearchActions = {
   search: createAsyncAction(
     'SEARCH_REQUEST',
     'SEARCH_SUCCESS',
     'SEARCH_FAILURE'
-  )<void, UnitArray, Error | Errors>()
+  )<void, UnitArray, Error | Errors>(),
+  setTerm: createStandardAction('SET_NAME')<string>()
 };
-
-export function search(term: string) {
-  return (dispatch: Dispatch<SearchAction>) => {
-    dispatch(SearchActions.search.request());
-    apiCall('POST', '/search', { term })
-      .then(
-        json =>
-          UnitArray.decode(json).bimap(
-            e => dispatch(SearchActions.search.failure(e)),
-            r => dispatch(SearchActions.search.success(r))
-          ),
-        e => dispatch(SearchActions.search.failure(e))
-      )
-      .catch(e => dispatch(SearchActions.search.failure(e)));
-  };
-}

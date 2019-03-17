@@ -36,10 +36,9 @@ function PageContainer() {
 
 function PageHeader() {
   const [menuCollapsed, setMenuCollapsed] = useState(true);
-  const onToggleNavbar = useCallback(
-    () => setMenuCollapsed(!menuCollapsed),
-    []
-  );
+  const onToggleNavbar = useCallback(() => setMenuCollapsed(!menuCollapsed), [
+    menuCollapsed
+  ]);
   return (
     <Navbar color="light" light expand="md">
       <NavbarToggler onClick={onToggleNavbar} />

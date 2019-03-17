@@ -1,12 +1,17 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useSearch } from './hooks/useSearch';
 import { SearchTable } from './components/SearchTable';
 import './index.css';
 
 export default function Search() {
-  const [value, setValue] = useState<string>();
-  const { hits, error, setTerm, loading } = useSearch();
+  const { hits, error, term, setTerm, loading } = useSearch();
+  const [value, setValue] = useState(term);
+  const onChangeValue = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value),
+    []
+  );
+  const onSubmitValue = useCallback(() => value && setTerm(value), [value]);
   return (
     <div>
       <h1>Search Page</h1>
@@ -15,9 +20,9 @@ export default function Search() {
         <input
           placeholder="search for units here"
           value={value || ''}
-          onChange={e => setValue(e.target.value)}
+          onChange={onChangeValue}
         />
-        <button onClick={() => value && setTerm(value)}>Submit</button>
+        <button onClick={onSubmitValue}>Submit</button>
       </div>
       {loading ? (
         <span>Loading ....</span>

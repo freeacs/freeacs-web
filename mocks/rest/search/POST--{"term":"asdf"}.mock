@@ -1,0 +1,38 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+
+[
+    {
+        "unitId": "123",
+        "profile": {
+            "id": 1,
+            "name": "Default"
+        },
+        "unitType": {
+            "id": 1,
+            "name": "Brand"
+        }
+    },
+    {
+        "unitId": "124",
+        "profile": {
+            "id": 1,
+            "name": "Default"
+        },
+        "unitType": {
+            "id": 1,
+            "name": "Brand"
+        }
+    },
+    {
+        "unitId": "125",
+        "profile": {
+            "id": 1,
+            "name": "Default"
+        },
+        "unitType": {
+            "id": 1,
+            "name": "Brand"
+        }
+    }
+]

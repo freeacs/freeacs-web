@@ -1,27 +1,42 @@
 import { UnitArray } from '../../../models';
 import { Errors } from 'io-ts';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useGlobalState, dispatch } from '../../../state/store';
-import { search } from '../../../modules/search';
+import apiCall from '../../../services/apiCall';
+import { SearchActions } from '../../../modules/search';
 
 type UseSearchProps = {
   hits: UnitArray;
   error: Error | Errors | undefined;
+  term?: string;
   setTerm: (term: string) => void;
   loading: boolean;
 };
 
 export function useSearch(): UseSearchProps {
-  const [{ hits, error, loading }] = useGlobalState('search');
-
-  const [term, setTerm] = useState<string>();
+  const [{ hits, term, error, loading }] = useGlobalState('search');
 
   useEffect(() => {
     if (typeof term === 'undefined') {
       return;
     }
-    dispatch(search(term) as any);
+    dispatch(SearchActions.search.request());
+    apiCall('POST', '/search', { term })
+      .then(
+        json =>
+          UnitArray.decode(json).bimap(
+            e => dispatch(SearchActions.search.failure(e)),
+            r => dispatch(SearchActions.search.success(r))
+          ),
+        e => dispatch(SearchActions.search.failure(e))
+      )
+      .catch(e => dispatch(SearchActions.search.failure(e)));
   }, [term]);
 
-  return { hits, error, setTerm, loading };
+  const setTerm = useCallback(
+    (term: string) => dispatch(SearchActions.setTerm(term)),
+    []
+  );
+
+  return { hits, error, term, setTerm, loading };
 }
