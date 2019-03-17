@@ -6,6 +6,7 @@ import {
   getType
 } from 'typesafe-actions';
 import { Errors } from 'io-ts';
+import { RootActions } from '../state/reducers';
 
 type SearchState = {
   hits: UnitArray;
@@ -13,8 +14,6 @@ type SearchState = {
   error?: Error | Errors;
   term?: string;
 };
-
-export type SearchAction = ActionType<typeof SearchActions>;
 
 const initialState: SearchState = {
   hits: [],
@@ -25,7 +24,7 @@ const initialState: SearchState = {
 
 export function searchReducer(
   state: SearchState = initialState,
-  action: SearchAction
+  action: RootActions
 ) {
   switch (action.type) {
     case getType(SearchActions.search.request):
@@ -65,3 +64,5 @@ export const SearchActions = {
   )<void, UnitArray, Error | Errors>(),
   setTerm: createStandardAction('SET_TERM')<string>()
 };
+
+export type SearchAction = ActionType<typeof SearchActions>;

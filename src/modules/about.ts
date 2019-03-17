@@ -1,10 +1,9 @@
 import { ActionType, createStandardAction, getType } from 'typesafe-actions';
+import { RootActions } from '../state/reducers';
 
 type AboutState = {
   name: string;
 };
-
-export type AboutAction = ActionType<typeof AboutActions>;
 
 const initialState: AboutState = {
   name: 'FreeACS'
@@ -12,7 +11,7 @@ const initialState: AboutState = {
 
 export function aboutReducer(
   state: AboutState = initialState,
-  action: AboutAction
+  action: RootActions
 ) {
   switch (action.type) {
     case getType(AboutActions.setName):
@@ -28,3 +27,5 @@ export function aboutReducer(
 export const AboutActions = {
   setName: createStandardAction('SET_NAME')<string>()
 };
+
+export type AboutAction = ActionType<typeof AboutActions>;
