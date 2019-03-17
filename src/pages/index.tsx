@@ -17,7 +17,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import About from './about';
 import Search from './search';
 import './index.css';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 function PageContainer() {
   return (
@@ -36,9 +36,13 @@ function PageContainer() {
 
 function PageHeader() {
   const [menuCollapsed, setMenuCollapsed] = useState(true);
+  const onToggleNavbar = useCallback(
+    () => setMenuCollapsed(!menuCollapsed),
+    []
+  );
   return (
     <Navbar color="light" light expand="md">
-      <NavbarToggler onClick={() => setMenuCollapsed(!menuCollapsed)} />
+      <NavbarToggler onClick={onToggleNavbar} />
       <NavbarBrand href="/">FREEACS</NavbarBrand>
       <Collapse isOpen={!menuCollapsed} navbar>
         <Nav className="mr-auto" navbar>
