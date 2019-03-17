@@ -39,6 +39,9 @@ function PageHeader() {
   const onToggleNavbar = useCallback(() => setMenuCollapsed(!menuCollapsed), [
     menuCollapsed
   ]);
+  const onClickNavLink = useCallback(() => setMenuCollapsed(true), [
+    menuCollapsed
+  ]);
   return (
     <Navbar color="light" light expand="md">
       <NavbarToggler onClick={onToggleNavbar} />
@@ -47,7 +50,7 @@ function PageHeader() {
         <Nav className="mr-auto" navbar>
           <NavItem>
             <NavLink
-              onClick={onToggleNavbar}
+              onClick={onClickNavLink}
               activeClassName="is-active"
               tag={RRNavLink}
               to="/search"
@@ -57,7 +60,7 @@ function PageHeader() {
           </NavItem>
           <NavItem>
             <NavLink
-              onClick={onToggleNavbar}
+              onClick={onClickNavLink}
               activeClassName="is-active"
               tag={RRNavLink}
               to="/about-us"
