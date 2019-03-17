@@ -46,12 +46,22 @@ function PageHeader() {
       <Collapse isOpen={!menuCollapsed} navbar>
         <Nav className="mr-auto" navbar>
           <NavItem>
-            <NavLink activeClassName="is-active" tag={RRNavLink} to="/search">
+            <NavLink
+              onClick={onToggleNavbar}
+              activeClassName="is-active"
+              tag={RRNavLink}
+              to="/search"
+            >
               Search
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink activeClassName="is-active" tag={RRNavLink} to="/about-us">
+            <NavLink
+              onClick={onToggleNavbar}
+              activeClassName="is-active"
+              tag={RRNavLink}
+              to="/about-us"
+            >
               About
             </NavLink>
           </NavItem>

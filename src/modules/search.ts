@@ -63,5 +63,5 @@ export const SearchActions = {
     'SEARCH_SUCCESS',
     'SEARCH_FAILURE'
   )<void, UnitArray, Error | Errors>(),
-  setTerm: createStandardAction('SET_NAME')<string>()
+  setTerm: createStandardAction('SET_TERM')<string>()
 };
