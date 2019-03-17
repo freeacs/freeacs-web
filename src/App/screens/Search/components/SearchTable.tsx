@@ -3,7 +3,7 @@ import { UnitArray } from '../../../shared/models';
 
 type Props = { hits: UnitArray };
 
-export function ResultTable({ hits }: Props) {
+export function SearchTable({ hits }: Props) {
   return (
     <div className="table-responsive">
       <table className="table table-striped table-sm table-hover table-bordered">
