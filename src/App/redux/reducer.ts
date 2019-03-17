@@ -1,6 +1,6 @@
 import { StateType } from 'typesafe-actions';
-import { searchReducer, SearchAction } from '../modules/search';
-import { aboutReducer, AboutAction } from '../modules/about';
+import { searchReducer, SearchAction } from '../screens/Search/redux';
+import { aboutReducer, AboutAction } from '../screens/About/redux';
 import { combineReducers } from 'redux';
 
 const reducerMap = {

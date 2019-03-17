@@ -1,9 +1,10 @@
-import { UnitArray } from '../../../models';
+import { UnitArray } from '../../../shared/models';
 import { Errors } from 'io-ts';
 import { useCallback, useEffect } from 'react';
-import { useGlobalState, dispatch } from '../../../state/store';
-import apiCall from '../../../services/apiCall';
-import { SearchActions } from '../../../modules/search';
+import { useGlobalState, dispatch } from '../../../shared/redux/store';
+import apiCall from '../../../shared/http/apiCall';
+import { SearchActions } from '../redux';
+import * as React from 'react';
 
 type UseSearchProps = {
   hits: UnitArray;
@@ -39,4 +40,12 @@ export function useSearch(): UseSearchProps {
   );
 
   return { hits, error, term, setTerm, loading };
+}
+
+export function UseSearch({
+  children
+}: {
+  children: (props: UseSearchProps) => React.ReactElement;
+}) {
+  return children(useSearch());
 }

@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { render, cleanup } from 'react-testing-library';
-import { SearchTable } from '../SearchTable';
+import { ResultTable } from '../ResultTable';
 
 afterEach(cleanup);
 
 test('SearchTable works with single hit', async () => {
   const { getByText } = render(
-    <SearchTable
+    <ResultTable
       hits={[
         {
           unitId: 'abc',
@@ -30,7 +30,7 @@ test('SearchTable works with single hit', async () => {
 
 test('SearchTable works with multiple hits', async () => {
   const { getByText } = render(
-    <SearchTable
+    <ResultTable
       hits={[
         {
           unitId: 'abc',

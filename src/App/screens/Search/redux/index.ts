@@ -1,4 +1,4 @@
-import { UnitArray } from '../models';
+import { UnitArray } from '../../../shared/models';
 import {
   ActionType,
   createAsyncAction,
@@ -6,7 +6,7 @@ import {
   getType
 } from 'typesafe-actions';
 import { Errors } from 'io-ts';
-import { RootActions } from '../state/reducers';
+import { RootActions } from '../../../redux/reducer';
 
 type SearchState = {
   hits: UnitArray;

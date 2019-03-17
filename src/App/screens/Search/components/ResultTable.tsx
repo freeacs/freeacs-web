@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { UnitArray } from '../../../models';
+import { UnitArray } from '../../../shared/models';
 
 type Props = { hits: UnitArray };
 
-export function SearchTable({ hits }: Props) {
+export function ResultTable({ hits }: Props) {
   return (
     <div className="table-responsive">
       <table className="table table-striped table-sm table-hover table-bordered">

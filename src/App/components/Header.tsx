@@ -1,40 +1,21 @@
-import * as React from 'react';
+import { useCallback, useState } from 'react';
 import {
   Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
   Nav,
+  Navbar,
+  NavbarBrand,
+  NavbarToggler,
   NavItem,
   NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
+  UncontrolledDropdown
 } from 'reactstrap';
 import { NavLink as RRNavLink } from 'react-router-dom';
-import { Redirect, Route, Switch } from 'react-router-dom';
-import About from './about';
-import Search from './search';
-import './index.css';
-import { useCallback, useState } from 'react';
+import * as React from 'react';
 
-function PageContainer() {
-  return (
-    <div className="container-fluid">
-      <PageHeader />
-      <div className="container-fluid">
-        <Switch>
-          <Route path="/search" component={Search} />
-          <Route path="/about-us" component={About} />
-          <Redirect from="/" to="/search" />
-        </Switch>
-      </div>
-    </div>
-  );
-}
-
-function PageHeader() {
+export function Header() {
   const [menuCollapsed, setMenuCollapsed] = useState(true);
   const onToggleNavbar = useCallback(() => setMenuCollapsed(!menuCollapsed), [
     menuCollapsed
@@ -84,5 +65,3 @@ function PageHeader() {
     </Navbar>
   );
 }
-
-export default PageContainer;

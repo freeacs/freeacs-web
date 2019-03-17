@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useCallback, useState } from 'react';
-import { useSearch } from './hooks/useSearch';
-import { SearchTable } from './components/SearchTable';
+import { useSearch } from './components/UseSearch';
+import { ResultTable } from './components/ResultTable';
 import './index.css';
 
 export default function Search() {
@@ -28,7 +28,7 @@ export default function Search() {
         <span>Loading ....</span>
       ) : (
         <div className="results">
-          {hits.length > 0 && <SearchTable hits={hits} />}
+          {hits.length > 0 && <ResultTable hits={hits} />}
           {error && (
             <span style={{ color: 'red', fontWeight: 'bold' }}>
               {JSON.stringify(error, null, 2)}

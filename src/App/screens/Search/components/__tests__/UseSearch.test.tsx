@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { render, fireEvent, cleanup, act } from 'react-testing-library';
-import Search from '../index';
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
 // @ts-ignore complains about no default export, but it works
 import flushPromises from 'flush-promises';
-import { GlobalStateProvider } from '../../../state/store';
+import { GlobalStateProvider } from '../../../../shared/redux/store';
+import { UseSearch } from '../UseSearch';
 
 afterEach(cleanup);
 
-test('Search page works', async () => {
+test('UseSearch component works', async () => {
   const mock = new MockAdapter(axios);
   mock.onPost('/rest/search', { term: 'Hei' }).reply(
     200,
@@ -29,26 +29,31 @@ test('Search page works', async () => {
   );
 
   // Arrange
-  const { getByText, container } = render(
+  const { getByText } = render(
     <GlobalStateProvider>
-      <Search />
+      <UseSearch>
+        {({ term, setTerm, loading, error, hits }) => (
+          <>
+            <button onClick={() => setTerm('Hei')}>Submit</button>
+            <ul>
+              {hits.map((hit, i) => (
+                <li key={i}>
+                  {hit.unitId}/{hit.profile.name}/{hit.unitType.name}
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+      </UseSearch>
     </GlobalStateProvider>
   );
 
   // Act
-  act(() => {
-    fireEvent.change(container.querySelector('input') as Element, {
-      target: { value: 'Hei' }
-    });
-  });
-
   act(() => {
     fireEvent.click(getByText('Submit'));
   });
 
   await flushPromises();
 
-  expect(getByText('123')).toBeDefined();
-  expect(getByText('1pr')).toBeDefined();
-  expect(getByText('1ut')).toBeDefined();
+  expect(getByText('123/1pr/1ut')).toBeDefined();
 });
