@@ -2,7 +2,7 @@ import { UnitArray } from '../../../shared/models';
 import { Errors } from 'io-ts';
 import { useCallback, useEffect } from 'react';
 import { useGlobalState, dispatch } from '../../../state';
-import apiCall from '../../../shared/http/apiCall';
+import ApiCall from '../../../shared/http/ApiCall';
 import { SearchActions } from '../state';
 import * as React from 'react';
 
@@ -22,10 +22,26 @@ export function useSearch(): UseSearchProps {
       return;
     }
     dispatch(SearchActions.search.request());
-    apiCall('POST', '/search', { term })
+    ApiCall('POST', '/graphql', {
+      query: `
+        {
+          getUnits(search: "*${term}*", limit: 100) {
+            id
+            profile {
+              id
+              name
+            }
+            unittype {
+              id
+              name
+            }
+          }
+        }
+      `
+    })
       .then(
         json =>
-          UnitArray.decode(json).bimap(
+          UnitArray.decode(json.data.getUnits).bimap(
             e => dispatch(SearchActions.search.failure(e)),
             r => dispatch(SearchActions.search.success(r))
           ),

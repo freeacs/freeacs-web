@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react';
 import { useSearch } from './UseSearch';
 import { SearchTable } from './SearchTable';
 import './SearchScreen.css';
-import { Spinner } from '../../../shared/loader';
+import Spinner from '../../../shared/spinner';
 
 export default function SearchScreen() {
   const { hits, error, term, setTerm, loading } = useSearch();
@@ -30,6 +30,9 @@ export default function SearchScreen() {
       ) : (
         <div className="results">
           {hits.length > 0 && <SearchTable hits={hits} />}
+          {term && hits.length === 0 && !error && (
+            <span>No hits for {term}</span>
+          )}
           {error && (
             <span style={{ color: 'red', fontWeight: 'bold' }}>
               {JSON.stringify(error, null, 2)}

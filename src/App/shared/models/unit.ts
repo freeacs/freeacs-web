@@ -4,8 +4,8 @@ import * as t from 'io-ts';
 
 export const Unit = t.interface({
   profile: t.exact(Profile),
-  unitId: t.string,
-  unitType: t.exact(UnitType)
+  id: t.string,
+  unittype: t.exact(UnitType)
 });
 
 export type Unit = t.TypeOf<typeof Unit>;

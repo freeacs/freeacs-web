@@ -18,10 +18,10 @@ export function SearchTable({ hits }: Props) {
         </thead>
         <tbody>
           {hits.map((hit, index) => (
-            <tr key={hit.unitId + index}>
-              <td scope="row">{hit.unitId}</td>
+            <tr key={hit.id + index}>
+              <td scope="row">{hit.id}</td>
               <td>{hit.profile.name}</td>
-              <td>{hit.unitType.name}</td>
+              <td>{hit.unittype.name}</td>
             </tr>
           ))}
         </tbody>

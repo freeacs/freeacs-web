@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import './index.css';
-import { Header } from './components/Header';
+import Header from './components/header';
 import { lazy, Suspense } from 'react';
-import { Spinner } from './shared/loader';
+import Spinner from './shared/spinner';
 
 const SearchScreen = lazy(() => import('./screens/Search'));
 const AboutScreen = lazy(() => import('./screens/About'));

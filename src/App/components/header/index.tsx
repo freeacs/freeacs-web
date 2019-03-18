@@ -14,8 +14,9 @@ import {
 } from 'reactstrap';
 import { NavLink as RRNavLink } from 'react-router-dom';
 import * as React from 'react';
+import './index.css';
 
-export function Header() {
+export default function Header() {
   const [menuCollapsed, setMenuCollapsed] = useState(true);
   const onToggleNavbar = useCallback(() => setMenuCollapsed(!menuCollapsed), [
     menuCollapsed
