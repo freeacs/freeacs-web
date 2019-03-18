@@ -1,5 +1,5 @@
 import { ActionType, createStandardAction, getType } from 'typesafe-actions';
-import { RootActions } from '../../../redux';
+import { RootActions } from '../../../state';
 
 type AboutState = {
   name: string;

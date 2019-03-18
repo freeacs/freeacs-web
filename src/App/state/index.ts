@@ -1,7 +1,7 @@
 import { CreateReduxLikeStore, createStore } from 'react-hooks-global-state';
 import { reduxDevToolsExt } from 'react-hooks-global-state/dist/devtools';
-import { SearchAction, searchReducer } from '../screens/Search/redux';
-import { AboutAction, aboutReducer } from '../screens/About/redux';
+import { SearchAction, searchReducer } from '../screens/Search/state';
+import { AboutAction, aboutReducer } from '../screens/About/state';
 import { StateType } from 'typesafe-actions';
 import { combineReducers } from 'redux';
 

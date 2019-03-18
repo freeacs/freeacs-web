@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { useGlobalState, dispatch } from '../../../redux';
+import { useGlobalState, dispatch } from '../../../state';
 import { useCallback } from 'react';
-import { AboutActions } from '../redux';
+import { AboutActions } from '../state';
 
 function AboutScreen() {
   const [{ name }] = useGlobalState('about');

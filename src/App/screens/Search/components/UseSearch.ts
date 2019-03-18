@@ -1,9 +1,9 @@
 import { UnitArray } from '../../../shared/models';
 import { Errors } from 'io-ts';
 import { useCallback, useEffect } from 'react';
-import { useGlobalState, dispatch } from '../../../redux';
+import { useGlobalState, dispatch } from '../../../state';
 import apiCall from '../../../shared/http/apiCall';
-import { SearchActions } from '../redux';
+import { SearchActions } from '../state';
 import * as React from 'react';
 
 type UseSearchProps = {

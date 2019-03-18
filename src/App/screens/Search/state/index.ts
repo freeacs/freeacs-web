@@ -6,7 +6,7 @@ import {
   getType
 } from 'typesafe-actions';
 import { Errors } from 'io-ts';
-import { RootActions } from '../../../redux';
+import { RootActions } from '../../../state';
 
 type SearchState = {
   hits: UnitArray;
