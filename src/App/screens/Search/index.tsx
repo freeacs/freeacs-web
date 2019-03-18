@@ -1,4 +1,11 @@
 import * as React from 'react';
 import SearchScreen from './components/SearchScreen';
+import { Route, Switch } from 'react-router';
 
-export default SearchScreen;
+export default function SearchRoute() {
+  return (
+    <Switch>
+      <Route path="/" component={SearchScreen} />
+    </Switch>
+  );
+}
