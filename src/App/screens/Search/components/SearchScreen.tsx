@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react';
 import { useSearch } from './UseSearch';
 import { SearchTable } from './SearchTable';
 import './SearchScreen.css';
+import { Spinner } from '../../../shared/loader';
 
 export default function SearchScreen() {
   const { hits, error, term, setTerm, loading } = useSearch();
@@ -25,7 +26,7 @@ export default function SearchScreen() {
         <button onClick={onSubmitValue}>Submit</button>
       </div>
       {loading ? (
-        <span>Loading ....</span>
+        <Spinner />
       ) : (
         <div className="results">
           {hits.length > 0 && <SearchTable hits={hits} />}

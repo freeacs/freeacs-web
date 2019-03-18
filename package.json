@@ -27,7 +27,8 @@
     "redux": "^4.0.1",
     "sanitize.css": "^8.0.0",
     "typesafe-actions": "^3.2.1",
-    "typescript": "3.3.3333"
+    "typescript": "3.3.3333",
+    "react-loader-spinner": "latest"
   },
   "scripts": {
     "start": "cross-env BROWSER=none react-scripts start",

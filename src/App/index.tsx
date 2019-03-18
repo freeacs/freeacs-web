@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import './index.css';
 import { Header } from './components/Header';
 import { lazy, Suspense } from 'react';
+import { Spinner } from './shared/loader';
 
 const SearchScreen = lazy(() => import('./screens/Search'));
 const AboutScreen = lazy(() => import('./screens/About'));
@@ -12,7 +13,7 @@ function PageContainer() {
     <div className="container-fluid">
       <Header />
       <div className="container-fluid">
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Spinner />}>
           <Switch>
             <Route path="/search" component={SearchScreen} />
             <Route path="/about-us" component={AboutScreen} />
