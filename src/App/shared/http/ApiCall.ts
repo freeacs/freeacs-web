@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { ApiHttpMethod } from './HttpMethod';
+import { HttpMethod } from './HttpMethod';
 
 export default function ApiCall(
-  method: ApiHttpMethod = 'GET',
+  method: HttpMethod = 'GET',
   url: string = '',
   data?: object
 ): Promise<any> {
