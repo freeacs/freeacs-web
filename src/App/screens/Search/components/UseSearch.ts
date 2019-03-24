@@ -22,29 +22,9 @@ export function useSearch(): UseSearchProps {
       return;
     }
     dispatch(SearchActions.search.request());
-    ApiCall('POST', '/graphql', {
-      query: `
-        {
-          getUnits(search: "*${term}*", limit: 100) {
-            id
-            profile {
-              id
-              name
-            }
-            unittype {
-              id
-              name
-            }
-          }
-        }
-      `
-    })
+    ApiCall('GET', '/rest/unit/search', { term, profiles: [1], limit: 1000 })
       .then(
-        json =>
-          UnitArray.decode(json.data.getUnits).bimap(
-            e => dispatch(SearchActions.search.failure(e)),
-            r => dispatch(SearchActions.search.success(r))
-          ),
+        r => dispatch(SearchActions.search.success(r)),
         e => dispatch(SearchActions.search.failure(e))
       )
       .catch(e => dispatch(SearchActions.search.failure(e)));

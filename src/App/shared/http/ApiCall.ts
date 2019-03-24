@@ -7,7 +7,8 @@ export default function ApiCall(
   data?: object
 ): Promise<any> {
   return axios(url, {
-    data: data ? JSON.stringify(data) : null,
+    params: data && method == 'GET' ? data : null,
+    data: data && method == 'POST' ? JSON.stringify(data) : null,
     headers: { 'Content-Type': 'application/json' },
     method
   }).then(response => response.data);
