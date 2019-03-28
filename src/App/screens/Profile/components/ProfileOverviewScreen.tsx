@@ -9,7 +9,7 @@ export default function ProfileOverviewScreen() {
 
   useEffect(() => {
     setError(undefined);
-    ApiCall('GET', '/rest/profile').then(
+    ApiCall('GET', '/rest/profile/byUnitTypeId/1').then(
       result => setProfiles(result),
       () => setError('Failed to load profiles')
     );
