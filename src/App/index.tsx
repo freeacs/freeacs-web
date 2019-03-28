@@ -8,6 +8,7 @@ import { GlobalStateProvider } from './state';
 const SearchScreen = lazy(() => import('./screens/Search'));
 const AboutScreen = lazy(() => import('./screens/About'));
 const UnitTypeScreen = lazy(() => import('./screens/UnitType'));
+const ProfileScreen = lazy(() => import('./screens/Profile'));
 
 function PageContainer() {
   return (
@@ -20,6 +21,7 @@ function PageContainer() {
               <Route path="/search" component={SearchScreen} />
               <Route path="/about-us" component={AboutScreen} />
               <Route path="/unittype" component={UnitTypeScreen} />
+              <Route path="/profile" component={ProfileScreen} />
               <Redirect from="/" to="/search" />
             </Switch>
           </Suspense>

@@ -11,7 +11,7 @@ export default function UnitTypeOverviewScreen() {
     setError(undefined);
     ApiCall('GET', '/rest/unitttpe').then(
       result => setUnitTypes(result),
-      error => setError('Failed to load unit types')
+      () => setError('Failed to load unit types')
     );
   }, []);
 
