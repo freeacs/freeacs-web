@@ -18,7 +18,7 @@ function LoginScreen(props: RouteComponentProps) {
       props.history.push('/');
       return;
     }
-  });
+  }, []);
 
   const doLogin = useCallback(
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
