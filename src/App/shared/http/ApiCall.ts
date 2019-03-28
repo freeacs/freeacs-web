@@ -6,10 +6,14 @@ export default function ApiCall(
   url: string = '',
   data?: object
 ): Promise<any> {
+  const token = localStorage.getItem('jwtToken');
   return axios(url, {
     params: data && method == 'GET' ? data : null,
     data: data && method == 'POST' ? JSON.stringify(data) : null,
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token && 'Bearer ' + token
+    },
     method
   }).then(response => response.data);
 }

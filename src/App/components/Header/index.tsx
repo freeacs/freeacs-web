@@ -9,14 +9,14 @@ import {
   NavbarBrand,
   NavbarToggler,
   NavItem,
-  NavLink,
-  UncontrolledDropdown
+  NavLink
 } from 'reactstrap';
-import { NavLink as RRNavLink } from 'react-router-dom';
+import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
 import * as React from 'react';
 import './index.css';
+import { withRouter } from 'react-router-dom';
 
-export default function Header() {
+function Header(props: RouteComponentProps) {
   const [menuCollapsed, setMenuCollapsed] = useState(true);
   const onToggleNavbar = useCallback(() => setMenuCollapsed(!menuCollapsed), [
     menuCollapsed
@@ -24,10 +24,17 @@ export default function Header() {
   const onClickNavLink = useCallback(() => setMenuCollapsed(true), [
     menuCollapsed
   ]);
+  const onClickHome = useCallback(e => {
+    e.preventDefault();
+    e.stopPropagation();
+    return props.history.push('/');
+  }, []);
   return (
     <Navbar color="light" light expand="md">
       <NavbarToggler onClick={onToggleNavbar} />
-      <NavbarBrand href="/">FREEACS</NavbarBrand>
+      <NavbarBrand onClick={onClickHome} href="/">
+        FREEACS
+      </NavbarBrand>
       <Collapse isOpen={!menuCollapsed} navbar>
         <Nav className="mr-auto" navbar>
           <NavItem>
@@ -50,19 +57,30 @@ export default function Header() {
               About
             </NavLink>
           </NavItem>
-          <UncontrolledDropdown nav inNavbar>
-            <DropdownToggle nav caret>
-              Options
-            </DropdownToggle>
-            <DropdownMenu right>
-              <DropdownItem>Option 1</DropdownItem>
-              <DropdownItem>Option 2</DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem>Reset</DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
+          <NavItem>
+            <NavLink
+              onClick={onClickNavLink}
+              activeClassName="is-active"
+              tag={RRNavLink}
+              to="/unittype"
+            >
+              UnitType
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              onClick={onClickNavLink}
+              activeClassName="is-active"
+              tag={RRNavLink}
+              to="/profile"
+            >
+              Profile
+            </NavLink>
+          </NavItem>
         </Nav>
       </Collapse>
     </Navbar>
   );
 }
+
+export default withRouter(Header);
