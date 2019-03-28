@@ -9,7 +9,7 @@ export default function UnitTypeOverviewScreen() {
 
   useEffect(() => {
     setError(undefined);
-    ApiCall('GET', '/rest/unitttpe').then(
+    ApiCall('GET', '/rest/unittype').then(
       result => setUnitTypes(result),
       () => setError('Failed to load unit types')
     );
