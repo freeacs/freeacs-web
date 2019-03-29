@@ -19,7 +19,7 @@ export function useAuth() {
     if (tokenStr) {
       // @ts-ignore
       const token: Token = jwtDecode<Token>(tokenStr);
-      const date = new Date().getTime() / 1000;
+      const date = Date.now() / 1000;
       const validToken = token ? date < token.exp : false;
       if (!loggedIn && validToken) {
         setLoggedIn(validToken);
