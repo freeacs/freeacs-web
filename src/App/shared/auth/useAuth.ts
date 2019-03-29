@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import * as jwtDecode from '../../screens/Login/components/LoginScreen';
 import { dispatch } from '../../state';
 import { LoginActions } from '../../screens/Login/state';
+import * as jwtDecode from 'jwt-decode';
 
 type Token = {
   exp: number;
@@ -15,10 +15,7 @@ type Props = {
 export function useAuth(props: Props) {
   useEffect(() => {
     const tokenStr = localStorage.getItem('jwtToken');
-    // @ts-ignore
-    const token: Token | undefined = tokenStr
-      ? jwtDecode<Token>(tokenStr)
-      : undefined;
+    const token: Token = jwtDecode<Token>(tokenStr);
     const date = new Date().getTime();
     const validToken = token ? date < token.exp : false;
     dispatch(LoginActions.setLoggedIn(validToken));
