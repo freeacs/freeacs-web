@@ -5,31 +5,16 @@ import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { dispatch } from '../../../state';
 import { LoginActions } from '../state';
-import * as jwtDecode from 'jwt-decode';
-
-type Token = {
-  exp: number;
-};
+import { useAuth } from '../../../shared/auth/useAuth';
 
 function LoginScreen(props: RouteComponentProps) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState();
 
-  useEffect(() => {
-    const tokenStr = localStorage.getItem('jwtToken');
-    // @ts-ignore
-    const token: Token | null = tokenStr ? jwtDecode<Token>(tokenStr) : null;
-    const date = new Date().getTime();
-    const validToken = token ? date < token.exp : false;
-    dispatch(LoginActions.setLoggedIn(validToken));
-    if (validToken === true) {
-      props.history.push('/');
-      return;
-    } else {
-      localStorage.removeItem('jwtToken');
-    }
-  }, []);
+  useAuth({
+    onValid: () => props.history.push('/')
+  });
 
   const doLogin = useCallback(
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

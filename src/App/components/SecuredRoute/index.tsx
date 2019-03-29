@@ -2,13 +2,7 @@ import * as React from 'react';
 import { ComponentType, useEffect, useState } from 'react';
 import { Redirect, Route } from 'react-router';
 import Spinner from '../../shared/spinner';
-import * as jwtDecode from 'jwt-decode';
-import { dispatch } from '../../state';
-import { LoginActions } from '../../screens/Login/state';
-
-type Token = {
-  exp: number;
-};
+import { useAuth } from '../../shared/auth/useAuth';
 
 export default function SecuredRoute({
   path,
@@ -19,18 +13,10 @@ export default function SecuredRoute({
 }) {
   const [authorized, setAuthorized] = useState<boolean | undefined>(undefined);
 
-  useEffect(() => {
-    const tokenStr = localStorage.getItem('jwtToken');
-    // @ts-ignore
-    const token: Token | null = tokenStr ? jwtDecode<Token>(tokenStr) : null;
-    const date = new Date().getTime();
-    const validToken = token ? date < token.exp : false;
-    if (!validToken) {
-      localStorage.removeItem('jwtToken');
-    }
-    dispatch(LoginActions.setLoggedIn(validToken));
-    setAuthorized(validToken);
-  }, []);
+  useAuth({
+    onValid: () => setAuthorized(true),
+    onInValid: () => setAuthorized(false)
+  });
 
   if (authorized === true) {
     return <Route path={path} component={component} />;
