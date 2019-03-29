@@ -15,7 +15,7 @@ export default function SearchScreen() {
   const onSubmitValue = useCallback(() => value && setTerm(value), [value]);
   return (
     <div>
-      <h1>Search Page</h1>
+      <h2>Search Page</h2>
       <p>Here you can search for units</p>
       <div>
         <input

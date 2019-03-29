@@ -32,26 +32,29 @@ function LoginScreen() {
   }
 
   return (
-    <form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <p>
-        <input
-          type="text"
-          onChange={e => setUsername(e.target.value)}
-          value={username}
-        />
-      </p>
-      <p>
-        <input
-          type="password"
-          onChange={e => setPassword(e.target.value)}
-          value={password}
-        />
-      </p>
-      <p>
-        <button onClick={doLogin}>Submit</button>
-      </p>
-    </form>
+    <div>
+      <h2>Login</h2>
+      <form>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <p>
+          <input
+            type="text"
+            onChange={e => setUsername(e.target.value)}
+            value={username}
+          />
+        </p>
+        <p>
+          <input
+            type="password"
+            onChange={e => setPassword(e.target.value)}
+            value={password}
+          />
+        </p>
+        <p>
+          <button onClick={doLogin}>Submit</button>
+        </p>
+      </form>
+    </div>
   );
 }
 
