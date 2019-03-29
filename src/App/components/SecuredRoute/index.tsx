@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { ComponentType, useEffect, useState } from 'react';
+import { ComponentType } from 'react';
 import { Redirect, Route } from 'react-router';
 import Spinner from '../../shared/spinner';
-import { useAuth } from '../../shared/auth/useAuth';
+import { useAuth } from '../../shared/auth';
 
 export default function SecuredRoute({
   path,
@@ -11,18 +11,13 @@ export default function SecuredRoute({
   path: string;
   component: ComponentType<{}>;
 }) {
-  const [authorized, setAuthorized] = useState<boolean | undefined>(undefined);
+  const { loggedIn } = useAuth();
 
-  useAuth({
-    onValid: () => setAuthorized(true),
-    onInValid: () => setAuthorized(false)
-  });
-
-  if (authorized === true) {
+  if (loggedIn === true) {
     return <Route path={path} component={component} />;
   }
 
-  if (authorized === false) {
+  if (loggedIn === false) {
     return <Redirect to="/login" />;
   }
 

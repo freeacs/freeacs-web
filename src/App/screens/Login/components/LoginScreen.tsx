@@ -1,20 +1,16 @@
 import * as React from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import ApiCall from '../../../shared/http/ApiCall';
-import { RouteComponentProps } from 'react-router';
+import { Redirect } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import { dispatch } from '../../../state';
-import { LoginActions } from '../state';
-import { useAuth } from '../../../shared/auth/useAuth';
+import { useAuth } from '../../../shared/auth';
 
-function LoginScreen(props: RouteComponentProps) {
+function LoginScreen() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState();
 
-  useAuth({
-    onValid: () => props.history.push('/')
-  });
+  const { loggedIn, setLoggedIn } = useAuth();
 
   const doLogin = useCallback(
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -23,14 +19,17 @@ function LoginScreen(props: RouteComponentProps) {
       ApiCall('POST', '/rest/user/signin', { username, password }).then(
         result => {
           localStorage.setItem('jwtToken', result.token);
-          dispatch(LoginActions.setLoggedIn(true));
-          props.history.push('/');
+          setLoggedIn(true);
         },
         () => setError('Failed to login')
       );
     },
-    [username, password]
+    [username, password, loggedIn]
   );
+
+  if (loggedIn) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <form>
