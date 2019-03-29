@@ -24,7 +24,7 @@ function LoginScreen() {
         () => setError('Failed to login')
       );
     },
-    [username, password, loggedIn]
+    [username, password]
   );
 
   if (loggedIn) {
