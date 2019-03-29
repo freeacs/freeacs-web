@@ -5,7 +5,7 @@ import { Route, Switch } from 'react-router';
 export default function AboutRoute() {
   return (
     <Switch>
-      <Route path="/" component={AboutScreen} />
+      <Route path="/about-us" component={AboutScreen} />
     </Switch>
   );
 }

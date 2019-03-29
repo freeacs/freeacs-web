@@ -21,7 +21,7 @@ export default function UnitTypeOverviewScreen() {
 
   return (
     <div>
-      <h2>UnitType Overview</h2>
+      <h2>UnitType - Overview</h2>
       <ul>
         {unitTypes.map(unitType => {
           return <li key={unitType.id}>{unitType.name}</li>;

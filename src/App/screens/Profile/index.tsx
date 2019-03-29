@@ -5,7 +5,7 @@ import { Route, Switch } from 'react-router';
 export default function ProfileRoute() {
   return (
     <Switch>
-      <Route path="/" component={ProfileOverviewScreen} />
+      <Route path="/profile" component={ProfileOverviewScreen} />
     </Switch>
   );
 }

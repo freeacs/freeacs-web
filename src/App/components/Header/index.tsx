@@ -9,7 +9,8 @@ import {
   NavbarBrand,
   NavbarToggler,
   NavItem,
-  NavLink
+  NavLink,
+  UncontrolledDropdown
 } from 'reactstrap';
 import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
 import * as React from 'react';
@@ -57,16 +58,49 @@ function Header(props: RouteComponentProps) {
               About
             </NavLink>
           </NavItem>
-          <NavItem>
-            <NavLink
-              onClick={onClickNavLink}
-              activeClassName="is-active"
-              tag={RRNavLink}
-              to="/unittype"
-            >
+          <UncontrolledDropdown
+            nav
+            inNavbar
+            active={props.location.pathname.startsWith('/unittype')}
+          >
+            <DropdownToggle nav caret>
               UnitType
-            </NavLink>
-          </NavItem>
+            </DropdownToggle>
+            <DropdownMenu right>
+              <DropdownItem>
+                <NavItem>
+                  <NavLink
+                    onClick={onClickNavLink}
+                    activeClassName={
+                      props.location.pathname === '/unittype' ? 'is-active' : ''
+                    }
+                    active={props.location.pathname === '/unittype'}
+                    tag={RRNavLink}
+                    to="/unittype"
+                  >
+                    Overview
+                  </NavLink>
+                </NavItem>
+              </DropdownItem>
+              <DropdownItem>
+                <NavItem>
+                  <NavLink
+                    onClick={onClickNavLink}
+                    activeClassName={
+                      props.location.pathname === '/unittype/create'
+                        ? 'is-active'
+                        : ''
+                    }
+                    active={props.location.pathname === '/unittype/create'}
+                    tag={RRNavLink}
+                    to="/unittype/create"
+                  >
+                    Create
+                  </NavLink>
+                </NavItem>
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
           <NavItem>
             <NavLink
               onClick={onClickNavLink}

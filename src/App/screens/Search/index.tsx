@@ -5,7 +5,7 @@ import { Route, Switch } from 'react-router';
 export default function SearchRoute() {
   return (
     <Switch>
-      <Route path="/" component={SearchScreen} />
+      <Route path="/search" component={SearchScreen} />
     </Switch>
   );
 }
