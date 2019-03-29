@@ -20,10 +20,14 @@ export default function UnitTypeOverviewScreen() {
   }
 
   return (
-    <ul>
-      {unitTypes.map(unitType => {
-        return <li key={unitType.id}>{unitType.name}</li>;
-      })}
-    </ul>
+    <div>
+      <h2>UnitType Overview</h2>
+      <ul>
+        {unitTypes.map(unitType => {
+          return <li key={unitType.id}>{unitType.name}</li>;
+        })}
+      </ul>
+      {unitTypes.length === 0 && 'There are no unittypes'}
+    </div>
   );
 }

@@ -28,7 +28,8 @@
     "sanitize.css": "^8.0.0",
     "typesafe-actions": "^3.2.1",
     "typescript": "3.3.3333",
-    "react-loader-spinner": "latest"
+    "react-loader-spinner": "latest",
+    "jwt-decode": "latest"
   },
   "scripts": {
     "start": "cross-env BROWSER=none react-scripts start",
@@ -61,6 +62,7 @@
   "devDependencies": {
     "@types/enzyme": "^3.9.0",
     "@types/enzyme-adapter-react-16": "^1.0.5",
+    "@types/jwt-decode": "^2.2.1",
     "axios-mock-adapter": "latest",
     "cross-env": "^5.2.0",
     "enzyme": "^3.9.0",

@@ -10,7 +10,7 @@ function AboutScreen() {
   }, []);
   return (
     <div>
-      <h1>About Page</h1>
+      <h2>About Page</h2>
       <p>{name} is a TR-069 provisioning stack.</p>
       <p>
         <button onClick={onClick}>Change name</button>

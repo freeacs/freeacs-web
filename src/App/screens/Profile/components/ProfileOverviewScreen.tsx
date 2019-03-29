@@ -20,10 +20,14 @@ export default function ProfileOverviewScreen() {
   }
 
   return (
-    <ul>
-      {profiles.map(profile => {
-        return <li key={profile.id}>{profile.name}</li>;
-      })}
-    </ul>
+    <div>
+      <h2>Profile Overview</h2>
+      <ul>
+        {profiles.map(profile => {
+          return <li key={profile.id}>{profile.name}</li>;
+        })}
+      </ul>
+      {profiles.length === 0 && 'There are no profiles'}
+    </div>
   );
 }
