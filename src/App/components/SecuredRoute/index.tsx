@@ -1,8 +1,14 @@
 import * as React from 'react';
 import { ComponentType, useEffect, useState } from 'react';
 import { Redirect, Route } from 'react-router';
-import ApiCall from '../../shared/http/ApiCall';
 import Spinner from '../../shared/spinner';
+import * as jwtDecode from 'jwt-decode';
+import { dispatch } from '../../state';
+import { LoginActions } from '../../screens/Login/state';
+
+type Token = {
+  exp: number;
+};
 
 export default function SecuredRoute({
   path,
@@ -14,20 +20,16 @@ export default function SecuredRoute({
   const [authorized, setAuthorized] = useState<boolean | undefined>(undefined);
 
   useEffect(() => {
-    const token = localStorage.getItem('jwtToken');
-    if (!token) {
-      setAuthorized(false);
-    } else {
-      ApiCall('GET', '/rest/user/me').then(
-        () => {
-          setAuthorized(true);
-        },
-        () => {
-          localStorage.removeItem('jwtToken');
-          setAuthorized(false);
-        }
-      );
+    const tokenStr = localStorage.getItem('jwtToken');
+    // @ts-ignore
+    const token: Token | null = tokenStr ? jwtDecode<Token>(tokenStr) : null;
+    const date = new Date().getTime();
+    const validToken = token ? date < token.exp : false;
+    if (!validToken) {
+      localStorage.removeItem('jwtToken');
     }
+    dispatch(LoginActions.setLoggedIn(validToken));
+    setAuthorized(validToken);
   }, []);
 
   if (authorized === true) {
