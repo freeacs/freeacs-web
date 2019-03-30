@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import ApiCall from '../../../shared/http/ApiCall';
 import { Profile } from '../../../shared/models';
+import { Table } from 'reactstrap';
 
 export default function ProfileOverviewScreen() {
   const [profiles, setProfiles] = useState<Array<Profile>>([]);
@@ -21,12 +22,25 @@ export default function ProfileOverviewScreen() {
 
   return (
     <div>
-      <h2>Profile Overview</h2>
-      <ul>
-        {profiles.map(profile => {
-          return <li key={profile.id}>{profile.name}</li>;
-        })}
-      </ul>
+      <h2>Profile - Overview</h2>
+      <Table striped={true}>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          {profiles.map(profile => {
+            return (
+              <tr key={profile.id}>
+                <th scope="row">{profile.id}</th>
+                <td>{profile.name}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </Table>
       {profiles.length === 0 && 'There are no profiles'}
     </div>
   );
