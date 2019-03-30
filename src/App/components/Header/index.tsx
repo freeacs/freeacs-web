@@ -71,7 +71,7 @@ function Header(props: RouteComponentProps) {
             active={props.location.pathname.startsWith('/unittype')}
           >
             <DropdownToggle nav caret>
-              UnitType
+              UnitType {selectedUnitTypeId && '(' + selectedUnitTypeId + ')'}
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem>
