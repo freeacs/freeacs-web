@@ -3,7 +3,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import Header from './components/Header';
 import { lazy, Suspense } from 'react';
 import Spinner from './shared/spinner';
-import { GlobalStateProvider } from './state';
+import { GlobalStateProvider, useGlobalState } from './state';
 import SecuredRoute from './components/SecuredRoute';
 
 const LoginScreen = lazy(() => import('./screens/Login'));
@@ -18,19 +18,28 @@ function PageContainer() {
       <div className="container">
         <Header />
         <div className="container-fluid">
-          <Suspense fallback={<Spinner />}>
-            <Switch>
-              <Route path="/login" component={LoginScreen} />
-              <SecuredRoute path="/search" component={SearchScreen} />
-              <SecuredRoute path="/about-us" component={AboutScreen} />
-              <SecuredRoute path="/unittype" component={UnitTypeScreen} />
-              <SecuredRoute path="/profile" component={ProfileScreen} />
-              <Redirect from="/" to="/search" />
-            </Switch>
-          </Suspense>
+          <AppRouter />
         </div>
       </div>
     </GlobalStateProvider>
+  );
+}
+
+function AppRouter() {
+  const [{ selectedUnitTypeId }] = useGlobalState('unitType');
+  return (
+    <Suspense fallback={<Spinner />}>
+      <Switch>
+        <Route path="/login" component={LoginScreen} />
+        <SecuredRoute path="/search" component={SearchScreen} />
+        <SecuredRoute path="/about-us" component={AboutScreen} />
+        <SecuredRoute path="/unittype" component={UnitTypeScreen} />
+        {selectedUnitTypeId && (
+          <SecuredRoute path="/profile" component={ProfileScreen} />
+        )}
+        <Redirect from="/" to="/search" />
+      </Switch>
+    </Suspense>
   );
 }
 

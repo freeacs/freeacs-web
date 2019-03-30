@@ -16,8 +16,11 @@ import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
 import * as React from 'react';
 import './index.css';
 import { withRouter } from 'react-router-dom';
+import { useGlobalState } from '../../state';
 
 function Header(props: RouteComponentProps) {
+  const [{ selectedUnitTypeId }] = useGlobalState('unitType');
+
   const [menuCollapsed, setMenuCollapsed] = useState(true);
 
   const onToggleNavbar = useCallback(() => setMenuCollapsed(!menuCollapsed), [
@@ -105,49 +108,53 @@ function Header(props: RouteComponentProps) {
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
-          <UncontrolledDropdown
-            nav
-            inNavbar
-            active={props.location.pathname.startsWith('/profile')}
-          >
-            <DropdownToggle nav caret>
-              Profile
-            </DropdownToggle>
-            <DropdownMenu right>
-              <DropdownItem>
-                <NavItem>
-                  <NavLink
-                    onClick={onClickNavLink}
-                    activeClassName={
-                      props.location.pathname === '/profile' ? 'is-active' : ''
-                    }
-                    active={props.location.pathname === '/profile'}
-                    tag={RRNavLink}
-                    to="/profile"
-                  >
-                    Profiles
-                  </NavLink>
-                </NavItem>
-              </DropdownItem>
-              <DropdownItem>
-                <NavItem>
-                  <NavLink
-                    onClick={onClickNavLink}
-                    activeClassName={
-                      props.location.pathname === '/profile/create'
-                        ? 'is-active'
-                        : ''
-                    }
-                    active={props.location.pathname === '/profile/create'}
-                    tag={RRNavLink}
-                    to="/profile/create"
-                  >
-                    Create new profile
-                  </NavLink>
-                </NavItem>
-              </DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
+          {selectedUnitTypeId && (
+            <UncontrolledDropdown
+              nav
+              inNavbar
+              active={props.location.pathname.startsWith('/profile')}
+            >
+              <DropdownToggle nav caret>
+                Profile
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem>
+                  <NavItem>
+                    <NavLink
+                      onClick={onClickNavLink}
+                      activeClassName={
+                        props.location.pathname === '/profile'
+                          ? 'is-active'
+                          : ''
+                      }
+                      active={props.location.pathname === '/profile'}
+                      tag={RRNavLink}
+                      to="/profile"
+                    >
+                      Profiles
+                    </NavLink>
+                  </NavItem>
+                </DropdownItem>
+                <DropdownItem>
+                  <NavItem>
+                    <NavLink
+                      onClick={onClickNavLink}
+                      activeClassName={
+                        props.location.pathname === '/profile/create'
+                          ? 'is-active'
+                          : ''
+                      }
+                      active={props.location.pathname === '/profile/create'}
+                      tag={RRNavLink}
+                      to="/profile/create"
+                    >
+                      Create new profile
+                    </NavLink>
+                  </NavItem>
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          )}
         </Nav>
       </Collapse>
     </Navbar>

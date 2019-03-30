@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import { useCallback, useEffect, useReducer, useState } from 'react';
 import ApiCall from '../../../shared/http/ApiCall';
+import { useGlobalState } from '../../../state';
 
 type State = {
   name: string;
@@ -28,6 +29,8 @@ const reducer = (state: State, action: Action) => {
 };
 
 export default function ProfileCreateScreen() {
+  const [{ selectedUnitTypeId }] = useGlobalState('unitType');
+
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const [feedback, setFeedback] = useState<string>();
@@ -44,7 +47,10 @@ export default function ProfileCreateScreen() {
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
       setFeedback(undefined);
-      ApiCall('POST', '/rest/profile', state).then(
+      ApiCall('POST', '/rest/profile', {
+        ...state,
+        unitType: { id: selectedUnitTypeId }
+      }).then(
         () => {
           setFeedback('Successfully created profile');
           dispatch({ type: 'reset' });

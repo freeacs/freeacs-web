@@ -3,9 +3,14 @@ import { useEffect, useState } from 'react';
 import ApiCall from '../../../shared/http/ApiCall';
 import { UnitType } from '../../../shared/models';
 import { Table } from 'reactstrap';
+import { UnitTypeActions } from '../state';
+import { dispatch, useGlobalState } from '../../../state';
 
 export default function UnitTypeOverviewScreen() {
+  const [{ selectedUnitTypeId }] = useGlobalState('unitType');
+
   const [unitTypes, setUnitTypes] = useState<Array<UnitType>>([]);
+
   const [error, setError] = useState<string>();
 
   useEffect(() => {
@@ -23,7 +28,7 @@ export default function UnitTypeOverviewScreen() {
   return (
     <div>
       <h2>UnitType - Overview</h2>
-      <Table striped={true}>
+      <Table>
         <thead>
           <tr>
             <th>#</th>
@@ -36,7 +41,16 @@ export default function UnitTypeOverviewScreen() {
         <tbody>
           {unitTypes.map(unitType => {
             return (
-              <tr key={unitType.id}>
+              <tr
+                key={unitType.id}
+                onClick={() =>
+                  dispatch(UnitTypeActions.setSelectedUnitTypeId(unitType.id))
+                }
+                style={{
+                  backgroundColor:
+                    unitType.id === selectedUnitTypeId ? 'lightgreen' : ''
+                }}
+              >
                 <th scope="row">{unitType.id}</th>
                 <td>{unitType.protocol}</td>
                 <td>{unitType.name}</td>
