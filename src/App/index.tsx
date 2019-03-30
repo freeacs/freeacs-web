@@ -15,7 +15,7 @@ const ProfileScreen = lazy(() => import('./screens/Profile'));
 function PageContainer() {
   return (
     <GlobalStateProvider>
-      <div className="container-fluid">
+      <div className="container">
         <Header />
         <div className="container-fluid">
           <Suspense fallback={<Spinner />}>

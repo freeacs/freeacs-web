@@ -23,7 +23,7 @@ export default function UnitTypeOverviewScreen() {
   return (
     <div>
       <h2>UnitType - Overview</h2>
-      <Table>
+      <Table striped={true}>
         <thead>
           <tr>
             <th>#</th>

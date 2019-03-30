@@ -1,30 +1,46 @@
 import * as React from 'react';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSearch } from './UseSearch';
 import { SearchTable } from './SearchTable';
 import './SearchScreen.css';
 import Spinner from '../../../shared/spinner';
+import { Button, Form, FormGroup, Input } from 'reactstrap';
 
 export default function SearchScreen() {
   const { hits, error, term, setTerm, loading } = useSearch();
+
   const [value, setValue] = useState(term);
+
   const onChangeValue = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value),
     []
   );
-  const onSubmitValue = useCallback(() => value && setTerm(value), [value]);
+
+  const onSubmitValue = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.preventDefault();
+      return value && setTerm(value);
+    },
+    [value]
+  );
+
   return (
     <div>
       <h2>Search Page</h2>
       <p>Here you can search for units</p>
-      <div>
-        <input
-          placeholder="search for units here"
-          value={value || ''}
-          onChange={onChangeValue}
-        />
-        <button onClick={onSubmitValue}>Submit</button>
-      </div>
+      <Form inline>
+        <FormGroup>
+          <Input
+            type="text"
+            name="term"
+            placeholder="search for units here"
+            onChange={onChangeValue}
+          />
+        </FormGroup>
+        <Button type="submit" onClick={onSubmitValue}>
+          Submit
+        </Button>
+      </Form>
       {loading ? (
         <Spinner />
       ) : (
