@@ -26,7 +26,7 @@ function PageContainer() {
 }
 
 function AppRouter() {
-  const [{ selectedUnitType }] = useGlobalState('unitType');
+  const [{ selectedUnitType }] = useGlobalState('context');
   return (
     <Suspense fallback={<Spinner />}>
       <Switch>

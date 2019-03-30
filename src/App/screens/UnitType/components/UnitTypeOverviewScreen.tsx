@@ -3,11 +3,11 @@ import { useEffect, useState } from 'react';
 import ApiCall from '../../../shared/http/ApiCall';
 import { UnitType } from '../../../shared/models';
 import { Table } from 'reactstrap';
-import { UnitTypeActions } from '../state';
 import { dispatch, useGlobalState } from '../../../state';
+import { ContextActions } from '../../../shared/context/state';
 
 export default function UnitTypeOverviewScreen() {
-  const [{ selectedUnitType }] = useGlobalState('unitType');
+  const [{ selectedUnitType }] = useGlobalState('context');
 
   const [unitTypes, setUnitTypes] = useState<Array<UnitType>>([]);
 
@@ -44,7 +44,7 @@ export default function UnitTypeOverviewScreen() {
               <tr
                 key={unitType.id}
                 onClick={() =>
-                  dispatch(UnitTypeActions.setSelectedUnitType(unitType))
+                  dispatch(ContextActions.setSelectedUnitType(unitType))
                 }
                 style={{
                   backgroundColor:

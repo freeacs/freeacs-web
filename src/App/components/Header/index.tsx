@@ -19,8 +19,7 @@ import { withRouter } from 'react-router-dom';
 import { useGlobalState } from '../../state';
 
 function Header(props: RouteComponentProps) {
-  const [{ selectedUnitType }] = useGlobalState('unitType');
-  const [{ selectedProfile }] = useGlobalState('profile');
+  const [{ selectedUnitType, selectedProfile }] = useGlobalState('context');
 
   const [menuCollapsed, setMenuCollapsed] = useState(true);
 

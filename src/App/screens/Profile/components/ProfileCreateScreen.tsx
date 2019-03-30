@@ -29,7 +29,7 @@ const reducer = (state: State, action: Action) => {
 };
 
 export default function ProfileCreateScreen() {
-  const [{ selectedUnitType }] = useGlobalState('unitType');
+  const [{ selectedUnitType }] = useGlobalState('context');
 
   const [state, dispatch] = useReducer(reducer, initialState);
 

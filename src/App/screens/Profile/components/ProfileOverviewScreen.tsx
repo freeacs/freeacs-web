@@ -4,11 +4,10 @@ import ApiCall from '../../../shared/http/ApiCall';
 import { Profile } from '../../../shared/models';
 import { Table } from 'reactstrap';
 import { dispatch, useGlobalState } from '../../../state';
-import { ProfileActions } from '../state';
+import { ContextActions } from '../../../shared/context/state';
 
 export default function ProfileOverviewScreen() {
-  const [{ selectedUnitType }] = useGlobalState('unitType');
-  const [{ selectedProfile }] = useGlobalState('profile');
+  const [{ selectedUnitType, selectedProfile }] = useGlobalState('context');
   const [profiles, setProfiles] = useState<Array<Profile>>([]);
   const [error, setError] = useState<string>();
 
@@ -43,7 +42,7 @@ export default function ProfileOverviewScreen() {
               <tr
                 key={profile.id}
                 onClick={() =>
-                  dispatch(ProfileActions.setSelectedProfile(profile))
+                  dispatch(ContextActions.setSelectedProfile(profile))
                 }
                 style={{
                   backgroundColor:
