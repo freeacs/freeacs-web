@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
-import { useReducer } from 'react';
+import { useCallback, useEffect, useReducer, useState } from 'react';
+import ApiCall from '../../../shared/http/ApiCall';
 
 type State = {
   protocol: 'TR069';
@@ -12,7 +13,8 @@ type State = {
 type Action =
   | { type: 'setName'; name: string }
   | { type: 'setVendor'; vendor: string }
-  | { type: 'setDescription'; description: string };
+  | { type: 'setDescription'; description: string }
+  | { type: 'reset' };
 
 const initialState: State = {
   protocol: 'TR069',
@@ -38,6 +40,8 @@ const reducer = (state: State, action: Action) => {
         ...state,
         description: action.description
       };
+    case 'reset':
+      return initialState;
     default:
       return state;
   }
@@ -45,14 +49,48 @@ const reducer = (state: State, action: Action) => {
 
 export default function UnitTypeCreateScreen() {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  const [feedback, setFeedback] = useState<string>();
+
+  useEffect(() => {
+    if (!feedback) {
+      return;
+    }
+    const timer = setTimeout(() => setFeedback(undefined), 5000);
+    return () => clearTimeout(timer);
+  }, [feedback]);
+
+  const onSubmit = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+      e.preventDefault();
+      setFeedback(undefined);
+      ApiCall('POST', '/rest/unittype', state).then(
+        () => {
+          setFeedback('Successfully created unittype');
+          dispatch({ type: 'reset' });
+        },
+        e => {
+          setFeedback('Failed to created unittype');
+        }
+      );
+    },
+    [state]
+  );
+
   return (
     <div>
       <h2>UnitType - Create</h2>
+      {feedback && <p style={{ color: 'orange' }}>{feedback}</p>}
       <Form>
         <FormGroup>
           <Label for="protocol">Protocol</Label>
-          <Input type="select" name="protocol" id="protocol">
-            <option selected={state.protocol === 'TR069'}>TR069</option>
+          <Input
+            type="select"
+            name="protocol"
+            id="protocol"
+            defaultValue="TR069"
+          >
+            <option>TR069</option>
           </Input>
         </FormGroup>
         <FormGroup>
@@ -92,7 +130,7 @@ export default function UnitTypeCreateScreen() {
             }
           />
         </FormGroup>
-        <Button>Submit</Button>
+        <Button onClick={onSubmit}>Submit</Button>
       </Form>
     </div>
   );
