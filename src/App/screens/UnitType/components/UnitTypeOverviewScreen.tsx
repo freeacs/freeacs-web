@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import ApiCall from '../../../shared/http/ApiCall';
 import { UnitType } from '../../../shared/models';
+import { Table } from 'reactstrap';
 
 export default function UnitTypeOverviewScreen() {
   const [unitTypes, setUnitTypes] = useState<Array<UnitType>>([]);
@@ -22,11 +23,30 @@ export default function UnitTypeOverviewScreen() {
   return (
     <div>
       <h2>UnitType - Overview</h2>
-      <ul>
-        {unitTypes.map(unitType => {
-          return <li key={unitType.id}>{unitType.name}</li>;
-        })}
-      </ul>
+      <Table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Protocol</th>
+            <th>Name</th>
+            <th>Vendor</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {unitTypes.map(unitType => {
+            return (
+              <tr key={unitType.id}>
+                <th scope="row">{unitType.id}</th>
+                <td>{unitType.protocol}</td>
+                <td>{unitType.name}</td>
+                <td>{unitType.vendor}</td>
+                <td>{unitType.description}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </Table>
       {unitTypes.length === 0 && 'There are no unittypes'}
     </div>
   );

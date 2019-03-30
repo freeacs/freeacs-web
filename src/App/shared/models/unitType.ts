@@ -2,7 +2,10 @@ import * as t from 'io-ts';
 
 export const UnitType = t.interface({
   id: t.number,
-  name: t.string
+  protocol: t.string,
+  name: t.string,
+  vendor: t.string,
+  description: t.string
 });
 
 export const UnitTypeArray = t.array(UnitType);
