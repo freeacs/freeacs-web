@@ -1,9 +1,7 @@
 import { UnitArray } from '../../../shared/models';
 import { Errors } from 'io-ts';
-import { useCallback, useEffect } from 'react';
-import { useGlobalState, dispatch } from '../../../state';
+import { useCallback, useEffect, useState } from 'react';
 import ApiCall from '../../../shared/http/ApiCall';
-import { SearchActions } from '../state';
 import * as React from 'react';
 
 type UseSearchProps = {
@@ -15,27 +13,44 @@ type UseSearchProps = {
 };
 
 export function useSearch(): UseSearchProps {
-  const [{ hits, term, error, loading }] = useGlobalState('search');
+  const [hits, setHits] = useState<UnitArray>([]);
+  const [error, setError] = useState<Error | Errors>();
+  const [loading, setLoading] = useState(false);
+  const [term, setTerm] = useState<string>();
+  const [changed, setChanged] = useState<number>();
 
   useEffect(() => {
     if (typeof term === 'undefined') {
       return;
     }
-    dispatch(SearchActions.search.request());
-    ApiCall('GET', '/rest/unit/search', { term, profiles: [1], limit: 1000 })
+    setLoading(true);
+    setError(undefined);
+    setHits([]);
+    ApiCall('GET', '/rest/unit/search', {
+      term,
+      profiles: [1],
+      limit: 1000,
+      t: changed
+    })
       .then(
-        r => dispatch(SearchActions.search.success(r)),
-        e => dispatch(SearchActions.search.failure(e))
+        r => {
+          setLoading(false);
+          setHits(r);
+        },
+        e => {
+          setLoading(false);
+          setError(e);
+        }
       )
-      .catch(e => dispatch(SearchActions.search.failure(e)));
-  }, [term]);
+      .catch(e => setError(e));
+  }, [term, changed]);
 
-  const setTerm = useCallback(
-    (term: string) => dispatch(SearchActions.setTerm(term)),
-    []
-  );
+  const setNewTerm = useCallback((term: string) => {
+    setTerm(term);
+    setChanged(Date.now());
+  }, []);
 
-  return { hits, error, term, setTerm, loading };
+  return { hits, error, term, setTerm: setNewTerm, loading };
 }
 
 export function UseSearch({
