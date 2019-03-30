@@ -7,7 +7,7 @@ import { UnitTypeActions } from '../state';
 import { dispatch, useGlobalState } from '../../../state';
 
 export default function UnitTypeOverviewScreen() {
-  const [{ selectedUnitTypeId }] = useGlobalState('unitType');
+  const [{ selectedUnitType }] = useGlobalState('unitType');
 
   const [unitTypes, setUnitTypes] = useState<Array<UnitType>>([]);
 
@@ -44,11 +44,13 @@ export default function UnitTypeOverviewScreen() {
               <tr
                 key={unitType.id}
                 onClick={() =>
-                  dispatch(UnitTypeActions.setSelectedUnitTypeId(unitType.id))
+                  dispatch(UnitTypeActions.setSelectedUnitType(unitType))
                 }
                 style={{
                   backgroundColor:
-                    unitType.id === selectedUnitTypeId ? 'lightgreen' : ''
+                    selectedUnitType && unitType.id === selectedUnitType.id
+                      ? 'lightgreen'
+                      : ''
                 }}
               >
                 <th scope="row">{unitType.id}</th>

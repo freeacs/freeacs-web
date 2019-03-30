@@ -1,12 +1,13 @@
 import { ActionType, createStandardAction, getType } from 'typesafe-actions';
 import { RootActions } from '../../../state';
+import { UnitType } from '../../../shared/models';
 
 type UnitTypeState = {
-  selectedUnitTypeId?: number;
+  selectedUnitType?: UnitType;
 };
 
 const initialState: UnitTypeState = {
-  selectedUnitTypeId: undefined
+  selectedUnitType: undefined
 };
 
 export function unitTypeReducer(
@@ -14,10 +15,10 @@ export function unitTypeReducer(
   action: RootActions
 ) {
   switch (action.type) {
-    case getType(UnitTypeActions.setSelectedUnitTypeId):
+    case getType(UnitTypeActions.setSelectedUnitType):
       return {
         ...state,
-        selectedUnitTypeId: action.payload
+        selectedUnitType: action.payload
       };
     default:
       return state;
@@ -25,8 +26,8 @@ export function unitTypeReducer(
 }
 
 export const UnitTypeActions = {
-  setSelectedUnitTypeId: createStandardAction('SET_SELECTED_UNIT_TYPE_ID')<
-    number
+  setSelectedUnitType: createStandardAction('SET_SELECTED_UNIT_TYPE_ID')<
+    UnitType
   >()
 };
 

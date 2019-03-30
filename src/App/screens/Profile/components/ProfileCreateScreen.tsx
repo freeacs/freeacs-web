@@ -29,7 +29,7 @@ const reducer = (state: State, action: Action) => {
 };
 
 export default function ProfileCreateScreen() {
-  const [{ selectedUnitTypeId }] = useGlobalState('unitType');
+  const [{ selectedUnitType }] = useGlobalState('unitType');
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -49,7 +49,7 @@ export default function ProfileCreateScreen() {
       setFeedback(undefined);
       ApiCall('POST', '/rest/profile', {
         ...state,
-        unitType: { id: selectedUnitTypeId }
+        unitType: { id: selectedUnitType && selectedUnitType.id }
       }).then(
         () => {
           setFeedback('Successfully created profile');

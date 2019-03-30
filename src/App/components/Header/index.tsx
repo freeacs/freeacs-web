@@ -19,7 +19,8 @@ import { withRouter } from 'react-router-dom';
 import { useGlobalState } from '../../state';
 
 function Header(props: RouteComponentProps) {
-  const [{ selectedUnitTypeId }] = useGlobalState('unitType');
+  const [{ selectedUnitType }] = useGlobalState('unitType');
+  const [{ selectedProfile }] = useGlobalState('profile');
 
   const [menuCollapsed, setMenuCollapsed] = useState(true);
 
@@ -71,7 +72,7 @@ function Header(props: RouteComponentProps) {
             active={props.location.pathname.startsWith('/unittype')}
           >
             <DropdownToggle nav caret>
-              UnitType {selectedUnitTypeId && '(' + selectedUnitTypeId + ')'}
+              UnitType {selectedUnitType && '(' + selectedUnitType.name + ')'}
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem>
@@ -108,14 +109,14 @@ function Header(props: RouteComponentProps) {
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
-          {selectedUnitTypeId && (
+          {selectedUnitType && (
             <UncontrolledDropdown
               nav
               inNavbar
               active={props.location.pathname.startsWith('/profile')}
             >
               <DropdownToggle nav caret>
-                Profile
+                Profile {selectedProfile && '(' + selectedProfile.name + ')'}
               </DropdownToggle>
               <DropdownMenu right>
                 <DropdownItem>

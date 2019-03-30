@@ -3,14 +3,21 @@ import { useEffect, useState } from 'react';
 import ApiCall from '../../../shared/http/ApiCall';
 import { Profile } from '../../../shared/models';
 import { Table } from 'reactstrap';
+import { dispatch, useGlobalState } from '../../../state';
+import { ProfileActions } from '../state';
 
 export default function ProfileOverviewScreen() {
+  const [{ selectedUnitType }] = useGlobalState('unitType');
+  const [{ selectedProfile }] = useGlobalState('profile');
   const [profiles, setProfiles] = useState<Array<Profile>>([]);
   const [error, setError] = useState<string>();
 
   useEffect(() => {
     setError(undefined);
-    ApiCall('GET', '/rest/profile/byUnitTypeId/1').then(
+    ApiCall(
+      'GET',
+      '/rest/profile/byUnitTypeId/' + (selectedUnitType && selectedUnitType.id)
+    ).then(
       result => setProfiles(result),
       () => setError('Failed to load profiles')
     );
@@ -33,7 +40,18 @@ export default function ProfileOverviewScreen() {
         <tbody>
           {profiles.map(profile => {
             return (
-              <tr key={profile.id}>
+              <tr
+                key={profile.id}
+                onClick={() =>
+                  dispatch(ProfileActions.setSelectedProfile(profile))
+                }
+                style={{
+                  backgroundColor:
+                    selectedProfile && profile.id === selectedProfile.id
+                      ? 'lightgreen'
+                      : ''
+                }}
+              >
                 <th scope="row">{profile.id}</th>
                 <td>{profile.name}</td>
               </tr>

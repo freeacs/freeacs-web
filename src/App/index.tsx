@@ -26,7 +26,7 @@ function PageContainer() {
 }
 
 function AppRouter() {
-  const [{ selectedUnitTypeId }] = useGlobalState('unitType');
+  const [{ selectedUnitType }] = useGlobalState('unitType');
   return (
     <Suspense fallback={<Spinner />}>
       <Switch>
@@ -34,7 +34,7 @@ function AppRouter() {
         <SecuredRoute path="/search" component={SearchScreen} />
         <SecuredRoute path="/about-us" component={AboutScreen} />
         <SecuredRoute path="/unittype" component={UnitTypeScreen} />
-        {selectedUnitTypeId && (
+        {selectedUnitType && (
           <SecuredRoute path="/profile" component={ProfileScreen} />
         )}
         <Redirect from="/" to="/search" />
