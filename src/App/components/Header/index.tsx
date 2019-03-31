@@ -4,6 +4,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
+  Input,
   Nav,
   Navbar,
   NavbarBrand,
@@ -75,6 +76,16 @@ function Header(props: RouteComponentProps) {
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem>
+                <Input
+                  type="select"
+                  value={selectedUnitType && selectedUnitType.id.toString()}
+                >
+                  <option>Select unittype</option>
+                  <option value="1">Test 1</option>
+                  <option value="2">Test 2</option>
+                </Input>
+              </DropdownItem>
+              <DropdownItem>
                 <NavItem>
                   <NavLink
                     onClick={onClickNavLink}
@@ -119,6 +130,16 @@ function Header(props: RouteComponentProps) {
               </DropdownToggle>
               <DropdownMenu right>
                 <DropdownItem>
+                  <Input
+                    type="select"
+                    value={selectedProfile && selectedProfile.id.toString()}
+                  >
+                    <option>Select profile</option>
+                    <option value="1">Default 1</option>
+                    <option value="2">Default 2</option>
+                  </Input>
+                </DropdownItem>
+                <DropdownItem>
                   <NavItem>
                     <NavLink
                       onClick={onClickNavLink}
@@ -131,7 +152,7 @@ function Header(props: RouteComponentProps) {
                       tag={RRNavLink}
                       to="/profile"
                     >
-                      Profiles
+                      Overview
                     </NavLink>
                   </NavItem>
                 </DropdownItem>
