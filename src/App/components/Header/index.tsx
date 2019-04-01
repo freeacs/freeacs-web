@@ -71,16 +71,6 @@ function Header(props: RouteComponentProps) {
               Search
             </NavLink>
           </NavItem>
-          <NavItem>
-            <NavLink
-              onClick={onClickNavLink}
-              activeClassName="is-active"
-              tag={RRNavLink}
-              to="/about-us"
-            >
-              About
-            </NavLink>
-          </NavItem>
           <UncontrolledDropdown
             nav
             inNavbar
