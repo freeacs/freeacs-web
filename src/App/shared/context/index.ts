@@ -63,6 +63,16 @@ export function contextReducer(
         selectedUnit: action.payload,
         selectedProfile: action.payload.profile
       };
+    case getType(ContextActions.setLoadProfilesError):
+      return {
+        ...state,
+        loadProfilesError: action.payload
+      };
+    case getType(ContextActions.setLoadUnitTypesError):
+      return {
+        ...state,
+        loadUnitTypesError: action.payload
+      };
     default:
       return state;
   }
@@ -74,7 +84,12 @@ export const ContextActions = {
   setProfiles: createStandardAction('SET_PROFILES')<ProfileArray>(),
   setSelectedProfile: createStandardAction('SET_PROFILE_ID')<Profile>(),
   setUnit: createStandardAction('SET_UNIT_ID')<Unit>(),
-  setError: createStandardAction('SET_ERROR')<string | undefined>()
+  setLoadProfilesError: createStandardAction('SET_PROFILES_ERROR')<
+    string | undefined
+  >(),
+  setLoadUnitTypesError: createStandardAction('SET_UNIT_TYPES_ERROR')<
+    string | undefined
+  >()
 };
 
 export type ContextAction = ActionType<typeof ContextActions>;

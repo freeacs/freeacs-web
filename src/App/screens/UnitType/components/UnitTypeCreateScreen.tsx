@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
-import { useCallback, useEffect, useReducer, useState } from 'react';
+import { useCallback, useReducer } from 'react';
 import ApiCall from '../../../shared/http/ApiCall';
-import { loadUnitTypes } from '../../../shared/context/thunks';
-import { dispatch } from '../../../state';
+import { useLoadUnitTypes } from '../../../shared/context/hooks';
+import { useFeedback } from '../../../shared/feedback/hooks';
 
 type State = {
   protocol: 'TR069';
@@ -51,16 +51,8 @@ const reducer = (state: State, action: Action) => {
 
 export default function UnitTypeCreateScreen() {
   const [state, setState] = useReducer(reducer, initialState);
-
-  const [feedback, setFeedback] = useState<string>();
-
-  useEffect(() => {
-    if (!feedback) {
-      return;
-    }
-    const timer = setTimeout(() => setFeedback(undefined), 5000);
-    return () => clearTimeout(timer);
-  }, [feedback]);
+  const loadUnitTypes = useLoadUnitTypes();
+  const { feedback, setFeedback } = useFeedback();
 
   const onSubmit = useCallback(
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -70,9 +62,9 @@ export default function UnitTypeCreateScreen() {
         () => {
           setFeedback('Successfully created unittype');
           setState({ type: 'reset' });
-          loadUnitTypes(dispatch);
+          loadUnitTypes();
         },
-        e => {
+        () => {
           setFeedback('Failed to created unittype');
         }
       );

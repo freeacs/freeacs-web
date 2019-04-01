@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ComponentType } from 'react';
 import { Redirect, Route } from 'react-router';
 import Spinner from '../../shared/spinner';
-import { useAuth } from '../../shared/auth';
+import { useAuth } from '../../shared/auth/hooks';
 
 export default function SecuredRoute({
   path,

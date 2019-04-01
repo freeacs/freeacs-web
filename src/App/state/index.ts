@@ -1,7 +1,7 @@
 import { CreateReduxLikeStore, createStore } from 'react-hooks-global-state';
 import { reduxDevToolsExt } from 'react-hooks-global-state/dist/devtools';
-import { ContextAction, contextReducer } from '../shared/context/state';
-import { AuthAction, authReducer } from '../shared/auth/state';
+import { ContextAction, contextReducer } from '../shared/context';
+import { AuthAction, authReducer } from '../shared/auth';
 import { StateType } from 'typesafe-actions';
 import { combineReducers } from 'redux';
 

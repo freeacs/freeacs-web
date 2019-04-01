@@ -1,39 +1,31 @@
-import { useCallback, useEffect } from 'react';
-import { dispatch, useGlobalState } from '../../state';
-import { AuthActions } from './state';
-import * as jwtDecode from 'jwt-decode';
+import { RootActions } from '../../state';
+import { ActionType, createStandardAction, getType } from 'typesafe-actions';
 
-type Token = {
-  exp: number;
+type AuthState = {
+  loggedIn?: boolean;
 };
 
-export function useAuth() {
-  const [{ loggedIn }] = useGlobalState('auth');
+const initialState: AuthState = {
+  loggedIn: undefined
+};
 
-  const setLoggedIn = useCallback((loggedIn: boolean) => {
-    dispatch(AuthActions.setLoggedIn(loggedIn));
-  }, []);
-
-  useEffect(() => {
-    const tokenStr = localStorage.getItem('jwtToken');
-    if (tokenStr) {
-      // @ts-ignore
-      const token: Token = jwtDecode<Token>(tokenStr);
-      const date = Date.now() / 1000;
-      const validToken = token ? date < token.exp : false;
-      if (!loggedIn && validToken) {
-        setLoggedIn(validToken);
-      }
-      if (!validToken) {
-        localStorage.removeItem('jwtToken');
-      }
-    } else {
-      if (loggedIn || typeof loggedIn === 'undefined') {
-        setLoggedIn(false);
-      }
-      localStorage.removeItem('jwtToken');
-    }
-  }, [loggedIn]);
-
-  return { loggedIn, setLoggedIn };
+export function authReducer(
+  state: AuthState = initialState,
+  action: RootActions
+) {
+  switch (action.type) {
+    case getType(AuthActions.setLoggedIn):
+      return {
+        ...state,
+        loggedIn: action.payload
+      };
+    default:
+      return state;
+  }
 }
+
+export const AuthActions = {
+  setLoggedIn: createStandardAction('SET_LOGGED_IN')<boolean>()
+};
+
+export type AuthAction = ActionType<typeof AuthActions>;

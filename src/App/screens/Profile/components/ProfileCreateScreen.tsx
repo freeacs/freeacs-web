@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
-import { useCallback, useEffect, useReducer, useState } from 'react';
+import { useCallback, useReducer } from 'react';
 import ApiCall from '../../../shared/http/ApiCall';
-import { useGlobalState, dispatch } from '../../../state';
-import { loadProfiles } from '../../../shared/context/thunks';
+import { useGlobalState } from '../../../state';
+import { useLoadProfiles } from '../../../shared/context/hooks';
+import { useFeedback } from '../../../shared/feedback/hooks';
 
 type State = {
   name: string;
@@ -31,18 +32,9 @@ const reducer = (state: State, action: Action) => {
 
 export default function ProfileCreateScreen() {
   const [{ selectedUnitType }] = useGlobalState('context');
-
+  const loadProfiles = useLoadProfiles();
   const [state, setState] = useReducer(reducer, initialState);
-
-  const [feedback, setFeedback] = useState<string>();
-
-  useEffect(() => {
-    if (!feedback) {
-      return;
-    }
-    const timer = setTimeout(() => setFeedback(undefined), 5000);
-    return () => clearTimeout(timer);
-  }, [feedback]);
+  const { feedback, setFeedback } = useFeedback();
 
   const onSubmit = useCallback(
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -58,7 +50,7 @@ export default function ProfileCreateScreen() {
         () => {
           setFeedback('Successfully created profile');
           setState({ type: 'reset' });
-          loadProfiles(selectedUnitType.id, dispatch);
+          loadProfiles(selectedUnitType.id);
         },
         e => {
           setFeedback('Failed to created profile');

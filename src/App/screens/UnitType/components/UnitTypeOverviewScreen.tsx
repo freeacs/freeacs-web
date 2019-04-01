@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Table } from 'reactstrap';
 import { dispatch, useGlobalState } from '../../../state';
-import { ContextActions } from '../../../shared/context/state';
+import { ContextActions } from '../../../shared/context';
 
 export default function UnitTypeOverviewScreen() {
   const [{ selectedUnitType, unitTypes, loadUnitTypesError }] = useGlobalState(

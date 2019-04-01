@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { UnitArray } from '../../../shared/models';
-import { ContextActions } from '../../../shared/context/state';
+import { ContextActions } from '../../../shared/context';
 import { dispatch } from '../../../state';
 
 type Props = { hits: UnitArray };

@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react';
 import ApiCall from '../../../shared/http/ApiCall';
 import { Redirect } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import { useAuth } from '../../../shared/auth';
+import { useAuth } from '../../../shared/auth/hooks';
 
 function LoginScreen() {
   const [username, setUsername] = useState('');

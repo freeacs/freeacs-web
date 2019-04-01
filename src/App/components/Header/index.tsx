@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
-  Button,
   Collapse,
   DropdownItem,
   DropdownMenu,
@@ -18,25 +17,26 @@ import * as React from 'react';
 import './index.css';
 import { withRouter } from 'react-router-dom';
 import { useGlobalState, dispatch } from '../../state';
-import { ContextActions } from '../../shared/context/state';
-import { loadProfiles, loadUnitTypes } from '../../shared/context/thunks';
+import { ContextActions } from '../../shared/context';
+import { useLoadProfiles, useLoadUnitTypes } from '../../shared/context/hooks';
 
 function Header(props: RouteComponentProps) {
   const [
     { selectedUnitType, unitTypes, selectedProfile, profiles, selectedUnit }
   ] = useGlobalState('context');
-
+  const loadProfiles = useLoadProfiles();
+  const loadUnitTypes = useLoadUnitTypes();
   const [menuCollapsed, setMenuCollapsed] = useState(true);
 
   useEffect(() => {
-    loadUnitTypes(dispatch);
+    loadUnitTypes();
   }, []);
 
   useEffect(() => {
     if (!selectedUnitType) {
       return;
     }
-    loadProfiles(selectedUnitType.id, dispatch);
+    loadProfiles(selectedUnitType.id);
   }, [selectedUnitType]);
 
   const onToggleNavbar = useCallback(() => setMenuCollapsed(!menuCollapsed), [
