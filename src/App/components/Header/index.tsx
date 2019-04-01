@@ -146,71 +146,106 @@ function Header(props: RouteComponentProps) {
             </DropdownMenu>
           </UncontrolledDropdown>
           {selectedUnitType && (
-            <UncontrolledDropdown
-              nav
-              inNavbar
-              active={props.location.pathname.startsWith('/profile')}
-            >
-              <DropdownToggle nav caret>
-                Profile {selectedProfile && '(' + selectedProfile.name + ')'}
-              </DropdownToggle>
-              <DropdownMenu right>
-                <DropdownItem>
-                  <NavItem>
-                    <NavLink
-                      onClick={onClickNavLink}
-                      activeClassName={
-                        props.location.pathname === '/profile'
-                          ? 'is-active'
-                          : ''
-                      }
-                      active={props.location.pathname === '/profile'}
-                      tag={RRNavLink}
-                      to="/profile"
-                    >
-                      Overview
-                    </NavLink>
-                  </NavItem>
-                </DropdownItem>
-                <DropdownItem>
-                  <NavItem>
-                    <NavLink
-                      onClick={onClickNavLink}
-                      activeClassName={
-                        props.location.pathname === '/profile/create'
-                          ? 'is-active'
-                          : ''
-                      }
-                      active={props.location.pathname === '/profile/create'}
-                      tag={RRNavLink}
-                      to="/profile/create"
-                    >
-                      Create new profile
-                    </NavLink>
-                  </NavItem>
-                </DropdownItem>
-                {profiles.map(profile => {
-                  return (
+            <>
+              <UncontrolledDropdown
+                nav
+                inNavbar
+                active={props.location.pathname.startsWith('/profile')}
+              >
+                <DropdownToggle nav caret>
+                  Profile {selectedProfile && '(' + selectedProfile.name + ')'}
+                </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem>
+                    <NavItem>
+                      <NavLink
+                        onClick={onClickNavLink}
+                        activeClassName={
+                          props.location.pathname === '/profile'
+                            ? 'is-active'
+                            : ''
+                        }
+                        active={props.location.pathname === '/profile'}
+                        tag={RRNavLink}
+                        to="/profile"
+                      >
+                        Overview
+                      </NavLink>
+                    </NavItem>
+                  </DropdownItem>
+                  <DropdownItem>
+                    <NavItem>
+                      <NavLink
+                        onClick={onClickNavLink}
+                        activeClassName={
+                          props.location.pathname === '/profile/create'
+                            ? 'is-active'
+                            : ''
+                        }
+                        active={props.location.pathname === '/profile/create'}
+                        tag={RRNavLink}
+                        to="/profile/create"
+                      >
+                        Create new
+                      </NavLink>
+                    </NavItem>
+                  </DropdownItem>
+                  {profiles.map(profile => {
+                    return (
+                      <DropdownItem>
+                        <NavItem>
+                          <Button
+                            color={
+                              selectedProfile &&
+                              selectedProfile.id === profile.id
+                                ? 'success'
+                                : 'link'
+                            }
+                            onClick={() =>
+                              dispatch(
+                                ContextActions.setSelectedProfile(profile)
+                              )
+                            }
+                          >
+                            {profile.name}
+                          </Button>
+                        </NavItem>
+                      </DropdownItem>
+                    );
+                  })}
+                </DropdownMenu>
+              </UncontrolledDropdown>
+              {selectedProfile && (
+                <UncontrolledDropdown
+                  nav
+                  inNavbar
+                  active={props.location.pathname.startsWith('/unit')}
+                >
+                  <DropdownToggle nav caret>
+                    Unit
+                  </DropdownToggle>
+                  <DropdownMenu right>
                     <DropdownItem>
                       <NavItem>
-                        <Button
-                          color={
-                            selectedProfile && selectedProfile.id === profile.id
-                              ? 'success'
-                              : 'link'
+                        <NavLink
+                          onClick={onClickNavLink}
+                          activeClassName={
+                            props.location.pathname === '/unit/create'
+                              ? 'is-active'
+                              : ''
                           }
-                          onClick={() =>
-                            dispatch(ContextActions.setSelectedProfile(profile))
-                          }
+                          active={props.location.pathname === '/unit/create'}
+                          tag={RRNavLink}
+                          to="/unit/create"
                         >
-                          {profile.name}
-                        </Button>
+                          Create
+                        </NavLink>
                       </NavItem>
                     </DropdownItem>
-                  );
-                })}
-              </DropdownMenu>
-            </UncontrolledDropdown>
+                  </DropdownMenu>
+                </UncontrolledDropdown>
+              )}
+            </>
           )}
         </Nav>
       </Collapse>

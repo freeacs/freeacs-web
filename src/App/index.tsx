@@ -11,6 +11,7 @@ const SearchScreen = lazy(() => import('./screens/Search'));
 const AboutScreen = lazy(() => import('./screens/About'));
 const UnitTypeScreen = lazy(() => import('./screens/UnitType'));
 const ProfileScreen = lazy(() => import('./screens/Profile'));
+const UnitCreateScreen = lazy(() => import('./screens/Unit'));
 
 function PageContainer() {
   return (
@@ -35,7 +36,10 @@ function AppRouter() {
         <SecuredRoute path="/about-us" component={AboutScreen} />
         <SecuredRoute path="/unittype" component={UnitTypeScreen} />
         {selectedUnitType && (
-          <SecuredRoute path="/profile" component={ProfileScreen} />
+          <>
+            <SecuredRoute path="/profile" component={ProfileScreen} />
+            <SecuredRoute path="/unit" component={UnitCreateScreen} />
+          </>
         )}
         <Redirect from="/" to="/search" />
       </Switch>
