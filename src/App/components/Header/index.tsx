@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   Collapse,
   DropdownItem,
@@ -17,12 +17,35 @@ import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
 import * as React from 'react';
 import './index.css';
 import { withRouter } from 'react-router-dom';
-import { useGlobalState } from '../../state';
+import { useGlobalState, dispatch } from '../../state';
+import { ContextActions } from '../../shared/context/state';
+import ApiCall from '../../shared/http/ApiCall';
 
 function Header(props: RouteComponentProps) {
-  const [{ selectedUnitType, selectedProfile }] = useGlobalState('context');
+  const [
+    { selectedUnitType, unitTypes, selectedProfile, profiles }
+  ] = useGlobalState('context');
 
   const [menuCollapsed, setMenuCollapsed] = useState(true);
+
+  useEffect(() => {
+    dispatch(ContextActions.setError(undefined));
+    ApiCall('GET', '/rest/unittype').then(
+      result => dispatch(ContextActions.setUnitTypes(result)),
+      () => dispatch(ContextActions.setError('Failed to load unit types'))
+    );
+  }, []);
+
+  useEffect(() => {
+    dispatch(ContextActions.setError(undefined));
+    if (!selectedUnitType) {
+      return;
+    }
+    ApiCall('GET', '/rest/profile/byUnitTypeId/' + selectedUnitType.id).then(
+      result => dispatch(ContextActions.setProfiles(result)),
+      () => dispatch(ContextActions.setError('Failed to load profiles'))
+    );
+  }, [selectedUnitType]);
 
   const onToggleNavbar = useCallback(() => setMenuCollapsed(!menuCollapsed), [
     menuCollapsed
@@ -79,10 +102,25 @@ function Header(props: RouteComponentProps) {
                 <Input
                   type="select"
                   value={selectedUnitType && selectedUnitType.id.toString()}
+                  onChange={e => {
+                    const unitTypeToSelect = unitTypes.find(
+                      ut => ut.id === Number.parseInt(e.target.value, 10)
+                    );
+                    if (unitTypeToSelect) {
+                      return dispatch(
+                        ContextActions.setSelectedUnitType(unitTypeToSelect)
+                      );
+                    }
+                  }}
                 >
                   <option>Select unittype</option>
-                  <option value="1">Test 1</option>
-                  <option value="2">Test 2</option>
+                  {unitTypes.map(unitType => {
+                    return (
+                      <option key={unitType.id} value={unitType.id}>
+                        {unitType.name}
+                      </option>
+                    );
+                  })}
                 </Input>
               </DropdownItem>
               <DropdownItem>
@@ -133,10 +171,25 @@ function Header(props: RouteComponentProps) {
                   <Input
                     type="select"
                     value={selectedProfile && selectedProfile.id.toString()}
+                    onChange={e => {
+                      const profileToSelect = profiles.find(
+                        ut => ut.id === Number.parseInt(e.target.value, 10)
+                      );
+                      if (profileToSelect) {
+                        return dispatch(
+                          ContextActions.setSelectedProfile(profileToSelect)
+                        );
+                      }
+                    }}
                   >
                     <option>Select profile</option>
-                    <option value="1">Default 1</option>
-                    <option value="2">Default 2</option>
+                    {profiles.map(profile => {
+                      return (
+                        <option key={profile.id} value={profile.id}>
+                          {profile.name}
+                        </option>
+                      );
+                    })}
                   </Input>
                 </DropdownItem>
                 <DropdownItem>

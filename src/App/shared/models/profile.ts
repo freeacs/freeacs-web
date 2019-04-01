@@ -7,4 +7,6 @@ export const Profile = t.interface({
 
 export const ProfileArray = t.array(Profile);
 
+export type ProfileArray = t.TypeOf<typeof ProfileArray>;
+
 export type Profile = t.TypeOf<typeof Profile>;

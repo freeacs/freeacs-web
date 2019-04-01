@@ -10,4 +10,6 @@ export const UnitType = t.interface({
 
 export const UnitTypeArray = t.array(UnitType);
 
+export type UnitTypeArray = t.TypeOf<typeof UnitTypeArray>;
+
 export type UnitType = t.TypeOf<typeof UnitType>;

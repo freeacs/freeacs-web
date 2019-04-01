@@ -1,15 +1,23 @@
 import { ActionType, createStandardAction, getType } from 'typesafe-actions';
 import { RootActions } from '../../state';
-import { Profile, UnitType } from '../models';
+import { Profile, ProfileArray, UnitType, UnitTypeArray } from '../models';
 
 type ContextState = {
+  unitTypes: UnitTypeArray;
   selectedUnitType?: UnitType;
+  loadUnitTypesError?: string;
+  profiles: ProfileArray;
   selectedProfile?: Profile;
+  loadProfilesError?: string;
 };
 
 const initialState: ContextState = {
+  unitTypes: [],
   selectedUnitType: undefined,
-  selectedProfile: undefined
+  loadUnitTypesError: undefined,
+  profiles: [],
+  selectedProfile: undefined,
+  loadProfilesError: undefined
 };
 
 export function contextReducer(
@@ -20,12 +28,24 @@ export function contextReducer(
     case getType(ContextActions.setSelectedUnitType):
       return {
         ...state,
-        selectedUnitType: action.payload
+        selectedUnitType: action.payload,
+        selectedProfile: undefined,
+        profiles: []
+      };
+    case getType(ContextActions.setUnitTypes):
+      return {
+        ...state,
+        unitTypes: action.payload
       };
     case getType(ContextActions.setSelectedProfile):
       return {
         ...state,
         selectedProfile: action.payload
+      };
+    case getType(ContextActions.setProfiles):
+      return {
+        ...state,
+        profiles: action.payload
       };
     default:
       return state;
@@ -33,10 +53,15 @@ export function contextReducer(
 }
 
 export const ContextActions = {
-  setSelectedUnitType: createStandardAction('SET_SELECTED_UNITTYPE_ID')<
+  setUnitTypes: createStandardAction('SET_UNIT_TYPES')<UnitTypeArray>(),
+  setSelectedUnitType: createStandardAction('SET_SELECTED_UNIT_TYPE_ID')<
     UnitType
   >(),
-  setSelectedProfile: createStandardAction('SET_SELECTED_PROFILE_ID')<Profile>()
+  setProfiles: createStandardAction('SET_PROFILES')<ProfileArray>(),
+  setSelectedProfile: createStandardAction('SET_SELECTED_PROFILE_ID')<
+    Profile
+  >(),
+  setError: createStandardAction('SET_ERROR')<string | undefined>()
 };
 
 export type ContextAction = ActionType<typeof ContextActions>;

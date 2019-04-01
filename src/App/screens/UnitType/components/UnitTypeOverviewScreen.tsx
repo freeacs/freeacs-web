@@ -1,28 +1,15 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
-import ApiCall from '../../../shared/http/ApiCall';
-import { UnitType } from '../../../shared/models';
 import { Table } from 'reactstrap';
 import { dispatch, useGlobalState } from '../../../state';
 import { ContextActions } from '../../../shared/context/state';
 
 export default function UnitTypeOverviewScreen() {
-  const [{ selectedUnitType }] = useGlobalState('context');
+  const [{ selectedUnitType, unitTypes, loadUnitTypesError }] = useGlobalState(
+    'context'
+  );
 
-  const [unitTypes, setUnitTypes] = useState<Array<UnitType>>([]);
-
-  const [error, setError] = useState<string>();
-
-  useEffect(() => {
-    setError(undefined);
-    ApiCall('GET', '/rest/unittype').then(
-      result => setUnitTypes(result),
-      () => setError('Failed to load unit types')
-    );
-  }, []);
-
-  if (error) {
-    return <span color="red">{error}</span>;
+  if (loadUnitTypesError) {
+    return <span color="red">{loadUnitTypesError}</span>;
   }
 
   return (
