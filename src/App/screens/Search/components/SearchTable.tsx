@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { UnitArray } from '../../../shared/models';
+import { ContextActions } from '../../../shared/context/state';
+import { dispatch } from '../../../state';
 
 type Props = { hits: UnitArray };
 
@@ -18,7 +20,10 @@ export function SearchTable({ hits }: Props) {
         </thead>
         <tbody>
           {hits.map((hit, index) => (
-            <tr key={hit.unitId + index}>
+            <tr
+              key={hit.unitId + index}
+              onClick={() => dispatch(ContextActions.setUnit(hit))}
+            >
               <td scope="row">{hit.unitId}</td>
               <td>{hit.profile.name}</td>
               <td>{hit.unitType.name}</td>

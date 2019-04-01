@@ -23,7 +23,7 @@ import { loadProfiles, loadUnitTypes } from '../../shared/context/thunks';
 
 function Header(props: RouteComponentProps) {
   const [
-    { selectedUnitType, unitTypes, selectedProfile, profiles }
+    { selectedUnitType, unitTypes, selectedProfile, profiles, selectedUnit }
   ] = useGlobalState('context');
 
   const [menuCollapsed, setMenuCollapsed] = useState(true);
@@ -50,13 +50,13 @@ function Header(props: RouteComponentProps) {
   const onClickHome = useCallback(e => {
     e.preventDefault();
     e.stopPropagation();
-    return props.history.push('/');
+    return props.history.push('/search');
   }, []);
 
   return (
     <Navbar color="light" light expand="md">
       <NavbarToggler onClick={onToggleNavbar} />
-      <NavbarBrand onClick={onClickHome} href="/">
+      <NavbarBrand onClick={onClickHome} href="/search">
         FREEACS
       </NavbarBrand>
       <Collapse isOpen={!menuCollapsed} navbar>
@@ -114,21 +114,19 @@ function Header(props: RouteComponentProps) {
               </DropdownItem>
               {unitTypes.map(unitType => {
                 return (
-                  <DropdownItem>
+                  <DropdownItem key={unitType.id}>
                     <NavItem>
-                      <Button
-                        color={
+                      <NavLink
+                        active={
                           selectedUnitType &&
                           selectedUnitType.id === unitType.id
-                            ? 'success'
-                            : 'link'
                         }
                         onClick={() =>
                           dispatch(ContextActions.setSelectedUnitType(unitType))
                         }
                       >
                         {unitType.name}
-                      </Button>
+                      </NavLink>
                     </NavItem>
                   </DropdownItem>
                 );
@@ -182,14 +180,12 @@ function Header(props: RouteComponentProps) {
                   </DropdownItem>
                   {profiles.map(profile => {
                     return (
-                      <DropdownItem>
+                      <DropdownItem key={profile.id}>
                         <NavItem>
-                          <Button
-                            color={
+                          <NavLink
+                            active={
                               selectedProfile &&
                               selectedProfile.id === profile.id
-                                ? 'success'
-                                : 'link'
                             }
                             onClick={() =>
                               dispatch(
@@ -198,7 +194,7 @@ function Header(props: RouteComponentProps) {
                             }
                           >
                             {profile.name}
-                          </Button>
+                          </NavLink>
                         </NavItem>
                       </DropdownItem>
                     );
@@ -212,7 +208,7 @@ function Header(props: RouteComponentProps) {
                   active={props.location.pathname.startsWith('/unit')}
                 >
                   <DropdownToggle nav caret>
-                    Unit
+                    Unit {selectedUnit && '(' + selectedUnit.unitId + ')'}
                   </DropdownToggle>
                   <DropdownMenu right>
                     <DropdownItem>

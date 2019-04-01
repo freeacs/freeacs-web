@@ -1,6 +1,12 @@
 import { ActionType, createStandardAction, getType } from 'typesafe-actions';
 import { RootActions } from '../../state';
-import { Profile, ProfileArray, UnitType, UnitTypeArray } from '../models';
+import {
+  Profile,
+  ProfileArray,
+  Unit,
+  UnitType,
+  UnitTypeArray
+} from '../models';
 
 type ContextState = {
   unitTypes: UnitTypeArray;
@@ -9,6 +15,7 @@ type ContextState = {
   profiles: ProfileArray;
   selectedProfile?: Profile;
   loadProfilesError?: string;
+  selectedUnit?: Unit;
 };
 
 const initialState: ContextState = {
@@ -17,7 +24,8 @@ const initialState: ContextState = {
   loadUnitTypesError: undefined,
   profiles: [],
   selectedProfile: undefined,
-  loadProfilesError: undefined
+  loadProfilesError: undefined,
+  selectedUnit: undefined
 };
 
 export function contextReducer(
@@ -30,6 +38,7 @@ export function contextReducer(
         ...state,
         selectedUnitType: action.payload,
         selectedProfile: undefined,
+        selectedUnit: undefined,
         profiles: []
       };
     case getType(ContextActions.setUnitTypes):
@@ -40,12 +49,19 @@ export function contextReducer(
     case getType(ContextActions.setSelectedProfile):
       return {
         ...state,
-        selectedProfile: action.payload
+        selectedProfile: action.payload,
+        selectedUnit: undefined
       };
     case getType(ContextActions.setProfiles):
       return {
         ...state,
         profiles: action.payload
+      };
+    case getType(ContextActions.setUnit):
+      return {
+        ...state,
+        selectedUnit: action.payload,
+        selectedProfile: action.payload.profile
       };
     default:
       return state;
@@ -57,6 +73,7 @@ export const ContextActions = {
   setSelectedUnitType: createStandardAction('SET_UNIT_TYPE_ID')<UnitType>(),
   setProfiles: createStandardAction('SET_PROFILES')<ProfileArray>(),
   setSelectedProfile: createStandardAction('SET_PROFILE_ID')<Profile>(),
+  setUnit: createStandardAction('SET_UNIT_ID')<Unit>(),
   setError: createStandardAction('SET_ERROR')<string | undefined>()
 };
 
