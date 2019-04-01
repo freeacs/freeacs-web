@@ -18,11 +18,8 @@ import * as React from 'react';
 import './index.css';
 import { withRouter } from 'react-router-dom';
 import { useGlobalState, dispatch } from '../../state';
-import {
-  ContextActions,
-  loadProfiles,
-  loadUnitTypes
-} from '../../shared/context/state';
+import { ContextActions } from '../../shared/context/state';
+import { loadProfiles, loadUnitTypes } from '../../shared/context/thunks';
 
 function Header(props: RouteComponentProps) {
   const [

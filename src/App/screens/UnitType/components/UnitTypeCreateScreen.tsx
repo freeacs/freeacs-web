@@ -2,6 +2,8 @@ import * as React from 'react';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import { useCallback, useEffect, useReducer, useState } from 'react';
 import ApiCall from '../../../shared/http/ApiCall';
+import { loadUnitTypes } from '../../../shared/context/thunks';
+import { dispatch } from '../../../state';
 
 type State = {
   protocol: 'TR069';
@@ -48,7 +50,7 @@ const reducer = (state: State, action: Action) => {
 };
 
 export default function UnitTypeCreateScreen() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, setState] = useReducer(reducer, initialState);
 
   const [feedback, setFeedback] = useState<string>();
 
@@ -67,7 +69,8 @@ export default function UnitTypeCreateScreen() {
       ApiCall('POST', '/rest/unittype', state).then(
         () => {
           setFeedback('Successfully created unittype');
-          dispatch({ type: 'reset' });
+          setState({ type: 'reset' });
+          loadUnitTypes(dispatch);
         },
         e => {
           setFeedback('Failed to created unittype');
@@ -101,7 +104,7 @@ export default function UnitTypeCreateScreen() {
             id="name"
             placeholder=""
             value={state.name}
-            onChange={e => dispatch({ type: 'setName', name: e.target.value })}
+            onChange={e => setState({ type: 'setName', name: e.target.value })}
           />
         </FormGroup>
         <FormGroup>
@@ -113,7 +116,7 @@ export default function UnitTypeCreateScreen() {
             placeholder=""
             value={state.vendor}
             onChange={e =>
-              dispatch({ type: 'setVendor', vendor: e.target.value })
+              setState({ type: 'setVendor', vendor: e.target.value })
             }
           />
         </FormGroup>
@@ -126,7 +129,7 @@ export default function UnitTypeCreateScreen() {
             placeholder=""
             value={state.description}
             onChange={e =>
-              dispatch({ type: 'setDescription', description: e.target.value })
+              setState({ type: 'setDescription', description: e.target.value })
             }
           />
         </FormGroup>
