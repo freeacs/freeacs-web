@@ -1,20 +1,10 @@
 import * as React from 'react';
-import { useGlobalState, dispatch } from '../../../state';
-import { useCallback } from 'react';
-import { AboutActions } from '../state';
 
 function AboutScreen() {
-  const [{ name }] = useGlobalState('about');
-  const onClick = useCallback(() => {
-    dispatch(AboutActions.setName('Random'));
-  }, []);
   return (
     <div>
-      <h2>About Page</h2>
-      <p>{name} is a TR-069 provisioning stack.</p>
-      <p>
-        <button onClick={onClick}>Change name</button>
-      </p>
+      <h2>About</h2>
+      <p>FreeACS is a TR069 provisioning stack.</p>
     </div>
   );
 }

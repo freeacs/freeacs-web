@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
 import {
+  Button,
   Collapse,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
-  Input,
   Nav,
   Navbar,
   NavbarBrand,
@@ -91,31 +91,6 @@ function Header(props: RouteComponentProps) {
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem>
-                <Input
-                  type="select"
-                  value={selectedUnitType && selectedUnitType.id.toString()}
-                  onChange={e => {
-                    const unitTypeToSelect = unitTypes.find(
-                      ut => ut.id === Number.parseInt(e.target.value, 10)
-                    );
-                    if (unitTypeToSelect) {
-                      return dispatch(
-                        ContextActions.setSelectedUnitType(unitTypeToSelect)
-                      );
-                    }
-                  }}
-                >
-                  <option>Select unittype</option>
-                  {unitTypes.map(unitType => {
-                    return (
-                      <option key={unitType.id} value={unitType.id}>
-                        {unitType.name}
-                      </option>
-                    );
-                  })}
-                </Input>
-              </DropdownItem>
-              <DropdownItem>
                 <NavItem>
                   <NavLink
                     onClick={onClickNavLink}
@@ -143,10 +118,31 @@ function Header(props: RouteComponentProps) {
                     tag={RRNavLink}
                     to="/unittype/create"
                   >
-                    Create new unittype
+                    Create new
                   </NavLink>
                 </NavItem>
               </DropdownItem>
+              {unitTypes.map(unitType => {
+                return (
+                  <DropdownItem>
+                    <NavItem>
+                      <Button
+                        color={
+                          selectedUnitType &&
+                          selectedUnitType.id === unitType.id
+                            ? 'success'
+                            : 'link'
+                        }
+                        onClick={() =>
+                          dispatch(ContextActions.setSelectedUnitType(unitType))
+                        }
+                      >
+                        {unitType.name}
+                      </Button>
+                    </NavItem>
+                  </DropdownItem>
+                );
+              })}
             </DropdownMenu>
           </UncontrolledDropdown>
           {selectedUnitType && (
@@ -159,31 +155,6 @@ function Header(props: RouteComponentProps) {
                 Profile {selectedProfile && '(' + selectedProfile.name + ')'}
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem>
-                  <Input
-                    type="select"
-                    value={selectedProfile && selectedProfile.id.toString()}
-                    onChange={e => {
-                      const profileToSelect = profiles.find(
-                        ut => ut.id === Number.parseInt(e.target.value, 10)
-                      );
-                      if (profileToSelect) {
-                        return dispatch(
-                          ContextActions.setSelectedProfile(profileToSelect)
-                        );
-                      }
-                    }}
-                  >
-                    <option>Select profile</option>
-                    {profiles.map(profile => {
-                      return (
-                        <option key={profile.id} value={profile.id}>
-                          {profile.name}
-                        </option>
-                      );
-                    })}
-                  </Input>
-                </DropdownItem>
                 <DropdownItem>
                   <NavItem>
                     <NavLink
@@ -218,6 +189,26 @@ function Header(props: RouteComponentProps) {
                     </NavLink>
                   </NavItem>
                 </DropdownItem>
+                {profiles.map(profile => {
+                  return (
+                    <DropdownItem>
+                      <NavItem>
+                        <Button
+                          color={
+                            selectedProfile && selectedProfile.id === profile.id
+                              ? 'success'
+                              : 'link'
+                          }
+                          onClick={() =>
+                            dispatch(ContextActions.setSelectedProfile(profile))
+                          }
+                        >
+                          {profile.name}
+                        </Button>
+                      </NavItem>
+                    </DropdownItem>
+                  );
+                })}
               </DropdownMenu>
             </UncontrolledDropdown>
           )}

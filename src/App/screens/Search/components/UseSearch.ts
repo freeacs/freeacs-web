@@ -3,6 +3,7 @@ import { Errors } from 'io-ts';
 import { useCallback, useEffect, useState } from 'react';
 import ApiCall from '../../../shared/http/ApiCall';
 import * as React from 'react';
+import { useGlobalState } from '../../../state';
 
 type UseSearchProps = {
   hits: UnitArray;
@@ -18,6 +19,9 @@ export function useSearch(): UseSearchProps {
   const [loading, setLoading] = useState(false);
   const [term, setTerm] = useState<string>();
   const [changed, setChanged] = useState<number>();
+  const [
+    { selectedUnitType, selectedProfile, unitTypes, profiles }
+  ] = useGlobalState('context');
 
   useEffect(() => {
     if (typeof term === 'undefined') {
@@ -28,7 +32,11 @@ export function useSearch(): UseSearchProps {
     setHits([]);
     ApiCall('GET', '/rest/unit/search', {
       term,
-      profiles: [1],
+      profiles: selectedUnitType
+        ? selectedProfile
+          ? [selectedProfile.id]
+          : selectedUnitType.profiles.map(p => p.id)
+        : unitTypes.flatMap(ut => ut.profiles.map(p => p.id)),
       limit: 1000,
       t: changed
     })

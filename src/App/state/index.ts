@@ -1,24 +1,18 @@
 import { CreateReduxLikeStore, createStore } from 'react-hooks-global-state';
 import { reduxDevToolsExt } from 'react-hooks-global-state/dist/devtools';
-import { AboutAction, aboutReducer } from '../screens/About/state';
 import { ContextAction, contextReducer } from '../shared/context/state';
 import { AuthAction, authReducer } from '../shared/auth/state';
 import { StateType } from 'typesafe-actions';
 import { combineReducers } from 'redux';
 
 const reducerMap = {
-  about: aboutReducer,
   auth: authReducer,
   context: contextReducer
 };
 
 export type RootState = StateType<typeof reducerMap>;
 
-export type RootActions =
-  | AboutAction
-  | AuthAction
-  | ContextAction
-  | { type: undefined };
+export type RootActions = AuthAction | ContextAction | { type: undefined };
 
 const reducer = combineReducers<RootState, RootActions>(reducerMap);
 

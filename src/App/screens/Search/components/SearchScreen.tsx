@@ -26,7 +26,7 @@ export default function SearchScreen() {
 
   return (
     <div>
-      <h2>Search Page</h2>
+      <h2>Search</h2>
       <p>Here you can search for units</p>
       <Form inline>
         <FormGroup>
