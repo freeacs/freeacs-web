@@ -18,8 +18,11 @@ import * as React from 'react';
 import './index.css';
 import { withRouter } from 'react-router-dom';
 import { useGlobalState, dispatch } from '../../state';
-import { ContextActions } from '../../shared/context/state';
-import ApiCall from '../../shared/http/ApiCall';
+import {
+  ContextActions,
+  loadProfiles,
+  loadUnitTypes
+} from '../../shared/context/state';
 
 function Header(props: RouteComponentProps) {
   const [
@@ -29,22 +32,14 @@ function Header(props: RouteComponentProps) {
   const [menuCollapsed, setMenuCollapsed] = useState(true);
 
   useEffect(() => {
-    dispatch(ContextActions.setError(undefined));
-    ApiCall('GET', '/rest/unittype').then(
-      result => dispatch(ContextActions.setUnitTypes(result)),
-      () => dispatch(ContextActions.setError('Failed to load unit types'))
-    );
+    loadUnitTypes(dispatch);
   }, []);
 
   useEffect(() => {
-    dispatch(ContextActions.setError(undefined));
     if (!selectedUnitType) {
       return;
     }
-    ApiCall('GET', '/rest/profile/byUnitTypeId/' + selectedUnitType.id).then(
-      result => dispatch(ContextActions.setProfiles(result)),
-      () => dispatch(ContextActions.setError('Failed to load profiles'))
-    );
+    loadProfiles(selectedUnitType.id, dispatch);
   }, [selectedUnitType]);
 
   const onToggleNavbar = useCallback(() => setMenuCollapsed(!menuCollapsed), [

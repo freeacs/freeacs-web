@@ -1,6 +1,8 @@
 import { ActionType, createStandardAction, getType } from 'typesafe-actions';
-import { RootActions } from '../../state';
+import { dispatch, RootActions } from '../../state';
 import { Profile, ProfileArray, UnitType, UnitTypeArray } from '../models';
+import ApiCall from '../http/ApiCall';
+import { Dispatch } from 'react-hooks-global-state';
 
 type ContextState = {
   unitTypes: UnitTypeArray;
@@ -54,14 +56,29 @@ export function contextReducer(
 
 export const ContextActions = {
   setUnitTypes: createStandardAction('SET_UNIT_TYPES')<UnitTypeArray>(),
-  setSelectedUnitType: createStandardAction('SET_SELECTED_UNIT_TYPE_ID')<
-    UnitType
-  >(),
+  setSelectedUnitType: createStandardAction('SET_UNIT_TYPE_ID')<UnitType>(),
   setProfiles: createStandardAction('SET_PROFILES')<ProfileArray>(),
-  setSelectedProfile: createStandardAction('SET_SELECTED_PROFILE_ID')<
-    Profile
-  >(),
+  setSelectedProfile: createStandardAction('SET_PROFILE_ID')<Profile>(),
   setError: createStandardAction('SET_ERROR')<string | undefined>()
 };
+
+export function loadUnitTypes(dispatch: Dispatch<RootActions>) {
+  dispatch(ContextActions.setError(undefined));
+  ApiCall('GET', '/rest/unittype').then(
+    result => dispatch(ContextActions.setUnitTypes(result)),
+    () => dispatch(ContextActions.setError('Failed to load unit types'))
+  );
+}
+
+export function loadProfiles(
+  unitTypeId: number,
+  dispatch: Dispatch<RootActions>
+) {
+  dispatch(ContextActions.setError(undefined));
+  ApiCall('GET', '/rest/profile/byUnitTypeId/' + unitTypeId).then(
+    result => dispatch(ContextActions.setProfiles(result)),
+    () => dispatch(ContextActions.setError('Failed to load profiles'))
+  );
+}
 
 export type ContextAction = ActionType<typeof ContextActions>;
