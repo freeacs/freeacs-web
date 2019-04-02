@@ -16,16 +16,20 @@ import { NavLink as RRNavLink, RouteComponentProps } from 'react-router-dom';
 import * as React from 'react';
 import './index.css';
 import { withRouter } from 'react-router-dom';
-import { useGlobalState, dispatch } from '../../state';
-import { ContextActions } from '../../shared/context';
-import { useLoadProfiles, useLoadUnitTypes } from '../../shared/context/hooks';
+import {
+  useLoadProfiles,
+  useLoadUnitTypes,
+  useSelectProfile,
+  useSelectUnit,
+  useSelectUnitType
+} from '../../shared/context/hooks';
 
 function Header(props: RouteComponentProps) {
-  const [
-    { selectedUnitType, unitTypes, selectedProfile, profiles, selectedUnit }
-  ] = useGlobalState('context');
-  const loadProfiles = useLoadProfiles();
-  const loadUnitTypes = useLoadUnitTypes();
+  const { selectedUnit } = useSelectUnit();
+  const { selectedProfile, setSelectedProfile } = useSelectProfile();
+  const { selectedUnitType, setSelectedUnitType } = useSelectUnitType();
+  const { loadProfiles, profiles } = useLoadProfiles();
+  const { loadUnitTypes, unitTypes } = useLoadUnitTypes();
   const [menuCollapsed, setMenuCollapsed] = useState(true);
 
   useEffect(() => {
@@ -121,9 +125,7 @@ function Header(props: RouteComponentProps) {
                           selectedUnitType &&
                           selectedUnitType.id === unitType.id
                         }
-                        onClick={() =>
-                          dispatch(ContextActions.setSelectedUnitType(unitType))
-                        }
+                        onClick={() => setSelectedUnitType(unitType)}
                       >
                         {unitType.name}
                       </NavLink>
@@ -187,11 +189,7 @@ function Header(props: RouteComponentProps) {
                               selectedProfile &&
                               selectedProfile.id === profile.id
                             }
-                            onClick={() =>
-                              dispatch(
-                                ContextActions.setSelectedProfile(profile)
-                              )
-                            }
+                            onClick={() => setSelectedProfile(profile)}
                           >
                             {profile.name}
                           </NavLink>

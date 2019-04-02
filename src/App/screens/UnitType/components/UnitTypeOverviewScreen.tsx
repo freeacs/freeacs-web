@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { Table } from 'reactstrap';
-import { dispatch, useGlobalState } from '../../../state';
-import { ContextActions } from '../../../shared/context';
+import {
+  useLoadUnitTypes,
+  useSelectUnitType
+} from '../../../shared/context/hooks';
 
 export default function UnitTypeOverviewScreen() {
-  const [{ selectedUnitType, unitTypes, loadUnitTypesError }] = useGlobalState(
-    'context'
-  );
+  const { selectedUnitType, setSelectedUnitType } = useSelectUnitType();
+  const { unitTypes, loadUnitTypesError } = useLoadUnitTypes();
 
   if (loadUnitTypesError) {
     return <span color="red">{loadUnitTypesError}</span>;
@@ -30,9 +31,7 @@ export default function UnitTypeOverviewScreen() {
             return (
               <tr
                 key={unitType.id}
-                onClick={() =>
-                  dispatch(ContextActions.setSelectedUnitType(unitType))
-                }
+                onClick={() => setSelectedUnitType(unitType)}
                 style={{
                   backgroundColor:
                     selectedUnitType && unitType.id === selectedUnitType.id

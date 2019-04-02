@@ -1,10 +1,11 @@
 import { dispatch, useGlobalState } from '../../state';
 import ApiCall from '../http/ApiCall';
 import { ContextActions } from '.';
+import { Profile, Unit, UnitType } from '../models';
 
 export function useLoadUnitTypes() {
-  const [{ loadUnitTypesError }] = useGlobalState('context');
-  return () => {
+  const [{ loadUnitTypesError, unitTypes }] = useGlobalState('context');
+  const loadUnitTypes = () => {
     if (loadUnitTypesError) {
       dispatch(ContextActions.setLoadUnitTypesError(undefined));
     }
@@ -16,11 +17,20 @@ export function useLoadUnitTypes() {
         )
     );
   };
+  return { loadUnitTypes, unitTypes, loadUnitTypesError };
+}
+
+export function useSelectUnitType() {
+  const [{ selectedUnitType }] = useGlobalState('context');
+  const setSelectedUnitType = (unitType: UnitType) => {
+    dispatch(ContextActions.setSelectedUnitType(unitType));
+  };
+  return { selectedUnitType, setSelectedUnitType };
 }
 
 export function useLoadProfiles() {
-  const [{ loadProfilesError }] = useGlobalState('context');
-  return (unitTypeId: number) => {
+  const [{ loadProfilesError, profiles }] = useGlobalState('context');
+  const loadProfiles = (unitTypeId: number) => {
     if (loadProfilesError) {
       dispatch(ContextActions.setLoadProfilesError(undefined));
     }
@@ -30,4 +40,21 @@ export function useLoadProfiles() {
         dispatch(ContextActions.setLoadProfilesError('Failed to load profiles'))
     );
   };
+  return { loadProfiles, profiles, loadProfilesError };
+}
+
+export function useSelectProfile() {
+  const [{ selectedProfile }] = useGlobalState('context');
+  const setSelectedProfile = (profile: Profile) => {
+    dispatch(ContextActions.setSelectedProfile(profile));
+  };
+  return { setSelectedProfile, selectedProfile };
+}
+
+export function useSelectUnit() {
+  const [{ selectedUnit }] = useGlobalState('context');
+  const setSelectedUnit = (unit: Unit) => {
+    dispatch(ContextActions.setSelectedUnit(unit));
+  };
+  return { setSelectedUnit, selectedUnit };
 }

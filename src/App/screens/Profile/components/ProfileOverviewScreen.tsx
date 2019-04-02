@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { Table } from 'reactstrap';
-import { dispatch, useGlobalState } from '../../../state';
-import { ContextActions } from '../../../shared/context';
+import {
+  useLoadProfiles,
+  useSelectProfile
+} from '../../../shared/context/hooks';
 
 export default function ProfileOverviewScreen() {
-  const [{ selectedProfile, profiles, loadProfilesError }] = useGlobalState(
-    'context'
-  );
+  const { selectedProfile, setSelectedProfile } = useSelectProfile();
+  const { profiles, loadProfilesError } = useLoadProfiles();
 
   if (loadProfilesError) {
     return <span color="red">{loadProfilesError}</span>;
@@ -27,9 +28,7 @@ export default function ProfileOverviewScreen() {
             return (
               <tr
                 key={profile.id}
-                onClick={() =>
-                  dispatch(ContextActions.setSelectedProfile(profile))
-                }
+                onClick={() => setSelectedProfile(profile)}
                 style={{
                   backgroundColor:
                     selectedProfile && profile.id === selectedProfile.id

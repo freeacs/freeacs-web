@@ -32,7 +32,7 @@ const reducer = (state: State, action: Action) => {
 
 export default function ProfileCreateScreen() {
   const [{ selectedUnitType }] = useGlobalState('context');
-  const loadProfiles = useLoadProfiles();
+  const { loadProfiles } = useLoadProfiles();
   const [state, setState] = useReducer(reducer, initialState);
   const { feedback, setFeedback } = useFeedback();
 

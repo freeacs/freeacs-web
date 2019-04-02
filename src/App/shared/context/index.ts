@@ -57,7 +57,7 @@ export function contextReducer(
         ...state,
         profiles: action.payload
       };
-    case getType(ContextActions.setUnit):
+    case getType(ContextActions.setSelectedUnit):
       return {
         ...state,
         selectedUnit: action.payload,
@@ -83,7 +83,7 @@ export const ContextActions = {
   setSelectedUnitType: createStandardAction('SET_UNIT_TYPE_ID')<UnitType>(),
   setProfiles: createStandardAction('SET_PROFILES')<ProfileArray>(),
   setSelectedProfile: createStandardAction('SET_PROFILE_ID')<Profile>(),
-  setUnit: createStandardAction('SET_UNIT_ID')<Unit>(),
+  setSelectedUnit: createStandardAction('SET_UNIT_ID')<Unit>(),
   setLoadProfilesError: createStandardAction('SET_PROFILES_ERROR')<
     string | undefined
   >(),
