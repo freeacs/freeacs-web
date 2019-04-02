@@ -50,8 +50,8 @@ const reducer = (state: State, action: Action) => {
 };
 
 export default function UnitTypeCreateScreen() {
-  const [state, setState] = useReducer(reducer, initialState);
   const { loadUnitTypes } = useLoadUnitTypes();
+  const [state, setState] = useReducer(reducer, initialState);
   const { feedback, setFeedback } = useFeedback();
 
   const onSubmit = useCallback(

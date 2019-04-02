@@ -1,11 +1,14 @@
 import * as React from 'react';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
-import { useGlobalState } from '../../../state';
 import { useReducer } from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useCallback } from 'react';
 import ApiCall from '../../../shared/http/ApiCall';
+import {
+  useSelectProfile,
+  useSelectUnitType
+} from '../../../shared/context/hooks';
 
 type State = {
   unitId?: string;
@@ -32,10 +35,9 @@ const reducer = (state: State, action: Action) => {
 };
 
 export default function UnitCreateScreen() {
-  const [{ selectedUnitType, selectedProfile }] = useGlobalState('context');
-
+  const { selectedUnitType } = useSelectUnitType();
+  const { selectedProfile } = useSelectProfile();
   const [state, setState] = useReducer(reducer, initialState);
-
   const [feedback, setFeedback] = useState<string>();
 
   useEffect(() => {

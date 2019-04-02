@@ -2,8 +2,10 @@ import * as React from 'react';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import { useCallback, useReducer } from 'react';
 import ApiCall from '../../../shared/http/ApiCall';
-import { useGlobalState } from '../../../state';
-import { useLoadProfiles } from '../../../shared/context/hooks';
+import {
+  useLoadProfiles,
+  useSelectUnitType
+} from '../../../shared/context/hooks';
 import { useFeedback } from '../../../shared/feedback/hooks';
 
 type State = {
@@ -31,7 +33,7 @@ const reducer = (state: State, action: Action) => {
 };
 
 export default function ProfileCreateScreen() {
-  const [{ selectedUnitType }] = useGlobalState('context');
+  const { selectedUnitType } = useSelectUnitType();
   const { loadProfiles } = useLoadProfiles();
   const [state, setState] = useReducer(reducer, initialState);
   const { feedback, setFeedback } = useFeedback();
