@@ -10,12 +10,14 @@ interface State {
   user?: string;
 }
 
-export default new Vuex.Store({
-  state: {
+const initialState = {
     status: '',
     token: localStorage.getItem('token') || '',
     user : undefined,
-  },
+};
+
+export default new Vuex.Store({
+  state: initialState,
   mutations: {
     auth_request(state: State) {
       state.status = 'loading';
@@ -28,7 +30,7 @@ export default new Vuex.Store({
     auth_error(state: State) {
       state.status = 'error';
     },
-    logout(state) {
+    logout(state: State) {
       state.status = '';
       state.token = '';
     },
