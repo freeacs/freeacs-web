@@ -1,5 +1,11 @@
 # freeacs-web
 
+This project is used in conjunction with 
+https://github.com/freeacs/freeacs-data-api
+
+The development server in this project will proxy pass /rest to http://localhost:9000/rest, 
+so the above server must either be running locally or somewhere else (for the latter you must change vue.config.js).
+
 ## Project setup
 ```
 npm install
