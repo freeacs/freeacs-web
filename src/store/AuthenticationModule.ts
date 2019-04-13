@@ -1,0 +1,87 @@
+import {RootState} from '@/store/store';
+import {BareActionContext, getStoreBuilder} from 'vuex-typex';
+import axios from 'axios';
+
+interface UserDetails {
+    username: string;
+    password: string;
+}
+
+type AuthenticationStatus = 'error' | 'success' | 'loading' | undefined;
+
+export interface AuthenticationState {
+    status: AuthenticationStatus;
+    token?: string;
+    user?: string;
+}
+
+const initialState: AuthenticationState = {
+    status: undefined,
+    token: localStorage.getItem('token') || undefined,
+    user : undefined,
+};
+
+const builder = getStoreBuilder<RootState>().module('authentication', initialState);
+
+function setToken(state: AuthenticationState, token?: string) {
+    state.token = token;
+}
+
+function setUsername(state: AuthenticationState, username?: string) {
+    state.user = username;
+}
+
+function setStatus(state: AuthenticationState, status?: AuthenticationStatus) {
+    state.status = status;
+}
+
+async function doLogin(context: BareActionContext<AuthenticationState, RootState>, user: UserDetails) {
+    const response = await axios({url: '/rest/user/signin', data: user, method: 'POST'});
+    const token = response.data.token;
+    const username = response.data.username;
+    if (token && username) {
+        authentication.setStatus('success');
+        authentication.setToken(token);
+        authentication.setUsername(username);
+        localStorage.setItem('token', token);
+        axios.defaults.headers.common.Authorization = token;
+    } else {
+        authentication.setStatus('error');
+        authentication.setUsername(undefined);
+        authentication.setToken(undefined);
+        localStorage.removeItem('token');
+    }
+}
+
+async function doLogout() {
+    authentication.setStatus(undefined);
+    authentication.setUsername(undefined);
+    authentication.setToken(undefined);
+    localStorage.removeItem('token');
+    delete axios.defaults.headers.common.Authorization;
+}
+
+const isLoadingGetter = builder.read(function isLoading(state: AuthenticationState) {
+    return state.status === 'loading';
+});
+
+const isErrorGetter = builder.read(function isError(state: AuthenticationState) {
+    return state.status === 'error';
+});
+
+const isLoggedInGetter = builder.read(function isLoggedIn(state: AuthenticationState) {
+    return !!state.token;
+});
+
+const authentication = {
+    get isLoading() { return isLoadingGetter(); },
+    get isError() { return isErrorGetter(); },
+    get isLoggedIn() { return isLoggedInGetter(); },
+    setToken: builder.commit(setToken),
+    setUsername: builder.commit(setUsername),
+    setStatus: builder.commit(setStatus),
+    doLogin: builder.dispatch(doLogin),
+    doLogout: builder.dispatch(doLogout),
+};
+
+export default authentication;

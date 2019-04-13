@@ -3,7 +3,7 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
-      <a v-if="isLoggedIn" @click="logout">Logout</a>
+      <a v-if="isLoggedIn" @click="logout" href="#">Logout</a>
       <router-link v-else to="/login">Login</router-link>
     </div>
     <router-view/>
@@ -11,15 +11,17 @@
 </template>
 
 <script>
+import authentication from './store/AuthenticationModule';
+
 export default {
   computed: {
     isLoggedIn() {
-      return this.$store.getters.isLoggedIn;
+      return authentication.isLoggedIn;
     },
   },
   methods: {
     logout() {
-      this.$store.dispatch('logout')
+      authentication.doLogout()
         .then(() => {
           this.$router.push('/login');
         });
