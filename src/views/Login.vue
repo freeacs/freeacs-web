@@ -6,20 +6,25 @@
                 <input type="password" placeholder="password" v-model="password"/>
                 <button @click="doLogin" :disabled=isLoading>login</button>
             </form>
-            <span v-if="isError" style="color: red">Failed to log in</span>
+            <span v-if="isError || isFailure" style="color: red">Failed to log in</span>
         </div>
     </div>
 </template>
 
 <script>
+import authentication from '../store/AuthenticationModule';
+
 export default  {
     computed: {
         isLoading() {
-            return this.$store.getters.isLoading;
+            return authentication.isLoading;
         },
         isError() {
-            return this.$store.getters.isError;
+            return authentication.isError;
         },
+        isFailure() {
+            return this.error;
+        }
     },
     data() {
         return {
@@ -32,9 +37,9 @@ export default  {
         doLogin() {
             const username = this.username;
             const password = this.password;
-            this.$store.dispatch('login', { username, password })
+            authentication.doLogin({ username, password })
                 .then(() => this.$router.push('/'))
-                .catch((err) => this.error = 'An error occurred while trying to log in');
+                .catch(() => this.error = 'An error occurred while trying to log in');
         },
     },
 };
