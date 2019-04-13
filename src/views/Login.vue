@@ -4,46 +4,14 @@
             <form class="login-form" v-on:submit.prevent>
                 <input type="text" placeholder="username" v-model="username"/>
                 <input type="password" placeholder="password" v-model="password"/>
-                <button @click="doLogin" :disabled=isLoading>login</button>
+                <button @click="submitLogin" :disabled=loginLoading>login</button>
             </form>
-            <span v-if="isError || isFailure" style="color: red">Failed to log in</span>
+            <span v-if="loginFailed" style="color: red">Failed to log in</span>
         </div>
     </div>
 </template>
 
-<script>
-import authentication from '../store/AuthenticationModule';
-
-export default  {
-    computed: {
-        isLoading() {
-            return authentication.isLoading;
-        },
-        isError() {
-            return authentication.isError;
-        },
-        isFailure() {
-            return this.error;
-        }
-    },
-    data() {
-        return {
-            username: '',
-            password: '',
-            error: undefined,
-        };
-    },
-    methods: {
-        doLogin() {
-            const username = this.username;
-            const password = this.password;
-            authentication.doLogin({ username, password })
-                .then(() => this.$router.push('/'))
-                .catch(() => this.error = 'An error occurred while trying to log in');
-        },
-    },
-};
-</script>
+<script src="./Login.ts"></script>
 
 <style scoped>
     .login-page {
@@ -82,8 +50,6 @@ export default  {
         padding: 15px;
         color: #FFFFFF;
         font-size: 14px;
-        -webkit-transition: all 0.3 ease;
-        transition: all 0.3 ease;
         cursor: pointer;
     }
     .form button:hover,.form button:active,.form button:focus {

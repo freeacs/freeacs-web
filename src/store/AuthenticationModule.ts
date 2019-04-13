@@ -7,10 +7,10 @@ interface UserDetails {
     password: string;
 }
 
-type AuthenticationStatus = 'error' | 'success' | 'loading' | undefined;
+type AuthenticationStatus = 'error' | 'success' | 'loading';
 
 export interface AuthenticationState {
-    status: AuthenticationStatus;
+    status?: AuthenticationStatus;
     token?: string;
     user?: string;
 }
@@ -35,30 +35,47 @@ function setStatus(state: AuthenticationState, status?: AuthenticationStatus) {
     state.status = status;
 }
 
-async function doLogin(context: BareActionContext<AuthenticationState, RootState>, user: UserDetails) {
-    const response = await axios({url: '/rest/user/signin', data: user, method: 'POST'});
-    const token = response.data.token;
-    const username = response.data.username;
-    if (token && username) {
-        authentication.setStatus('success');
-        authentication.setToken(token);
-        authentication.setUsername(username);
-        localStorage.setItem('token', token);
-        axios.defaults.headers.common.Authorization = token;
-    } else {
-        authentication.setStatus('error');
-        authentication.setUsername(undefined);
-        authentication.setToken(undefined);
-        localStorage.removeItem('token');
-    }
+function doLogin(context: BareActionContext<AuthenticationState, RootState>, user: UserDetails) {
+    return new Promise((resolve, reject) => {
+        axios({url: '/rest/user/signin', data: user, method: 'POST'})
+            .then(
+                (response) => {
+                    const token = response.data.token;
+                    const username = response.data.username;
+                    if (token && username) {
+                        setAuthentication('success', token, username);
+                        resolve();
+                    } else {
+                        clearAuthentication('error');
+                        reject();
+                    }
+                },
+                () => {
+                    clearAuthentication('error');
+                    reject();
+                },
+            );
+    });
 }
 
-async function doLogout() {
-    authentication.setStatus(undefined);
+function setAuthentication(status: AuthenticationStatus, token: string, username: string) {
+    authentication.setStatus('success');
+    authentication.setToken(token);
+    authentication.setUsername(username);
+    localStorage.setItem('token', token);
+    axios.defaults.headers.common.Authorization = token;
+}
+
+function clearAuthentication(status?: AuthenticationStatus) {
+    authentication.setStatus(status);
     authentication.setUsername(undefined);
     authentication.setToken(undefined);
     localStorage.removeItem('token');
     delete axios.defaults.headers.common.Authorization;
+}
+
+async function doLogout() {
+    clearAuthentication(undefined);
 }
 
 const isLoadingGetter = builder.read(function isLoading(state: AuthenticationState) {
