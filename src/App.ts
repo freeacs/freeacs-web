@@ -1,5 +1,4 @@
-import Vue from 'vue';
-import Component from 'vue-class-component';
+import { Component, Vue } from 'vue-property-decorator';
 import authentication from './store/AuthenticationModule';
 import axios from 'axios';
 

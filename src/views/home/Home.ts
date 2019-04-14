@@ -1,6 +1,5 @@
-import { Vue } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import axios from 'axios';
-import Component from 'vue-class-component';
 import HelloWorld from '@/components/HelloWorld.vue';
 
 @Component({
