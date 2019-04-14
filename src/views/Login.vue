@@ -1,6 +1,7 @@
 <template>
     <div class="login-page">
         <div class="form">
+            <center>Login in with admin/freeacs</center>
             <form class="login-form" v-on:submit.prevent>
                 <input type="text" placeholder="username" v-model="username"/>
                 <input type="password" placeholder="password" v-model="password"/>
