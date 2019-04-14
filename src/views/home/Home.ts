@@ -1,6 +1,7 @@
-import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+import { Vue } from 'vue-property-decorator';
 import axios from 'axios';
+import Component from 'vue-class-component';
+import HelloWorld from '@/components/HelloWorld.vue';
 
 @Component({
     components: {

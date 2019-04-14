@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/Home.vue';
 import authentication from '@/store/AuthenticationModule';
 
 Vue.use(Router);
@@ -12,7 +11,7 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      component: Home,
+      component: () => import('./views/home/Home.vue'),
       meta: {
         requiresAuth: true,
       },
@@ -20,12 +19,12 @@ const router = new Router({
     {
       path: '/about',
       name: 'about',
-      component: () => import('./views/About.vue'),
+      component: () => import('./views/about/About.vue'),
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import('./views/Login.vue'),
+      component: () => import('./views/login/Login.vue'),
     },
   ],
 });
