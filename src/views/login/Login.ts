@@ -1,9 +1,9 @@
-import authentication from '../store/AuthenticationModule';
+import authentication from '../../store/AuthenticationModule';
 import Vue from 'vue';
 import Component from 'vue-class-component';
 
 @Component
-export default class LoginComponent extends Vue {
+export default class Login extends Vue {
 
     username: string = '';
     password: string = '';
