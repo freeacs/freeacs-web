@@ -18,10 +18,9 @@ export default class AppComponent extends Vue {
     }
 
     created() {
-        const router = this.$router;
         axios.interceptors.response.use(undefined, async (err) => {
             if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-                authentication.doLogout().then(() => router.push('/login'));
+                authentication.doLogout().then(() => this.$router.push('/login'));
             }
             throw err;
         });

@@ -15,12 +15,10 @@ export default class Home extends Vue {
         axios({
             url: '/rest/unittype',
             method: 'GET',
-        }).then((res) => {
-            if (Array.isArray(res.data)) {
-                this.message = 'Successfully made an authorized request to backend!';
-            } else {
-                this.message = 'Something went wrong when making a request to backend';
-            }
+        }).then(() => {
+            this.message = 'Successfully made an authorized request to backend!';
+        }).catch(() => {
+            this.message = 'Something went wrong when making a request to backend';
         });
     }
 }
