@@ -65,7 +65,7 @@ function setAuthentication(status: AuthenticationStatus, token: string, username
     authentication.setToken(token);
     authentication.setUsername(username);
     localStorage.setItem('token', token);
-    axios.defaults.headers.common.Authorization = token;
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 }
 
 function clearAuthentication(status?: AuthenticationStatus) {
