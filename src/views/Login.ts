@@ -5,8 +5,8 @@ import Component from 'vue-class-component';
 @Component
 export default class LoginComponent extends Vue {
 
-    private username: string = '';
-    private password: string = '';
+    username: string = '';
+    password: string = '';
 
     get loginLoading() {
         return authentication.isLoading;
@@ -16,7 +16,7 @@ export default class LoginComponent extends Vue {
         return authentication.isError;
     }
 
-    public submitLogin() {
+    submitLogin() {
         const username = this.username;
         const password = this.password;
         authentication.doLogin({ username, password })
