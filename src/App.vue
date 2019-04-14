@@ -10,25 +10,7 @@
   </div>
 </template>
 
-<script>
-import authentication from './store/AuthenticationModule';
-
-export default {
-  computed: {
-    isLoggedIn() {
-      return authentication.isLoggedIn;
-    },
-  },
-  methods: {
-    logout() {
-      authentication.doLogout()
-        .then(() => {
-          this.$router.push('/login');
-        });
-    },
-  },
-};
-</script>
+<script src="./App.ts"></script>
 
 <style lang="less">
 #app {
