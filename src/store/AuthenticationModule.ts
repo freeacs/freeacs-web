@@ -2,6 +2,8 @@ import {RootState} from '@/store/store';
 import {BareActionContext, getStoreBuilder} from 'vuex-typex';
 import axios from 'axios';
 
+export const namespace = 'authentication';
+
 interface UserDetails {
     username: string;
     password: string;
@@ -21,7 +23,7 @@ const initialState: AuthenticationState = {
     user : undefined,
 };
 
-const builder = getStoreBuilder<RootState>().module('authentication', initialState);
+const builder = getStoreBuilder<RootState>().module(namespace, initialState);
 
 function setToken(state: AuthenticationState, token?: string) {
     state.token = token;
