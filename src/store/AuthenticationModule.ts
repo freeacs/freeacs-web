@@ -93,9 +93,9 @@ const isLoggedInGetter = builder.read(function isLoggedIn(state: AuthenticationS
 });
 
 const authentication = {
-    get isLoading() { return isLoadingGetter(); },
-    get isError() { return isErrorGetter(); },
-    get isLoggedIn() { return isLoggedInGetter(); },
+    get isLoading(): boolean { return isLoadingGetter(); },
+    get isError(): boolean { return isErrorGetter(); },
+    get isLoggedIn(): boolean { return isLoggedInGetter(); },
     setToken: builder.commit(setToken),
     setUsername: builder.commit(setUsername),
     setStatus: builder.commit(setStatus),
