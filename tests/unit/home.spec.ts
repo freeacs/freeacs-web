@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { mount } from '@vue/test-utils';
-import HomeView from '@/views/home/Home.vue';
+import HomeView from '@/views/Home.vue';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import HelloWorld from '@/components/HelloWorld.vue';
