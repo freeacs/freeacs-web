@@ -4,15 +4,12 @@
   </div>
 </template>
 
-<script>
-    export default {
-        props: {
-            msg: {
-                type: String,
-                required: true,
-            },
-        },
-    };
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator';
+@Component
+export default class Home extends Vue {
+    @Prop() msg!: string;
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
