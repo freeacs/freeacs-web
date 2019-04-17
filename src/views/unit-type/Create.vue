@@ -84,9 +84,6 @@
 </script>
 
 <style scoped>
-    .container {
-        width: 400px;
-    }
     .warning {
         color:orange;
     }
