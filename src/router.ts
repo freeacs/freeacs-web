@@ -19,7 +19,7 @@ const router = new Router({
     {
       path: '/unit-type/create',
       name: 'unit-type-create',
-      component: () => import('./views/UnitType/Create.vue'),
+      component: () => import('./views/unit-type/Create.vue'),
     },
     {
       path: '/about',

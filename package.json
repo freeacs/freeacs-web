@@ -10,13 +10,15 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "bootstrap": "^4.3.1",
+    "bootstrap-vue": "^2.0.0-rc.18",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.1.0",
     "vue-router": "^3.0.3",
+    "vuelidate": "latest",
     "vuex": "^3.0.1",
-    "vuex-typex": "^3.1.4",
-    "vuelidate": "latest"
+    "vuex-typex": "^3.1.4"
   },
   "devDependencies": {
     "@types/chai": "^4.1.0",

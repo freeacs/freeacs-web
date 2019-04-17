@@ -2,6 +2,7 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
+      <router-link to="/unit-type/create">Create Unit Type</router-link> |
       <router-link to="/about">About</router-link> |
       <a v-if="isLoggedIn" @click="logout" href="#">Logout</a>
       <router-link v-else to="/login">Login</router-link>
