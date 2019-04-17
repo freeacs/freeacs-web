@@ -1,39 +1,51 @@
 <template>
-    <div class="container">
+    <b-container>
         <h1>Create Unit Type</h1>
-        <form role="form" autocomplete="off" @submit.prevent="submitForm()">
-            <div class="form-group">
-                <label class="control-label" for="name">Name</label>
-                <input class="form-control"
-                       type="text"
-                       autocomplete="off"
-                       id="name"
-                       name="name"
-                       v-model="name">
-                <div class="help-block warning" v-if="!$v.name.required && dirty">
-                    Name is required
-                </div>
-                <span class="help-block warning" v-if="!$v.name.minLength && dirty">
-                    Name must have at least {{$v.name.$params.minLength.min}} letters.
-                </span>
-            </div>
-            <div class="form-group">
-                <label class="control-label" for="description">Description</label>
-                <textarea class="form-control" id="description" v-model="description"></textarea>
-            </div>
-            <div class="form-group">
-                <label class="control-label" for="vendor">Vendor</label>
-                <input class="form-control" type="text" autocomplete="off" id="vendor" v-model="vendor"/>
-            </div>
+        <b-form role="form" autocomplete="off" @submit.prevent="submitForm()">
+            <b-form-group label="Name *" label-for="name">
+                <b-input
+                        v-model.trim="name"
+                        autocomplete="off"
+                        :state="$v.name.$dirty ? !$v.name.$error : null"
+                        id="name"
+                ></b-input>
+                <b-form-invalid-feedback>
+                    Please enter a name of at least 3 characters
+                </b-form-invalid-feedback>
+            </b-form-group>
+            <b-form-group label="Description" label-for="description">
+                <b-textarea
+                        v-model.trim="description"
+                        :state="$v.description.$dirty ? !$v.description.$error : null"
+                        id="description"
+                ></b-textarea>
+                <b-form-invalid-feedback>
+                    Please enter a description with no more than 125 characters
+                </b-form-invalid-feedback>
+            </b-form-group>
+            <b-form-group label="Vendor" label-for="vendor">
+                <b-input
+                        v-model.trim="vendor"
+                        autocomplete="off"
+                        :state="$v.vendor.$dirty ? !$v.vendor.$error : null"
+                        id="vendor"
+                ></b-input>
+                <b-form-invalid-feedback>
+                    Please enter a vendor with no more than 25 characters
+                </b-form-invalid-feedback>
+            </b-form-group>
             <button type="submit" class="btn btn-primary">Submit</button>
-            <div class="error" v-if="submitStatus">{{ submitStatus }}</div>
-        </form>
-    </div>
+            <b-alert v-if="!!submitStatus" v-model="submitStatus"
+                     :variant="submitStatus === 'SUCCESS' ? 'success' : 'primary'" dismissible>
+                {{ submitStatus }}
+            </b-alert>
+        </b-form>
+    </b-container>
 </template>
 
 <script lang="ts">
     import {Component, Model, Vue} from 'vue-property-decorator';
-    import { required, minLength } from 'vuelidate/lib/validators';
+    import {required, minLength, maxLength} from 'vuelidate/lib/validators';
     import axios from 'axios';
 
     @Component({
@@ -41,23 +53,26 @@
             name: {
                 required,
                 minLength: minLength(3),
+                maxLength: maxLength(25)
             },
+            description: {
+                maxLength: maxLength(125),
+            },
+            vendor: {
+                maxLength: maxLength(25)
+            }
         },
     })
     export default class CreateUnitType extends Vue {
-        name = '';
-        protocol = 'TR069';
-        description = '';
-        vendor = '';
-        submitStatus = '';
-        dirty = false;
+        name: string = '';
+        protocol: string = 'TR069';
+        description: string = '';
+        vendor: string = '';
+        submitStatus: string = null;
 
         submitForm() {
-            this.dirty = true;
             this.$v.$touch();
-            if (this.$v.$invalid) {
-                this.submitStatus = 'ERROR';
-            } else {
+            if (!this.$v.$invalid) {
                 this.submitStatus = 'PENDING';
                 axios({
                     url: '/rest/unittype',
@@ -74,7 +89,7 @@
                         this.name = '';
                         this.description = '';
                         this.vendor = '';
-                        this.dirty = false;
+                        this.$v.$reset();
                         this.submitStatus = 'SUCCESS';
                     },
                 );
@@ -82,9 +97,3 @@
         }
     }
 </script>
-
-<style scoped>
-    .warning {
-        color:orange;
-    }
-</style>
