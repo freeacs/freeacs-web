@@ -20,6 +20,9 @@ const router = new Router({
       path: '/unit-type/create',
       name: 'unit-type-create',
       component: () => import('./views/unit-type/Create.vue'),
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: '/about',
