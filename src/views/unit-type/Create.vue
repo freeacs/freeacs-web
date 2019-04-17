@@ -34,6 +34,7 @@
 <script lang="ts">
     import {Component, Model, Vue} from 'vue-property-decorator';
     import { required, minLength } from 'vuelidate/lib/validators';
+    import axios from 'axios';
 
     @Component({
         validations: {
@@ -58,13 +59,25 @@
                 this.submitStatus = 'ERROR';
             } else {
                 this.submitStatus = 'PENDING';
-                setTimeout(() => {
-                    this.submitStatus = 'OK';
-                    this.name = '';
-                    this.description = '';
-                    this.vendor = '';
-                    this.dirty = false;
-                }, 500);
+                axios({
+                    url: '/rest/unittype',
+                    method: 'POST',
+                    data: {
+                        name: this.name,
+                        description: this.description,
+                        vendor: this.vendor,
+                        protocol: this.protocol,
+                    },
+                }).then(
+                    () => {
+                        this.submitStatus = 'OK';
+                        this.name = '';
+                        this.description = '';
+                        this.vendor = '';
+                        this.dirty = false;
+                        this.submitStatus = 'SUCCESS';
+                    },
+                );
             }
         }
     }
