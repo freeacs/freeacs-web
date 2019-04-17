@@ -26,7 +26,7 @@
             <div>
                 <button>Submit</button>
             </div>
-            <div class="error" v-if="submitStatus">Form is invalid</div>
+            <div class="error" v-if="submitStatus">{{ submitStatus }}</div>
         </form>
     </div>
 </template>
