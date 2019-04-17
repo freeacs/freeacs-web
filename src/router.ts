@@ -17,6 +17,11 @@ const router = new Router({
       },
     },
     {
+      path: '/unit-type/create',
+      name: 'unit-type-create',
+      component: () => import('./views/UnitType/Create.vue'),
+    },
+    {
       path: '/about',
       name: 'about',
       component: () => import('./views/About.vue'),
