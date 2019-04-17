@@ -9,7 +9,7 @@
                         :state="$v.name.$dirty ? !$v.name.$error : null"
                         id="name"
                 ></b-input>
-                <b-form-invalid-feedback>
+                <b-form-invalid-feedback v-if="$v.name.$error">
                     Please enter a name of at least 3 characters
                 </b-form-invalid-feedback>
             </b-form-group>
@@ -19,7 +19,7 @@
                         :state="$v.description.$dirty ? !$v.description.$error : null"
                         id="description"
                 ></b-textarea>
-                <b-form-invalid-feedback>
+                <b-form-invalid-feedback v-if="$v.description.$error">
                     Please enter a description with no more than 125 characters
                 </b-form-invalid-feedback>
             </b-form-group>
@@ -30,7 +30,7 @@
                         :state="$v.vendor.$dirty ? !$v.vendor.$error : null"
                         id="vendor"
                 ></b-input>
-                <b-form-invalid-feedback>
+                <b-form-invalid-feedback v-if="$v.vendor.$error">
                     Please enter a vendor with no more than 25 characters
                 </b-form-invalid-feedback>
             </b-form-group>
@@ -53,14 +53,14 @@
             name: {
                 required,
                 minLength: minLength(3),
-                maxLength: maxLength(25)
+                maxLength: maxLength(25),
             },
             description: {
                 maxLength: maxLength(125),
             },
             vendor: {
-                maxLength: maxLength(25)
-            }
+                maxLength: maxLength(25),
+            },
         },
     })
     export default class CreateUnitType extends Vue {
@@ -68,7 +68,7 @@
         protocol: string = 'TR069';
         description: string = '';
         vendor: string = '';
-        submitStatus: string = null;
+        submitStatus: string | null = null;
 
         submitForm() {
             this.$v.$touch();

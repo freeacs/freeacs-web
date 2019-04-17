@@ -3,19 +3,21 @@ import { mount, createLocalVue } from '@vue/test-utils';
 import CreateUnitType from '@/views/unit-type/Create.vue';
 import Vue from 'vue';
 import Vuelidate from 'vuelidate';
+import BootstrapVue from 'bootstrap-vue';
+
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import flushPromises from 'flush-promises';
 
 const localVue = createLocalVue();
 localVue.use(Vuelidate);
+localVue.use(BootstrapVue);
 
 describe('CreateUnitType', () => {
 
     it('renders without warnings', async () => {
         const wrapper = mount(CreateUnitType, { localVue });
-        expect(wrapper.text()).to.not.contain('Name is required');
-        expect(wrapper.text()).to.not.contain('Name must have at least');
+        expect(wrapper.text()).to.not.contain('Please enter a name of at least 3 characters');
     });
 
     it('displays warning about required name on submit', (done) => {
@@ -23,8 +25,7 @@ describe('CreateUnitType', () => {
         const form = wrapper.find('form');
         form.trigger('submit.prevent');
         Vue.nextTick(() => {
-            expect(wrapper.text()).to.contain('Name is required');
-            expect(wrapper.text()).to.contain('ERROR');
+            expect(wrapper.text()).to.contain('Please enter a name of at least 3 characters');
             done();
         });
     });
@@ -35,8 +36,7 @@ describe('CreateUnitType', () => {
         const form = wrapper.find('form');
         form.trigger('submit.prevent');
         Vue.nextTick(() => {
-            expect(wrapper.text()).to.contain('Name must have at least 3 letters.');
-            expect(wrapper.text()).to.contain('ERROR');
+            expect(wrapper.text()).to.contain('Please enter a name of at least 3 characters');
             done();
         });
     });
@@ -49,9 +49,7 @@ describe('CreateUnitType', () => {
         const form = wrapper.find('form');
         form.trigger('submit.prevent');
         await flushPromises();
-        expect(wrapper.text()).to.not.contain('Name is required');
-        expect(wrapper.text()).to.not.contain('Name must have at least 3 letters.');
-        expect(wrapper.text()).to.not.contain('ERROR');
+        expect(wrapper.text()).to.not.contain('Please enter a name of at least 3 characters');
         expect(wrapper.text()).to.contain('SUCCESS');
     });
 });
