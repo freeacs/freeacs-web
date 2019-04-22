@@ -32,11 +32,12 @@
 import {Component, Inject, Vue} from 'vue-property-decorator';
 import {Validator} from 'vee-validate';
 import BButton from 'buefy/src/components/button/Button.vue';
+import BField from 'buefy/src/components/field/Field.vue';
+import BInput from 'buefy/src/components/input/Input.vue';
 import axios from 'axios';
 
-
 @Component({
-    components: { BButton },
+    components: { BButton, BField, BInput },
 })
 export default class UnitProfileForm extends Vue {
     @Inject('$validator') public $validator!: Validator;
@@ -71,9 +72,7 @@ export default class UnitProfileForm extends Vue {
                      */
                     setTimeout(() => {
                         this.saving = false;
-                        this.$nextTick(() => {
-                            this.$validator.reset();
-                        });
+                        this.$validator.reset();
                     }, 3000);
                 }
             });
