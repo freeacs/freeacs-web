@@ -7,6 +7,7 @@ Vue.use(Router);
 const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
+  linkExactActiveClass: 'is-active',
   routes: [
     {
       path: '/',
@@ -15,6 +16,11 @@ const router = new Router({
       meta: {
         requiresAuth: true,
       },
+    },
+    {
+      path: '/unit-profile/create',
+      name: 'unit-profile-create',
+      component: () => import('./views/unit/profile/UnitProfileCreate.vue'),
     },
     {
       path: '/about',
