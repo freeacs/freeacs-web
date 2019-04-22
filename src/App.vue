@@ -1,45 +1,43 @@
 <template>
   <div id="app">
     <nav class="navbar is-white">
-      <div class="container">
-        <div class="navbar-brand">
-          <a class="navbar-item brand-text">
-            Freeacs
-          </a>
-          <div class="navbar-burger burger" data-target="navMenu">
-            <span></span>
-            <span></span>
-            <span></span>
+      <div class="navbar-brand">
+        <a class="navbar-item brand-text">
+          Freeacs
+        </a>
+        <div class="navbar-burger burger" data-target="navMenu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+      <div class="navbar-menu" id="navMenu">
+        <div class="navbar-start">
+          <router-link class="navbar-item" to="/">
+            Home
+          </router-link>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link"><span><i class="mdi mdi-24px mdi-view-list"></i> Unit</span></a>
+            <div class="navbar-dropdown is-hidden-touch">
+              <router-link class="navbar-item" :to="{ name: 'unit-profile-create' }"><span><i class="mdi mdi-24px mdi-star"></i> Create Profile</span></router-link>
+            </div>
           </div>
         </div>
-        <div id="navMenu" class="navbar-menu">
-          <div class="navbar-start">
-            <router-link class="navbar-item" to="/">Home</router-link>
-            <router-link class="navbar-item" to="/about">About</router-link>
-            <a v-if="isLoggedIn" @click="logout" class="navbar-item" href="#">Logout</a>
-            <router-link v-else to="/login"  class="navbar-item">Login</router-link>
-          </div>
+        <div class="navbar-end">
+          <router-link class="navbar-item" to="/about">
+            About
+          </router-link>
+          <a class="navbar-item" v-if="isLoggedIn" @click="logout" href="#">
+            Logout
+          </a>
+          <router-link class="navbar-item" v-else to="/login">
+            Login
+          </router-link>
         </div>
       </div>
     </nav>
     <div class="container">
-      <div class="columns">
-        <div class="column is-3 ">
-          <aside class="menu is-hidden-mobile">
-            <p class="menu-label">
-              Unit
-            </p>
-            <ul class="menu-list">
-              <li><a>Create Unit Type</a></li>
-              <li><router-link :to="{ name: 'unit-profile-create' }">Create Profie</router-link></li>
-            </ul>
-
-          </aside>
-        </div>
-        <div class="column is-9">
-          <router-view/>
-        </div>
-      </div>
+      <router-view/>
     </div>
   </div>
 </template>
