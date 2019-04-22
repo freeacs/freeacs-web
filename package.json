@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "bootstrap": "^4.3.1",
-    "bootstrap-vue": "^2.0.0-rc.18",
+    "buefy": "^0.7.4",
+    "vee-validate": "^2.2.3",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.1.0",
