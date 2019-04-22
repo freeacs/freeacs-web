@@ -1,55 +1,50 @@
 import { expect } from 'chai';
 import { mount, createLocalVue } from '@vue/test-utils';
 import CreateUnitType from '@/views/unit-type/Create.vue';
-import Vue from 'vue';
-import Vuelidate from 'vuelidate';
-import BootstrapVue from 'bootstrap-vue';
-
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import flushPromises from 'flush-promises';
+import * as VeeValidate from 'vee-validate';
+import Buefy from 'buefy';
 
 const localVue = createLocalVue();
-localVue.use(Vuelidate);
-localVue.use(BootstrapVue);
+localVue.use(VeeValidate);
+localVue.use(Buefy);
+const v = new VeeValidate.Validator();
 
 describe('CreateUnitType', () => {
 
+    afterEach(() => {
+        v.reset();
+    });
+
     it('renders without warnings', async () => {
-        const wrapper = mount(CreateUnitType, { localVue });
-        expect(wrapper.text()).to.not.contain('Please enter a name of at least 3 characters');
+        const wrapper = mount(CreateUnitType, { localVue, provide: () => ({ $validator: v }) });
+        await flushPromises();
+        expect(wrapper.text()).to.not.contain('The Name field is required.');
     });
 
-    it('displays warning about required name on submit', (done) => {
-        const wrapper = mount(CreateUnitType, { localVue, sync: false });
+    it('displays warning about required name on submit', async () => {
+        const wrapper = mount(CreateUnitType, { localVue, provide: () => ({ $validator: v }) });
+        const input = wrapper.find('input[type=text][name=name]');
+        input.setValue('');
+        input.trigger('input');
         const form = wrapper.find('form');
         form.trigger('submit.prevent');
-        Vue.nextTick(() => {
-            expect(wrapper.text()).to.contain('Please enter a name of at least 3 characters');
-            done();
-        });
-    });
-
-    it('displays warning about too few chars in name on submit', (done) => {
-        const wrapper = mount(CreateUnitType, { localVue, sync: false });
-        wrapper.setData({ name: 'ab'});
-        const form = wrapper.find('form');
-        form.trigger('submit.prevent');
-        Vue.nextTick(() => {
-            expect(wrapper.text()).to.contain('Please enter a name of at least 3 characters');
-            done();
-        });
+        await flushPromises();
+        expect(wrapper.vm.errors.any()).to.eq(true);
     });
 
     it('successfully calls api on submit when input is valid', async () => {
         const mock = new MockAdapter(axios);
         mock.onPost('/rest/unittype').reply(200);
-        const wrapper = mount(CreateUnitType, { localVue, sync: false });
-        wrapper.setData({ name: 'abc'});
+        const wrapper = mount(CreateUnitType, { localVue, provide: () => ({ $validator: v }) });
+        const input = wrapper.find('input[type=text][name=name]');
+        input.setValue('abc');
+        input.trigger('input');
         const form = wrapper.find('form');
         form.trigger('submit.prevent');
         await flushPromises();
-        expect(wrapper.text()).to.not.contain('Please enter a name of at least 3 characters');
-        expect(wrapper.text()).to.contain('SUCCESS');
+        expect(wrapper.vm.errors.any()).to.eq(false);
     });
 });

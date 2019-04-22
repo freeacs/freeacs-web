@@ -1,11 +1,10 @@
 import { expect } from 'chai';
 import {createLocalVue, mount} from '@vue/test-utils';
 import Buefy from 'buefy';
-import VeeValidate from 'vee-validate';
+import * as VeeValidate from 'vee-validate';
 import UnitProfileCreate from '@/views/unit/profile/UnitProfileCreate.vue';
 import UnitProfileForm from '@/components/unit/profile/UnitProfileForm.vue';
 import flushPromises from 'flush-promises';
-import Vue from 'vue';
 
 const localVue = createLocalVue();
 localVue.use(VeeValidate);

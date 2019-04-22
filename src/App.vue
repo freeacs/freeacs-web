@@ -20,7 +20,7 @@
             <a class="navbar-link"><span><i class="mdi mdi-24px mdi-view-list"></i> Unit</span></a>
             <div class="navbar-dropdown is-hidden-touch">
               <router-link class="navbar-item" :to="{ name: 'unit-profile-create' }"><span><i class="mdi mdi-24px mdi-star"></i> Create Profile</span></router-link>
-              <router-link class="navbar-item" :to={ name: 'unit-type-create' }"><span><i class="mdi mdi-24px mdi-star"></i> Create Unit Type</span></router-link>
+              <router-link class="navbar-item" :to="{ name: 'unit-type-create' }"><span><i class="mdi mdi-24px mdi-star"></i> Create Unit Type</span></router-link>
             </div>
           </div>
         </div>
