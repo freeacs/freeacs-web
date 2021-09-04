@@ -1,3 +1,7 @@
+# ARCHIVED!
+
+Due to inactivity for several years and because no one wanted to maintain it, this project and all other projects in this org is archived.
+
 # freeacs-web
 
 This project is used in conjunction with 
